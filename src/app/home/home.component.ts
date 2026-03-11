@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { ItemListingService } from '../item-listings/item-listing.service';
 import { ItemListing } from '../item-listings/item-listing.model';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -10,7 +10,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CartDialogComponent } from './cart-dialog/cart-dialog.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { UserStore } from '../core/stores/user.store';
+import { User } from '../users/user.model';
 
 @Component({
   selector: 'app-home',
@@ -21,23 +25,36 @@ import { Router } from '@angular/router';
     MatIconModule,
     MatTooltipModule,
     MatProgressSpinnerModule,
+    MatSlideToggleModule,
+    FormsModule,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {
-  listings = signal<ItemListing[] | null>(null);
+  readonly displayedListings = signal<ItemListing[] | null>(null);
 
   readonly dialog = inject(MatDialog);
 
+  showUserListings = true;
+
   private router = inject(Router);
   private authService = inject(AuthService);
+  private userStore = inject(UserStore);
   private itemListingService = inject(ItemListingService);
+
+  private readonly allListings = signal<ItemListing[] | null>(null);
+  private readonly unownedListings = computed(
+    () => this.allListings()?.filter((item) => item.sellerId !== this.user?.id) ?? null,
+  );
 
   ngOnInit(): void {
     this.itemListingService.getAllListings().subscribe({
-      next: (data) => this.listings.set(data),
-      error: () => this.listings.set([]),
+      next: (data) => {
+        this.allListings.set(data);
+        this.showUserListingsToggled();
+      },
+      error: () => this.allListings.set([]),
     });
   }
 
@@ -53,7 +70,23 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  showUserListingsToggled() {
+    if (this.showUserListings) {
+      this.displayedListings.set(this.allListings());
+    } else {
+      this.displayedListings.set(this.unownedListings());
+    }
+  }
+
+  hasOwnedListings(): boolean {
+    return this.allListings()?.length !== this.unownedListings()?.length;
+  }
+
   get loggedIn(): boolean {
     return this.authService.isLoggedIn;
+  }
+
+  private get user(): User | null {
+    return this.userStore.user();
   }
 }
