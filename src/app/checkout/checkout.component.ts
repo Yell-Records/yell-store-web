@@ -1,85 +1,80 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { CartItemService } from '../cart/cart-item.service';
 import { AuthService } from '../auth/auth.service';
 import { CartItem } from '../cart/cart-item.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CartItemCardListComponent } from '../cart/cart-item-card-list/cart-item-card-list.component';
 import { CurrencyPipe } from '@angular/common';
-import { MatFormField, MatFormFieldModule, MatLabel } from '@angular/material/form-field';
-import { MatInput } from '@angular/material/input';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { COUNTRIES } from '../shared/data/countries';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
-import { US_STATES } from '../shared/data/us-states';
 import { MatAnchor } from '@angular/material/button';
-import { MatStepperModule } from '@angular/material/stepper';
+import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { OrderService } from '../order/order.service';
 import { Order } from '../order/order.model';
 import { Router } from '@angular/router';
-import { AddressDirective } from '../shared/directives/address.directive';
-import { PersonNameDirective } from '../shared/directives/person-name.directive';
-import { CityDirective } from '../shared/directives/city.directive';
-import { ZipCodeDirective } from '../shared/directives/zip-code.directive';
-import { PhoneInputComponent } from '../shared/inputs/phone-input/phone-input.component';
 import { OrderStatus } from '../order/order-status.enum';
 import { MessageService } from '../shared/message/message.service';
+import { AddressFormComponent } from '../address/address-form/address-form.component';
+import { Address } from '../address/address.model';
+import { AddressUtil } from '../shared/utils/address-util';
+import { AddressForm } from '../address/address-form/address-form.model';
+import { SelectAddressComponent } from '../address/select-address/select-address.component';
+import { MatCheckbox, MatCheckboxChange } from '@angular/material/checkbox';
+import { AddressService } from '../address/address.service';
 
 @Component({
   selector: 'app-checkout',
   imports: [
     CartItemCardListComponent,
     CurrencyPipe,
-    MatFormField,
-    MatLabel,
-    MatInput,
     MatFormFieldModule,
     ReactiveFormsModule,
     MatSelectModule,
     MatAnchor,
     MatStepperModule,
-    AddressDirective,
-    PersonNameDirective,
-    CityDirective,
-    ZipCodeDirective,
-    PhoneInputComponent,
+    AddressFormComponent,
+    SelectAddressComponent,
+    MatCheckbox,
   ],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.scss',
 })
 export class CheckoutComponent implements OnInit {
-  private cartItemService = inject(CartItemService);
-  private authService = inject(AuthService);
-  private orderService = inject(OrderService);
-  private router = inject(Router);
-  private messageService = inject(MessageService);
+  private readonly cartItemService = inject(CartItemService);
+  private readonly authService = inject(AuthService);
+  private readonly orderService = inject(OrderService);
+  private readonly router = inject(Router);
+  private readonly messageService = inject(MessageService);
+  private readonly addressService = inject(AddressService);
 
-  cartItems = signal<CartItem[] | null>(null);
+  readonly cartItems = signal<CartItem[] | null>(null);
+  readonly shippingAddress = signal<Address | null>(null);
 
-  countries = COUNTRIES;
-  states = US_STATES;
+  readonly addressForm = AddressUtil.createAddressForm();
 
   readonly taxAmount = 0.04;
+
+  readonly useSavedAddressControl = new FormControl<boolean>(true);
 
   readonly subTotal = computed(() =>
     // Dynamically calculates the cart total as items are retrieved
     this.cartItems()?.reduce((sum, item) => sum + item.itemListing.price * item.quantity, 0),
   );
 
-  shippingForm = new FormGroup({
-    firstName: new FormControl('', Validators.required),
-    lastName: new FormControl('', Validators.required),
-    address1: new FormControl('', Validators.required),
-    address2: new FormControl(''),
-    city: new FormControl('', Validators.required),
-    state: new FormControl('', Validators.required),
-    zip: new FormControl('', [Validators.required, Validators.pattern('[0-9]+(|-[0-9]{4})')]),
-    phone: new FormControl(''),
-  });
+  readonly hasAddress = signal(false);
+
+  @ViewChild(MatStepper) stepper!: MatStepper;
 
   ngOnInit(): void {
     this.cartItemService.getCartItemsByUserId(this.authService.userId!).subscribe({
       next: (items) => this.cartItems.set(items),
       error: (err: HttpErrorResponse) => this.messageService.error(err.message),
+    });
+
+    // Check if the user has any addresses at all
+    this.addressService.getUserPrimaryAddress(this.authService.userId!).subscribe({
+      next: () => this.hasAddress.set(true),
     });
   }
 
@@ -90,30 +85,40 @@ export class CheckoutComponent implements OnInit {
   }
 
   getFullName(): string {
-    const formValues = this.shippingForm.value!;
-    return formValues.firstName + ' ' + formValues.lastName;
+    const address = this.shippingAddress();
+
+    return address ? AddressUtil.fullName(address) : '';
   }
 
   getFullAddress(): string {
-    const formValues = this.shippingForm.value!;
+    const address = this.shippingAddress();
 
-    let addressPt2: string;
-    if (formValues.address2) {
-      addressPt2 = ' ' + formValues.address2;
-    } else {
-      addressPt2 = '';
+    return address ? AddressUtil.fullAddress(address) : '';
+  }
+
+  setAddress(form: AddressForm) {
+    const address = AddressUtil.extractData(form, this.authService.userId!);
+
+    this.shippingAddress.set(address);
+    this.stepper.next();
+  }
+
+  onSavedAddressCheck(changed: MatCheckboxChange) {
+    if (!changed.checked) {
+      this.shippingAddress.set(null);
+      this.addressForm.reset();
     }
+  }
 
-    return (
-      formValues.address1 +
-      addressPt2 +
-      ', ' +
-      formValues.city +
-      ', ' +
-      formValues.state +
-      ' ' +
-      formValues.zip
-    );
+  onAddressSelected(address: Address | null) {
+    if (address) {
+      this.shippingAddress.set(address);
+
+      AddressUtil.autofillForm(address, this.addressForm);
+    } else {
+      this.shippingAddress.set(null);
+      this.addressForm.reset();
+    }
   }
 
   placeOrder() {
@@ -124,21 +129,18 @@ export class CheckoutComponent implements OnInit {
       return;
     }
 
-    if (this.shippingForm.valid && this.authService.isLoggedIn) {
-      const formValues = this.shippingForm.value!;
-      const orderInfo: Order = {
-        buyerId: this.authService.userId!,
-        status: OrderStatus.PENDING,
-        totalPaid: this.getTotal(),
-        shippingFirstname: formValues.firstName!,
-        shippingLastname: formValues.lastName!,
-        shippingAddress1: formValues.address1!,
-        shippingAddress2: formValues.address2,
-        shippingCity: formValues.city!,
-        shippingState: formValues.state!,
-        shippingZip: formValues.zip!,
-        shippingPhone: formValues.phone!,
-      };
+    if (this.authService.isLoggedIn) {
+      const orderInfo = this.getOrderInfo();
+
+      if (this.addressForm.value!.shouldSave) {
+        // Save the address for the user
+        const savedAddress = this.shippingAddress()!;
+        savedAddress.isPrimary = false;
+
+        this.addressService.createAddress(savedAddress).subscribe({
+          error: (err: HttpErrorResponse) => this.messageService.error(err.message),
+        });
+      }
 
       this.orderService.createOrder(orderInfo).subscribe({
         next: () => {
@@ -156,5 +158,24 @@ export class CheckoutComponent implements OnInit {
         },
       });
     }
+  }
+
+  private getOrderInfo(): Order {
+    const addressInfo = this.shippingAddress()!;
+    const orderInfo: Order = {
+      buyerId: this.authService.userId!,
+      status: OrderStatus.PENDING,
+      totalPaid: this.getTotal(),
+      shippingFirstname: addressInfo.firstName,
+      shippingLastname: addressInfo.lastName,
+      shippingAddress1: addressInfo.addressLine1,
+      shippingAddress2: addressInfo.addressLine2,
+      shippingCity: addressInfo.city,
+      shippingState: addressInfo.state,
+      shippingZip: addressInfo.zip,
+      shippingPhone: addressInfo.phone,
+    };
+
+    return orderInfo;
   }
 }

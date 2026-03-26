@@ -1,0 +1,32 @@
+<div class="user-card">
+  <div>
+    <button class="avatar-btn clickable" (click)="navigateProfile()">
+      <img src="assets/pfp/msn-avatar.png" class="avatar-img" alt="My Profile" />
+    </button>
+  </div>
+
+  <div>
+    <div class="username no-text-cursor">{{ user.username }}</div>
+    <div class="currency no-text-cursor">{{ user.balance | currency }}</div>
+  </div>
+
+  <div class="sub-menu">
+    <button matIconButton [matMenuTriggerFor]="matMenu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #matMenu>
+      <button mat-menu-item (click)="navigateProfile()">
+        <mat-icon>person</mat-icon>
+        <span>My Profile</span>
+      </button>
+      <button mat-menu-item (click)="navigateSettings()">
+        <mat-icon>settings</mat-icon>
+        <span>Account Settings</span>
+      </button>
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        <span>Logout</span>
+      </button>
+    </mat-menu>
+  </div>
+</div>
