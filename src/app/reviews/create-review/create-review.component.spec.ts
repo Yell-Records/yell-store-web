@@ -1,22 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ItemListingComponent } from './item-listing.component';
+import { CreateReviewComponent } from './create-review.component';
 import { mockListing } from 'src/testing/mock-item-listing';
 
-describe('ItemListing', () => {
-  let component: ItemListingComponent;
-  let fixture: ComponentFixture<ItemListingComponent>;
+describe('CreateReviewComponent', () => {
+  let component: CreateReviewComponent;
+  let fixture: ComponentFixture<CreateReviewComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ItemListingComponent],
+      imports: [CreateReviewComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ItemListingComponent);
+    fixture = TestBed.createComponent(CreateReviewComponent);
     component = fixture.componentInstance;
-
     component.listing = mockListing;
-
     await fixture.whenStable();
   });
 
