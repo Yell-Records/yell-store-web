@@ -68,8 +68,7 @@ export const routes: Routes = [
   {
     path: 'cart',
     component: CartComponent,
-    canActivate: [authGuard],
-    title: qmTitle('Cart'),
+    title: qmTitle('Viewing Cart'),
   },
   {
     path: 'purchases',
