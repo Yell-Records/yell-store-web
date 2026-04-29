@@ -1,0 +1,9 @@
+<ul class="categories">
+  @for (category of categories; track $index) {
+    <li class="category">
+      <button class="category__link" (click)="applyCategoryParam(category.slug)">
+        {{ category.name }}
+      </button>
+    </li>
+  }
+</ul>
