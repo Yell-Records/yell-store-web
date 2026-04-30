@@ -137,7 +137,9 @@ export class CheckoutComponent implements OnInit {
       next: () => {
         this.messageService.success('You have successfully placed your order!');
         this.cartItemService.clearLocalCart();
-        this.router.navigate(['/home']);
+        queueMicrotask(() => {
+          this.router.navigate(['/home']);
+        });
       },
       error: (err: HttpErrorResponse) => {
         switch (err.status) {

@@ -86,7 +86,9 @@ export class CreateItemListingComponent implements OnInit {
         next: () => {
           this.messageService.success('Your listing was created.');
           this.canLeave = true;
-          this.router.navigate(['/home']);
+          queueMicrotask(() => {
+            this.router.navigate(['/home']);
+          });
         },
         error: (err: HttpErrorResponse) => this.messageService.error(err.message),
       });
