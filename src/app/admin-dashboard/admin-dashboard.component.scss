@@ -1,0 +1,53 @@
+.dash-container {
+  display: flex;
+  min-height: calc(100vh - 64px);
+  background: #fafafa;
+  padding-left: 100px;
+}
+
+.dash-menu {
+  width: 240px;
+  padding: 32px 24px;
+  border-right: 1px solid #e0e0e0;
+  background: #fff;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  h3 {
+    margin: 0 0 12px 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #222;
+  }
+
+  a {
+    padding: 10px 12px;
+    border-radius: 6px;
+    color: #444;
+    text-decoration: none;
+    font-weight: 500;
+
+    transition:
+      background 0.15s ease,
+      color 0.15s ease;
+
+    cursor: pointer;
+  }
+
+  a:hover {
+    background: #f3f3f3;
+  }
+
+  a.active {
+    background: #1976d2;
+    color: #fff;
+  }
+}
+
+.dash-contents {
+  flex: 1;
+  padding: 32px 48px;
+  overflow-y: auto;
+}

@@ -22,6 +22,9 @@ import { ItemListingPageComponent } from './item-listings/item-listing-page/item
 import { EditItemListingComponent } from './item-listings/edit-item-listing/edit-item-listing.component';
 import { editItemListingGuard } from './item-listings/edit-item-listing.guard';
 import { qmTitle } from './title/qm-title';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+import { adminGuard } from './admin-dashboard/admin-dashboard.guard';
+import { CategoryManagementComponent } from './admin-dashboard/category-management/category-management.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -96,5 +99,25 @@ export const routes: Routes = [
       },
     ],
   },
-  { path: '**', component: NotFoundComponent }, // Please keep this route at the bottom
+  {
+    path: 'admin-dashboard',
+    component: AdminDashboardComponent,
+    canActivate: [adminGuard],
+    title: qmTitle('Admin Dashboard'),
+    data: { hideFooter: true },
+    children: [
+      {
+        path: '',
+        data: { hideFooter: true },
+        pathMatch: 'full',
+        redirectTo: 'category-management',
+      },
+      {
+        path: 'category-management',
+        data: { hideFooter: true },
+        component: CategoryManagementComponent,
+      },
+    ],
+  },
+  { path: '**', component: NotFoundComponent, data: { hideFooter: true } }, // Please keep this route at the bottom
 ];
