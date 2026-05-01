@@ -60,9 +60,7 @@ export class LoginComponent {
           next: (res) => {
             this.authService.setToken(res.token);
             this.userStore.init();
-            queueMicrotask(() => {
-              this.router.navigate(['/home']);
-            });
+            this.router.navigate(['/home']);
           },
           error: (err: HttpErrorResponse) => {
             switch (err.status) {
