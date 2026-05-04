@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, OnInit, signal } from '@angular/core';
+import { Component, effect, inject, OnInit, signal } from '@angular/core';
 import { ItemListingService } from '../item-listings/item-listing.service';
 import { ItemListing } from '../item-listings/item-listing.model';
 import { MatGridListModule } from '@angular/material/grid-list';
