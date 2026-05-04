@@ -10,23 +10,11 @@
       <h3 class="title">{{ listing.title }}</h3>
     </button>
 
-    @if (listing.reviewCount !== 0) {
-      <app-rating-display
-        [rating]="listing.averageScore"
-        [count]="listing.reviewCount"
-      ></app-rating-display>
-    } @else {
-      <p>No reviews yet</p>
-    }
-
     <p class="price">{{ listing.price | currency }}</p>
-    @if (showUsername) {
-      <button class="user-link" (click)="navigateToUser()">{{ listing.sellerUsername }}</button>
-    }
     <p>{{ listing.quantitySold | appShortNumber }} sold</p>
   </div>
 
-  @if (canAddToCart()) {
+  @if (!isLoggedIn) {
     <button class="cart-button" matTooltip="Add to Cart" mat-fab (click)="addToCart()">
       <mat-icon>add_shopping_cart</mat-icon>
     </button>

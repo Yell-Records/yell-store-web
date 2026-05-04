@@ -77,18 +77,17 @@ describe('OrderService', () => {
 
   it('should POST to create an order', () => {
     const createOrderReq: CreateOrderRequest = {
-      buyerId: '1',
-      guestEmail: null,
-      guestSessionId: null,
+      buyerEmail: '1',
+      guestSessionId: '123',
       totalPaid: 12.0,
-      shippingFirstname: 'test',
-      shippingLastname: 'guy',
-      shippingAddress1: '123 Road Lane',
-      shippingAddress2: null,
+      shippingFirstName: 'test',
+      shippingLastName: 'guy',
+      shippingAddressLine1: '123 Road Lane',
+      shippingAddressLine2: null,
       shippingCity: 'Quahog',
       shippingState: 'Rhode Island',
       shippingPhone: '5552981029',
-      shippingZip: '61029',
+      shippingPostalCode: '61029',
     };
 
     service.createOrder(createOrderReq).subscribe((res) => {

@@ -18,21 +18,13 @@
   }
 
   <div class="right">
-    @if (showUserCard()) {
-      @if (user !== null) {
-        <app-user-card></app-user-card>
-      } @else {
-        <!-- Guest information group -->
-        <div class="guest-actions">
-          @if (!isAtCart()) {
-            <app-cart-button [guest]="true"></app-cart-button>
-          }
-
-          <div class="login-register">
-            <h3><a routerLink="/login">Login</a> or <a routerLink="/register">Register</a></h3>
-          </div>
-        </div>
-      }
+    @if (user === null) {
+      <!-- Guest information group -->
+      <div class="guest-actions">
+        @if (!isAtCart()) {
+          <app-cart-button [guest]="true"></app-cart-button>
+        }
+      </div>
     }
   </div>
 </header>

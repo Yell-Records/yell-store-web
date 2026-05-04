@@ -34,20 +34,6 @@ describe('ItemListingService', () => {
     req.flush(mockResponse);
   });
 
-  it('should GET /seller/:username to retrieve seller listings', () => {
-    const sellerId = '123';
-    const mockResponse = [mockListing];
-
-    service.getListingsByUserId(sellerId).subscribe((res) => {
-      expect(res).to.deep.equal(mockResponse);
-    });
-
-    const req = httpMock.expectOne(`${service.baseUrl}/seller/${sellerId}`);
-    expect(req.request.method).to.equal('GET');
-
-    req.flush(mockResponse);
-  });
-
   it('should GET /:id item listing by id', () => {
     const listingId = '123';
 

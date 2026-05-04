@@ -36,11 +36,8 @@ describe('CartItemService', () => {
   });
 
   it('should POST to cart item service', () => {
-    const userId = '5';
-
     const addItemRequest: AddCartItemRequest = {
-      userId: userId,
-      guestSessionId: null,
+      guestSessionId: '123',
       listingInfo: mockListing,
       itemQuantity: 1,
     };
@@ -54,35 +51,6 @@ describe('CartItemService', () => {
     expect(req.request.body).to.equal(addItemRequest);
 
     req.flush(cartItem1);
-  });
-
-  it('should DELETE /user/:userId to clear the cart', () => {
-    const userId = '123';
-    const mockResponse = { success: true };
-
-    service.clearUserCart(userId).subscribe((res) => {
-      expect(res).to.deep.equal(mockResponse);
-    });
-
-    const req = httpMock.expectOne(`${service.baseUrl}/user/${userId}`);
-    expect(req.request.method).to.equal('DELETE');
-
-    req.flush(mockResponse);
-  });
-
-  it('should DELETE /user/:userId/listing/:listingId to remove item from cart', () => {
-    const userId = '123';
-    const listingId = '321';
-    const mockResponse = { success: true };
-
-    service.removeItemFromUserCart(userId, listingId).subscribe((res) => {
-      expect(res).to.deep.equal(mockResponse);
-    });
-
-    const req = httpMock.expectOne(`${service.baseUrl}/user/${userId}/listing/${listingId}`);
-    expect(req.request.method).to.equal('DELETE');
-
-    req.flush(mockResponse);
   });
 
   it('should DELETE /guest/:guestId to clear the guest cart', () => {

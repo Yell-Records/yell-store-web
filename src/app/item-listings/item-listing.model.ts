@@ -1,17 +1,13 @@
 export interface ItemListing {
-  sellerId: string;
+  id: string;
   title: string;
   description: string | null;
   price: number;
   imageUrl: string | null;
-  createdAt?: string;
-  updatedAt?: string;
-  id?: string;
-  sellerUsername?: string;
   isActive: boolean;
   quantitySold: number;
-  reviewCount: number;
-  averageScore: number;
-  categoryName: string;
   categorySlug: string;
+  categoryName: string;
+  createdAt: string;
+  updatedAt: string;
 }

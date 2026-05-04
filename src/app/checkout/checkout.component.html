@@ -2,35 +2,13 @@
 <div class="checkout-layout">
   <section class="form-box">
     <mat-stepper [linear]="true" #stepper>
-      <mat-step [stepControl]="addressForm">
+      <mat-step [stepControl]="checkoutForm">
         <ng-template matStepLabel>Shipping Address</ng-template>
 
         <h2>Shipping Address</h2>
 
-        @if (hasAddress()) {
-          <mat-checkbox
-            [formControl]="useSavedAddressControl"
-            (change)="onSavedAddressCheck($event)"
-            >Use saved address</mat-checkbox
-          >
-          <br /><br />
-
-          @if (useSavedAddressControl.value) {
-            <app-select-address (addressSelected)="onAddressSelected($event)"></app-select-address>
-          }
-        }
-
-        @if (!hasAddress() || !useSavedAddressControl.value) {
-          <app-address-form
-            [formGroup]="addressForm"
-            [isCheckout]="true"
-            [isGuest]="isGuest()"
-            submitText="Next"
-            (submitted)="setAddress($event)"
-          ></app-address-form>
-        } @else {
-          <button matButton="filled" matStepperNext>Next</button>
-        }
+        <!-- Shipping form -->
+        <form [formGroup]="checkoutForm"></form>
       </mat-step>
 
       <mat-step [completed]="false">
@@ -40,12 +18,12 @@
 
         <div>
           <h3>Ships to:</h3>
-          <p>{{ getFullName() }}</p>
-          <p>{{ getFullAddress() }}</p>
-          <p><b>Contact:</b> {{ shippingAddress()?.phone ?? '' }}</p>
+          <p>{{ shippingFullName() }}</p>
+          <p>{{ shippingFullAddress() }}</p>
+          <p><b>Contact:</b> {{ formPhone }}</p>
         </div>
 
-        <h3>Total: {{ getTotal() | currency }}</h3>
+        <h3>Total: {{ subtotal | currency }}</h3>
 
         <button matButton="filled" (click)="placeOrder()">Place Order</button>
       </mat-step>
@@ -55,10 +33,7 @@
   <section class="summary-box">
     <h2>Summary</h2>
     <hr />
-    <h3>Subtotal: {{ subtotal | currency }}</h3>
-    <h3>Shipping: FREE</h3>
-    <h3>Fees: {{ subtotal * taxAmount | currency }}</h3>
-    <h3>Total: {{ getTotal() | currency }}</h3>
+    <h3>Total: {{ subtotal | currency }}</h3>
   </section>
 
   <section class="cart-contents-box">

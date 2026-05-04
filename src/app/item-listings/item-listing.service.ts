@@ -34,19 +34,6 @@ export class ItemListingService {
   }
 
   /**
-   * Retrieves every item listing being sold by a user.
-   *
-   * ### Error codes
-   * - 404 (Not Found) - If the user does not exist.
-   *
-   * @param userId User ID of the seller.
-   * @returns List of item listings being sold by the user.
-   */
-  getListingsByUserId(userId: string): Observable<ItemListing[]> {
-    return this.http.get<ItemListing[]>(`${this.baseUrl}/seller/${userId}`);
-  }
-
-  /**
    * Retrieves an item listing that matches the provided ID.
    *
    * ### Error codes
