@@ -13,6 +13,14 @@ import { OrderService } from '../order/order.service';
 import { CreateOrderRequest } from '../order/create-order-request.model';
 import { MessageService } from '../shared/message/message.service';
 import { Router } from '@angular/router';
+import { PersonNameDirective } from '../shared/directives/person-name.directive';
+import { MatInput } from '@angular/material/input';
+import { AddressDirective } from '../shared/directives/address.directive';
+import { CityDirective } from '../shared/directives/city.directive';
+import { US_STATES } from '../shared/data/us-states';
+import { ZipCodeDirective } from '../shared/directives/zip-code.directive';
+import { EmailDirective } from '../shared/directives/email.directive';
+import { PhoneInputComponent } from '../shared/inputs/phone-input/phone-input.component';
 
 @Component({
   selector: 'app-checkout',
@@ -24,6 +32,13 @@ import { Router } from '@angular/router';
     MatSelectModule,
     MatAnchor,
     MatStepperModule,
+    PersonNameDirective,
+    MatInput,
+    AddressDirective,
+    CityDirective,
+    ZipCodeDirective,
+    EmailDirective,
+    PhoneInputComponent,
   ],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.scss',
@@ -36,16 +51,18 @@ export class CheckoutComponent {
   private readonly auth = inject(AuthService);
 
   readonly checkoutForm = new FormGroup({
-    buyerEmail: new FormControl('', Validators.required),
+    buyerEmail: new FormControl('', [Validators.required, Validators.email]),
     firstName: new FormControl('', Validators.required),
     lastName: new FormControl('', Validators.required),
     addressLine1: new FormControl('', Validators.required),
     addressLine2: new FormControl<string | null>(null),
     city: new FormControl('', Validators.required),
     state: new FormControl('', Validators.required),
-    postalCode: new FormControl('', Validators.required),
+    postalCode: new FormControl('', [Validators.required, Validators.pattern(/^[0-9]+$/)]),
     phone: new FormControl('', Validators.required),
   });
+
+  readonly states = US_STATES;
 
   placeOrder() {
     if (this.checkoutForm.valid) {
@@ -54,6 +71,7 @@ export class CheckoutComponent {
       this.orderService.createOrder(req).subscribe({
         next: () => {
           this.messageService.success('Order placed!');
+          this.cartService.clearLocalCart();
           this.router.navigate(['/home']);
         },
         error: () => this.messageService.error('Could not place order.'),
