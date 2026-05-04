@@ -15,11 +15,11 @@ import { MessageService } from '../../shared/message/message.service';
 import { UpdateItemListing } from '../update-listing.model';
 import { ConfirmDialogService } from '../../shared/dialogs/confirm-dialog.service';
 import { Title } from '@angular/platform-browser';
-import { qmTitle } from '../../title/qm-title';
-import { ImageInputComponent } from 'src/app/shared/inputs/image-input/image-input.component';
-import { CategoryService } from 'src/app/categories/category.service';
-import { Category } from 'src/app/categories/category.model';
+import { yrTitle } from '../../title/qm-title';
 import { MatSelect, MatOption } from '@angular/material/select';
+import { ImageInputComponent } from '../../shared/inputs/image-input/image-input.component';
+import { CategoryService } from '../../categories/category.service';
+import { Category } from '../../categories/category.model';
 
 @Component({
   selector: 'app-edit-item-listing',
@@ -122,7 +122,7 @@ export class EditItemListingComponent implements OnInit {
     this.itemListingService.getListingById(listingId).subscribe({
       next: (listing) => {
         this.listing.set(listing);
-        this.title.setTitle(qmTitle('Editing ' + listing.title));
+        this.title.setTitle(yrTitle('Editing ' + listing.title));
         this.autoFillForm(listing);
       },
       error: () => this.router.navigate(['/404']),

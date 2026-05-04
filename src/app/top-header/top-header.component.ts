@@ -3,7 +3,6 @@ import { Router, RouterLinkWithHref, RouterLinkActive } from '@angular/router';
 import { User } from '../users/user.model';
 import { UserStore } from '../core/stores/user.store';
 import { NotFoundComponent } from '../not-found/not-found.component';
-import { UserCardComponent } from '../user-card/user-card.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatButtonModule } from '@angular/material/button';
 import { CartButtonComponent } from '../cart/cart-button/cart-button.component';
@@ -12,7 +11,6 @@ import { CartButtonComponent } from '../cart/cart-button/cart-button.component';
   selector: 'app-top-header',
   imports: [
     RouterLinkWithHref,
-    UserCardComponent,
     MatTabsModule,
     RouterLinkActive,
     MatButtonModule,

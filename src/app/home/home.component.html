@@ -1,14 +1,6 @@
 <app-category-list [categories]="categories"></app-category-list>
 
 <div class="listings-container">
-  @if (loggedIn && hasOwnedListings()) {
-    <div>
-      <mat-slide-toggle [(ngModel)]="showUserListings" (change)="showUserListingsToggled()">
-        Show my listings
-      </mat-slide-toggle>
-    </div>
-  }
-
   @if (loadingListings()) {
     <mat-spinner></mat-spinner>
   } @else if (paginatorListings.length === 0) {

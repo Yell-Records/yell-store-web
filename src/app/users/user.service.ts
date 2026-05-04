@@ -11,7 +11,7 @@ import { environment } from '../../environments/environment';
 export class UserService {
   readonly baseUrl = `${environment.apiUrl}/users`;
 
-  private http = inject(HttpClient);
+  private readonly http = inject(HttpClient);
 
   /**
    * Sends a request to save a user to the database.
@@ -46,18 +46,5 @@ export class UserService {
    */
   getUserById(id: string): Observable<User> {
     return this.http.get<User>(`${this.baseUrl}/${id}`);
-  }
-
-  /**
-   * Retrieves a user entity matching against a username. Casing is ignored.
-   *
-   * ### Error codes
-   * - 404 (Not Found) - If no user with this username exists.
-   *
-   * @param username Username of a user.
-   * @returns User entity associated with the requested username.
-   */
-  getUserByUsername(username: string): Observable<User> {
-    return this.http.get<User>(`${this.baseUrl}/username/${username}`);
   }
 }

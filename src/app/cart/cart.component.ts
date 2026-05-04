@@ -28,19 +28,10 @@ export class CartComponent {
       .confirm(`Are you sure you want to remove ${listing.title} from your cart?`)
       .subscribe((confirmed) => {
         if (confirmed) {
-          if (this.auth.isLoggedIn) {
-            this.cartItemService.removeItemFromUserCart(this.auth.userId!, listing.id!).subscribe({
-              next: () => this.messageService.info(`${listing.title} was removed.`),
-              error: (err: HttpErrorResponse) => this.messageService.error(err.message),
-            });
-          } else {
-            this.cartItemService
-              .removeItemFromGuestCart(this.auth.guestId!, listing.id!)
-              .subscribe({
-                next: () => this.messageService.info(`${listing.title} was removed.`),
-                error: (err: HttpErrorResponse) => this.messageService.error(err.message),
-              });
-          }
+          this.cartItemService.removeItemFromGuestCart(this.auth.guestId!, listing.id!).subscribe({
+            next: () => this.messageService.info(`${listing.title} was removed.`),
+            error: (err: HttpErrorResponse) => this.messageService.error(err.message),
+          });
         }
       });
   }
@@ -50,17 +41,10 @@ export class CartComponent {
       .confirm('Are you sure you want to clear your cart?')
       .subscribe((confirmed) => {
         if (confirmed) {
-          if (this.auth.isLoggedIn) {
-            this.cartItemService.clearUserCart(this.auth.userId!).subscribe({
-              next: () => this.messageService.info('Your cart was cleared.'),
-              error: (err: HttpErrorResponse) => this.messageService.error(err.message),
-            });
-          } else {
-            this.cartItemService.clearGuestCart(this.auth.guestId!).subscribe({
-              next: () => this.messageService.info('Your cart was cleared.'),
-              error: (err: HttpErrorResponse) => this.messageService.error(err.message),
-            });
-          }
+          this.cartItemService.clearGuestCart(this.auth.guestId!).subscribe({
+            next: () => this.messageService.info('Your cart was cleared.'),
+            error: (err: HttpErrorResponse) => this.messageService.error(err.message),
+          });
         }
       });
   }

@@ -4,7 +4,6 @@ import {
   MatCard,
   MatCardHeader,
   MatCardTitle,
-  MatCardSubtitle,
   MatCardContent,
   MatCardActions,
 } from '@angular/material/card';
@@ -19,7 +18,6 @@ import { MatButtonModule } from '@angular/material/button';
     MatCard,
     MatCardHeader,
     MatCardTitle,
-    MatCardSubtitle,
     MatCardContent,
     CurrencyPipe,
     MatCardActions,

@@ -8,7 +8,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "QuantumMart": {
+    "YellStoreWeb": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -66,10 +66,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "QuantumMart:build:production"
+              "buildTarget": "YellStoreWeb:build:production"
             },
             "development": {
-              "buildTarget": "QuantumMart:build:development"
+              "buildTarget": "YellStoreWeb:build:development"
             }
           },
           "defaultConfiguration": "development"

@@ -1,19 +1,19 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Category } from 'src/app/categories/category.model';
-import { CategoryService } from 'src/app/categories/category.service';
-import { MessageService } from 'src/app/shared/message/message.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormField, MatLabel, MatHint } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
-import { TitleDirective } from 'src/app/shared/directives/title.directive';
 import { MatAnchor } from '@angular/material/button';
-import { CategorySlugDirective } from 'src/app/shared/directives/category-slug.directive';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { AdminCategoryDisplayComponent } from './admin-category-display/admin-category-display.component';
-import { ConfirmDialogService } from 'src/app/shared/dialogs/confirm-dialog.service';
-import { CreateCategoryRequest } from 'src/app/categories/create-category-request.model';
-import { AuthService } from 'src/app/auth/auth.service';
+import { TitleDirective } from '../../shared/directives/title.directive';
+import { CategorySlugDirective } from '../../shared/directives/category-slug.directive';
+import { CategoryService } from '../../categories/category.service';
+import { MessageService } from '../../shared/message/message.service';
+import { ConfirmDialogService } from '../../shared/dialogs/confirm-dialog.service';
+import { AuthService } from '../../auth/auth.service';
+import { Category } from '../../categories/category.model';
+import { CreateCategoryRequest } from '../../categories/create-category-request.model';
 
 @Component({
   selector: 'app-category-management',

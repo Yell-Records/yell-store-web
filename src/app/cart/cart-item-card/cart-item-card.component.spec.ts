@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CartItemCardComponent } from './cart-item-card.component';
 import { SinonSpy, spy } from 'sinon';
 import { CartItem } from '../cart-item.model';
-import { mockListing } from 'src/testing/mock-item-listing';
+import { mockListing } from '@testing/mock-item-listing';
 
 describe('CartItemCardComponent', () => {
   let component: CartItemCardComponent;

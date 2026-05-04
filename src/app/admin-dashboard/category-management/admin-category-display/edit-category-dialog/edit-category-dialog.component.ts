@@ -1,16 +1,16 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { CategoryService } from 'src/app/categories/category.service';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
-import { TitleDirective } from 'src/app/shared/directives/title.directive';
-import { CategorySlugDirective } from 'src/app/shared/directives/category-slug.directive';
 import { MatAnchor } from '@angular/material/button';
-import { Category } from 'src/app/categories/category.model';
-import { AuthService } from 'src/app/auth/auth.service';
-import { PatchCategoryRequest } from 'src/app/categories/patch-category-request.model';
-import { MessageService } from 'src/app/shared/message/message.service';
+import { TitleDirective } from '../../../../shared/directives/title.directive';
+import { CategorySlugDirective } from '../../../../shared/directives/category-slug.directive';
+import { CategoryService } from '../../../../categories/category.service';
+import { Category } from '../../../../categories/category.model';
+import { MessageService } from '../../../../shared/message/message.service';
+import { AuthService } from '../../../../auth/auth.service';
+import { PatchCategoryRequest } from '../../../../categories/patch-category-request.model';
 
 @Component({
   selector: 'app-edit-category-dialog',

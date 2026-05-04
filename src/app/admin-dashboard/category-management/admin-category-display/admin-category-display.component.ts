@@ -1,14 +1,14 @@
 import { Component, computed, inject, Input, OnChanges, signal } from '@angular/core';
-import { Category } from 'src/app/categories/category.model';
 import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
-import { CategoryService } from 'src/app/categories/category.service';
-import { PatchCategoryRequest } from 'src/app/categories/patch-category-request.model';
-import { MessageService } from 'src/app/shared/message/message.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { EditCategoryDialogComponent } from './edit-category-dialog/edit-category-dialog.component';
 import { MatTooltip } from '@angular/material/tooltip';
+import { CategoryService } from '../../../categories/category.service';
+import { MessageService } from '../../../shared/message/message.service';
+import { Category } from '../../../categories/category.model';
+import { PatchCategoryRequest } from '../../../categories/patch-category-request.model';
 
 @Component({
   selector: 'app-admin-category-display',

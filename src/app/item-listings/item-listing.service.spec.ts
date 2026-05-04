@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { ItemListingService } from './item-listing.service';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { UpdateItemListing } from './update-listing.model';
-import { mockListing } from 'src/testing/mock-item-listing';
+import { mockListing } from '@testing/mock-item-listing';
 
 describe('ItemListingService', () => {
   let service: ItemListingService;
@@ -29,20 +29,6 @@ describe('ItemListingService', () => {
     });
 
     const req = httpMock.expectOne(`${service.baseUrl}`);
-    expect(req.request.method).to.equal('GET');
-
-    req.flush(mockResponse);
-  });
-
-  it('should GET /seller/:username to retrieve seller listings', () => {
-    const sellerId = '123';
-    const mockResponse = [mockListing];
-
-    service.getListingsByUserId(sellerId).subscribe((res) => {
-      expect(res).to.deep.equal(mockResponse);
-    });
-
-    const req = httpMock.expectOne(`${service.baseUrl}/seller/${sellerId}`);
     expect(req.request.method).to.equal('GET');
 
     req.flush(mockResponse);

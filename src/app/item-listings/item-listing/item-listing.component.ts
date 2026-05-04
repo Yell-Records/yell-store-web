@@ -10,21 +10,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { MatIcon } from '@angular/material/icon';
 import { MatTooltip } from '@angular/material/tooltip';
-import { ShortNumberPipe } from 'src/app/shared/pipes/short-number.pipe';
-import { RatingDisplayComponent } from 'src/app/shared/display/rating-display/rating-display.component';
-import { AddCartItemRequest } from 'src/app/cart/add-cart-item-request.model';
+import { ShortNumberPipe } from '../../shared/pipes/short-number.pipe';
+import { AddCartItemRequest } from '../../cart/add-cart-item-request.model';
 
 @Component({
   selector: 'app-item-listing',
-  imports: [
-    MatCardModule,
-    CurrencyPipe,
-    MatIcon,
-    MatTooltip,
-    MatFabButton,
-    ShortNumberPipe,
-    RatingDisplayComponent,
-  ],
+  imports: [MatCardModule, CurrencyPipe, MatIcon, MatTooltip, MatFabButton, ShortNumberPipe],
   templateUrl: './item-listing.component.html',
   styleUrl: './item-listing.component.scss',
 })
@@ -37,27 +28,13 @@ export class ItemListingComponent {
   private readonly messageService = inject(MessageService);
   private readonly router = inject(Router);
 
-  navigateToUser() {
-    this.router.navigate([`/profile/${this.listing.sellerId}`]);
-  }
-
   navigateToItem() {
     this.router.navigate([`/listing/${this.listing.id}`]);
   }
 
-  /** Checks if the current user can add this item to their cart. */
-  canAddToCart(): boolean {
-    if (!this.auth.isLoggedIn) {
-      return true;
-    }
-
-    return this.auth.userId !== this.listing.sellerId;
-  }
-
   addToCart(): void {
     const addItemRequest: AddCartItemRequest = {
-      userId: this.auth.userId,
-      guestSessionId: this.auth.guestId,
+      guestSessionId: this.auth.guestId!,
       listingInfo: this.listing,
       itemQuantity: 1,
     };
@@ -67,5 +44,9 @@ export class ItemListingComponent {
       error: (err: HttpErrorResponse) =>
         this.messageService.error(`Couldn't add item: ${err.message}`),
     });
+  }
+
+  get isLoggedIn(): boolean {
+    return this.auth.isLoggedIn;
   }
 }

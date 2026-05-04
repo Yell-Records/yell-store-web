@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
-import { ImageService } from 'src/app/image-service/image.service';
+import { ImageService } from '../../../image-service/image.service';
 import { MessageService } from '../../message/message.service';
 
 @Component({

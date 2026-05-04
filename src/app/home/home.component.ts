@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, effect, inject, OnInit, signal } from '@angular/core';
 import { ItemListingService } from '../item-listings/item-listing.service';
 import { ItemListing } from '../item-listings/item-listing.model';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -10,8 +10,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { UserStore } from '../core/stores/user.store';
-import { User } from '../users/user.model';
 import { Paginator } from '../shared/utils/paginator';
 import { MatPaginator } from '@angular/material/paginator';
 import { finalize } from 'rxjs';
@@ -47,17 +45,19 @@ export class HomeComponent implements OnInit {
 
   private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
-  private readonly userStore = inject(UserStore);
   private readonly itemListingService = inject(ItemListingService);
   private readonly categoryService = inject(CategoryService);
   private readonly route = inject(ActivatedRoute);
 
   private readonly allListings = signal<ItemListing[] | null>(null);
-  private readonly unownedListings = computed(
-    () => this.allListings()?.filter((item) => item.sellerId !== this.user?.id) ?? null,
-  );
 
   private readonly _categories = signal<Category[]>([]);
+
+  constructor() {
+    effect(() => {
+      this.paginatorListings.setItems(this.allListings() ?? []);
+    });
+  }
 
   ngOnInit(): void {
     this.paginatorListings.pageSize = 20;
@@ -72,20 +72,6 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/create-listing']);
   }
 
-  showUserListingsToggled() {
-    if (this.showUserListings) {
-      this.paginatorListings.setItems(this.allListings() ?? []);
-    } else {
-      this.paginatorListings.setItems(this.unownedListings() ?? []);
-    }
-
-    this.paginatorListings.pageIndex = 0;
-  }
-
-  hasOwnedListings(): boolean {
-    return this.allListings()?.length !== this.unownedListings()?.length;
-  }
-
   private loadCategories() {
     this.categoryService
       .getActiveCategories()
@@ -97,10 +83,7 @@ export class HomeComponent implements OnInit {
       .getAllListings()
       .pipe(finalize(() => this.loadingListings.set(false)))
       .subscribe({
-        next: (data) => {
-          this.allListings.set(data);
-          this.showUserListingsToggled();
-        },
+        next: (data) => this.allListings.set(data),
         error: () => this.allListings.set([]),
       });
   }
@@ -116,10 +99,7 @@ export class HomeComponent implements OnInit {
       .getListingsByCategorySlug(slug)
       .pipe(finalize(() => this.loadingListings.set(false)))
       .subscribe({
-        next: (data) => {
-          this.allListings.set(data);
-          this.showUserListingsToggled();
-        },
+        next: (data) => this.allListings.set(data),
         error: () => this.loadListings(),
       });
   }
@@ -145,9 +125,5 @@ export class HomeComponent implements OnInit {
 
   get loggedIn(): boolean {
     return this.authService.isLoggedIn;
-  }
-
-  private get user(): User | null {
-    return this.userStore.user();
   }
 }

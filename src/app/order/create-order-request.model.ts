@@ -1,14 +1,13 @@
 export interface CreateOrderRequest {
-  buyerId: string | null;
-  guestSessionId: string | null;
-  guestEmail: string | null;
+  guestSessionId: string;
+  buyerEmail: string;
   totalPaid: number;
-  shippingFirstname: string;
-  shippingLastname: string;
-  shippingAddress1: string;
-  shippingAddress2: string | null;
+  shippingFirstName: string;
+  shippingLastName: string;
+  shippingAddressLine1: string;
+  shippingAddressLine2: string | null;
   shippingCity: string;
   shippingState: string;
-  shippingZip: string;
+  shippingPostalCode: string;
   shippingPhone: string;
 }
