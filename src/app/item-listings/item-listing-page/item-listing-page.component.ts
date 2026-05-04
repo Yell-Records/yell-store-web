@@ -8,7 +8,7 @@ import { NotFoundComponent } from 'src/app/not-found/not-found.component';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { Title } from '@angular/platform-browser';
-import { qmTitle } from 'src/app/title/qm-title';
+import { yrTitle } from 'src/app/title/qm-title';
 import { CartItemService } from 'src/app/cart/cart-item.service';
 import { MessageService } from 'src/app/shared/message/message.service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -79,7 +79,7 @@ export class ItemListingPageComponent implements OnInit {
     this.itemListingService.getListingById(listingId).subscribe({
       next: (listing) => {
         this._listing.set(listing);
-        this.title.setTitle(qmTitle(listing.title));
+        this.title.setTitle(yrTitle(listing.title));
       },
       error: () => this.notFound.set(true),
     });

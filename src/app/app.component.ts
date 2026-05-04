@@ -10,5 +10,5 @@ import { BottomFooterComponent } from './bottom-footer/bottom-footer.component';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  protected readonly title = signal('QuantumMart');
+  protected readonly title = signal('YellStoreWeb');
 }

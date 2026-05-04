@@ -1,1 +1,1 @@
-export const qmTitle = (title: string) => `${title} • Quantum Mart`;
+export const yrTitle = (title: string) => `${title} • Yell Records`;

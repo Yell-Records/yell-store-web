@@ -33,14 +33,14 @@ jobs:
           npx ng build --configuration=production
       - name: Bundle angular browser build
         run: |
-          cd dist/QuantumMart/browser
-          zip -r ../../../QuantumMart-v${{ steps.newTag.outputs.version }}.zip .
+          cd dist/YellStoreWeb/browser
+          zip -r ../../../YellStoreWeb-v${{ steps.newTag.outputs.version }}.zip .
       - name: Download latest backend release asset
         id: backend
         run: |
           # Fetch latest backend release metadata
           latest_backend_tag=$(gh release list \
-            --repo MattCumbo99/quantum-mart-services \
+            --repo Yell-Records/yell-store-services \
             --limit 1 \
             --json tagName \
             --jq '.[0].tagName')
@@ -49,7 +49,7 @@ jobs:
 
           # Fetch asset name
           asset_name=$(gh release view "$latest_backend_tag" \
-            --repo MattCumbo99/quantum-mart-services \
+            --repo Yell-Records/yell-store-services \
             --json assets \
             --jq '.assets[0].name')
 
@@ -57,7 +57,7 @@ jobs:
 
           # Download the asset
           gh release download "$latest_backend_tag" \
-            --repo MattCumbo99/quantum-mart-services \
+            --repo Yell-Records/yell-store-services \
             --pattern "$asset_name"
 
           echo "asset_name=$asset_name" >> $GITHUB_OUTPUT
@@ -67,7 +67,7 @@ jobs:
         run: |
           gh release create v${{ steps.newTag.outputs.version }} \
             --generate-notes \
-            QuantumMart-v${{ steps.newTag.outputs.version }}.zip \
+            YellStoreWeb-v${{ steps.newTag.outputs.version }}.zip \
             "${{ steps.backend.outputs.asset_name }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
