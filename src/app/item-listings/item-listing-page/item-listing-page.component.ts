@@ -4,18 +4,18 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ItemListingService } from '../item-listing.service';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { AuthService } from '../../auth/auth.service';
-import { NotFoundComponent } from 'src/app/not-found/not-found.component';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { Title } from '@angular/platform-browser';
-import { yrTitle } from 'src/app/title/qm-title';
-import { CartItemService } from 'src/app/cart/cart-item.service';
-import { MessageService } from 'src/app/shared/message/message.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatTooltip } from '@angular/material/tooltip';
-import { AddCartItemRequest } from 'src/app/cart/add-cart-item-request.model';
+import { NotFoundComponent } from '../../not-found/not-found.component';
+import { CartItemService } from '../../cart/cart-item.service';
+import { MessageService } from '../../shared/message/message.service';
+import { AddCartItemRequest } from '../../cart/add-cart-item-request.model';
+import { yrTitle } from '../../title/qm-title';
 
 @Component({
   imports: [

@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EditCategoryDialogComponent } from './edit-category-dialog.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Category } from 'src/app/categories/category.model';
+import { Category } from '../../../../categories/category.model';
 
 describe('EditCategoryDialogComponent', () => {
   let component: EditCategoryDialogComponent;

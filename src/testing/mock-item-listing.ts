@@ -1,4 +1,4 @@
-import { ItemListing } from 'src/app/item-listings/item-listing.model';
+import { ItemListing } from '../app/item-listings/item-listing.model';
 
 /**
  * Mocks an item listing for tests.

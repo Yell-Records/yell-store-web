@@ -16,10 +16,10 @@ import { UpdateItemListing } from '../update-listing.model';
 import { ConfirmDialogService } from '../../shared/dialogs/confirm-dialog.service';
 import { Title } from '@angular/platform-browser';
 import { yrTitle } from '../../title/qm-title';
-import { ImageInputComponent } from 'src/app/shared/inputs/image-input/image-input.component';
-import { CategoryService } from 'src/app/categories/category.service';
-import { Category } from 'src/app/categories/category.model';
 import { MatSelect, MatOption } from '@angular/material/select';
+import { ImageInputComponent } from '../../shared/inputs/image-input/image-input.component';
+import { CategoryService } from '../../categories/category.service';
+import { Category } from '../../categories/category.model';
 
 @Component({
   selector: 'app-edit-item-listing',

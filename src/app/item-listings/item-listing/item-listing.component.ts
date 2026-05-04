@@ -10,8 +10,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { MatIcon } from '@angular/material/icon';
 import { MatTooltip } from '@angular/material/tooltip';
-import { ShortNumberPipe } from 'src/app/shared/pipes/short-number.pipe';
-import { AddCartItemRequest } from 'src/app/cart/add-cart-item-request.model';
+import { ShortNumberPipe } from '../../shared/pipes/short-number.pipe';
+import { AddCartItemRequest } from '../../cart/add-cart-item-request.model';
 
 @Component({
   selector: 'app-item-listing',

@@ -5,8 +5,8 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 import { expect } from 'chai';
 import { CartItem } from './cart-item.model';
 import { AuthService } from '../auth/auth.service';
-import { MockAuthService } from 'src/testing/mock-auth.service';
-import { mockListing } from 'src/testing/mock-item-listing';
+import { MockAuthService } from '@testing/mock-auth.service';
+import { mockListing } from '@testing/mock-item-listing';
 import { AddCartItemRequest } from './add-cart-item-request.model';
 
 describe('CartItemService', () => {

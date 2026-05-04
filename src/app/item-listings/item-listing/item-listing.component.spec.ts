@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ItemListingComponent } from './item-listing.component';
-import { mockListing } from 'src/testing/mock-item-listing';
+import { mockListing } from '@testing/mock-item-listing';
 
 describe('ItemListing', () => {
   let component: ItemListingComponent;

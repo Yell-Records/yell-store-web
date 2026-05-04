@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { ItemListingService } from './item-listing.service';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { UpdateItemListing } from './update-listing.model';
-import { mockListing } from 'src/testing/mock-item-listing';
+import { mockListing } from '@testing/mock-item-listing';
 
 describe('ItemListingService', () => {
   let service: ItemListingService;

@@ -3,7 +3,7 @@ import { CheckoutComponent } from './checkout.component';
 import { AuthService } from '../auth/auth.service';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { MockAuthService } from 'src/testing/mock-auth.service';
+import { MockAuthService } from '@testing/mock-auth.service';
 
 describe('Checkout', () => {
   let component: CheckoutComponent;
