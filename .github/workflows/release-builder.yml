@@ -29,8 +29,14 @@ jobs:
         run: |
           git fetch --tags
           latest=$(git tag --sort=version:refname | tail -n 1)
-          currVersion="${latest#v}"
-          currVersion="${currVersion%%-*}"
+
+          if [ -z "$latest" ]; then
+            currVersion="0.0.0"
+          else
+            currVersion="${latest#v}"
+            currVersion="${currVersion%%-*}"
+          fi
+
           major=$(echo "$currVersion" | cut -d. -f1)
           minor=$(echo "$currVersion" | cut -d. -f2)
           patch=$(echo "$currVersion" | cut -d. -f3)
