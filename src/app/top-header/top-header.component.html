@@ -1,7 +1,7 @@
 <header class="top-header">
-  <div class="banner-img left" [class.checkout-size]="isAtCheckout()">
+  <div class="banner-img left">
     <img
-      src="assets/main_banner.png"
+      src="assets/yell-records-banner.png"
       [routerLink]="['/home']"
       alt="Yell Records Logo"
       draggable="false"
@@ -20,8 +20,8 @@
   <div class="right">
     @if (user === null) {
       <!-- Guest information group -->
-      <div class="guest-actions">
-        @if (!isAtCart()) {
+      <div class="view-cart-btn">
+        @if (showViewCart()) {
           <app-cart-button [guest]="true"></app-cart-button>
         }
       </div>

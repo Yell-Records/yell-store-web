@@ -20,8 +20,6 @@ import { CartButtonComponent } from '../cart/cart-button/cart-button.component';
   styleUrl: './top-header.component.scss',
 })
 export class TopHeaderComponent {
-  private readonly loginRegisterRoutes = ['/login', '/register'];
-
   private readonly router = inject(Router);
   private readonly userStore = inject(UserStore);
 
@@ -29,22 +27,17 @@ export class TopHeaderComponent {
     return this.userStore.user();
   }
 
-  showUserCard(): boolean {
-    return (
-      !this.loginRegisterRoutes.includes(this.router.url) && !this.isAtCheckout() && !this.isAt404()
-    );
-  }
-
   showNavTabs(): boolean {
-    return !this.isAtCheckout() && !this.isAt404();
+    const isAtCheckout = this.router.url.includes('/checkout');
+
+    return !isAtCheckout && !this.isAt404();
   }
 
-  isAtCheckout(): boolean {
-    return this.router.url.includes('/checkout');
-  }
+  showViewCart(): boolean {
+    const isAtCheckout = this.router.url.includes('/checkout');
+    const isAtCart = this.router.url.includes('/cart');
 
-  isAtCart(): boolean {
-    return this.router.url.includes('/cart');
+    return !isAtCheckout && !isAtCart;
   }
 
   private isAt404(): boolean {
