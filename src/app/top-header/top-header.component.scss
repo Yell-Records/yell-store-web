@@ -33,7 +33,7 @@
 }
 
 .banner-img {
-  height: 100px;
+  height: fit-content;
   width: fit-content;
   display: flex;
 
@@ -42,11 +42,9 @@
     -webkit-user-drag: none;
     user-select: none;
     padding: 0px 20px;
+    height: 56px;
+    width: 300px;
   }
-}
-
-.checkout-size {
-  height: 48px;
 }
 
 .nav-tabs {
@@ -67,14 +65,6 @@
   }
 }
 
-.login-register {
-  display: flex;
-  justify-content: right;
-  padding-right: 80px;
-}
-
-.guest-actions {
-  display: flex;
-  align-items: center;
-  gap: 36px;
+.view-cart-btn {
+  margin-right: 50px;
 }
