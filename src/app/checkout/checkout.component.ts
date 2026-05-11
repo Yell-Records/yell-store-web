@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CartItemService } from '../cart/cart-item.service';
 import { AuthService } from '../auth/auth.service';
 import { CartItemCardListComponent } from '../cart/cart-item-card-list/cart-item-card-list.component';
@@ -21,6 +21,8 @@ import { US_STATES } from '../shared/data/us-states';
 import { ZipCodeDirective } from '../shared/directives/zip-code.directive';
 import { EmailDirective } from '../shared/directives/email.directive';
 import { PhoneInputComponent } from '../shared/inputs/phone-input/phone-input.component';
+import { PayPalButtonComponent } from '../paypal/paypal-button/paypal-button.component';
+import { Order } from '../order/order.model';
 
 @Component({
   selector: 'app-checkout',
@@ -39,6 +41,7 @@ import { PhoneInputComponent } from '../shared/inputs/phone-input/phone-input.co
     ZipCodeDirective,
     EmailDirective,
     PhoneInputComponent,
+    PayPalButtonComponent,
   ],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.scss',
@@ -64,16 +67,14 @@ export class CheckoutComponent {
 
   readonly states = US_STATES;
 
+  readonly createdOrder = signal<Order | null>(null);
+
   placeOrder() {
     if (this.checkoutForm.valid) {
       const req = this.extractFormValues();
 
       this.orderService.createOrder(req).subscribe({
-        next: () => {
-          this.messageService.success('Order placed!');
-          this.cartService.clearLocalCart();
-          this.router.navigate(['/home']);
-        },
+        next: (order) => this.createdOrder.set(order),
         error: () => this.messageService.error('Could not place order.'),
       });
     }

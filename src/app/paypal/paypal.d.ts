@@ -1,6 +1,8 @@
+import { Order } from '../order/order.model';
+
 interface PayPalButtonsConfig {
   createOrder: () => Promise<string>;
-  onApprove: (data: { orderID: string }) => Promise<void>;
+  onApprove: () => Promise<Order>;
 }
 
 interface PayPalNamespace {

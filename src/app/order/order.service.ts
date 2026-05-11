@@ -4,6 +4,7 @@ import { Order } from './order.model';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { CreateOrderRequest } from './create-order-request.model';
+import { PayPalOrderResponse } from '../paypal/paypal-order-response.model';
 
 @Injectable({
   providedIn: 'root',
@@ -40,12 +41,22 @@ export class OrderService {
   }
 
   /**
+   * Creates a PayPal order for an existing order.
+   *
+   * @param orderId
+   * @returns
+   */
+  createPayPalOrder(orderId: string): Observable<PayPalOrderResponse> {
+    return this.http.post<PayPalOrderResponse>(`${this.baseUrl}/${orderId}/paypal/create`, {});
+  }
+
+  /**
    * Capture payment status after client confirms payment through PayPal.
    *
    * @param orderId ID of order to update.
    * @returns Order with new payment status
    */
-  capturePayment(orderId: string): Observable<Order> {
+  capturePayPalPayment(orderId: string): Observable<Order> {
     return this.http.post<Order>(`${this.baseUrl}/${orderId}/capture`, {});
   }
 }

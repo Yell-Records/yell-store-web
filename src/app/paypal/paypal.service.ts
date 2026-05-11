@@ -22,7 +22,7 @@ export class PayPalService {
 
       script.onerror = () => reject('Failed to load PayPal SDK');
 
-      document.body.appendChild(script);
+      document.head.appendChild(script);
     });
   }
 }
