@@ -12,7 +12,6 @@ import { authGuard } from './auth/auth.guard';
 import { CreateItemListingComponent } from './create-item-listing/create-item-listing.component';
 import { createItemListingGuard } from './create-item-listing/create-item-listing.guard';
 import { CartComponent } from './cart/cart.component';
-import { PurchasesComponent } from './purchases/purchases.component';
 import { UserSettingsComponent } from './user-settings/user-settings.component';
 import { ItemListingPageComponent } from './item-listings/item-listing-page/item-listing-page.component';
 import { EditItemListingComponent } from './item-listings/edit-item-listing/edit-item-listing.component';
@@ -60,12 +59,6 @@ export const routes: Routes = [
     path: 'cart',
     component: CartComponent,
     title: yrTitle('Viewing Cart'),
-  },
-  {
-    path: 'purchases',
-    component: PurchasesComponent,
-    canActivate: [authGuard],
-    title: yrTitle('Purchases'),
   },
   {
     path: 'account-settings',

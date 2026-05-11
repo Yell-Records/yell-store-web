@@ -37,7 +37,7 @@ export class SellerDashboardComponent implements OnInit {
     this.loadingInProgress.set(true);
 
     this.orderService
-      .getOrdersRelevantToSeller(this.authService.userId!, true)
+      .getOrders(true)
       .pipe(finalize(() => this.loadingInProgress.set(false)))
       .subscribe({
         next: (sellerOrders) => {
@@ -47,7 +47,7 @@ export class SellerDashboardComponent implements OnInit {
       });
 
     this.orderService
-      .getOrdersRelevantToSeller(this.authService.userId!, false)
+      .getOrders(false)
       .pipe(finalize(() => this.loadingCompleted.set(false)))
       .subscribe({
         next: (sellerOrders) => {

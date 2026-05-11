@@ -1,20 +1,23 @@
 import { OrderItem } from '../order-item/order-item.model';
-import { OrderStatus } from './order-status.enum';
+import { OrderStatus } from './order-status.type';
 
 export interface Order {
   id: string;
-  buyerId: string | null;
-  guestEmail: string | null;
+  buyerEmail: string;
   status: OrderStatus;
   totalPaid: number;
   createdAt: string;
   shippingFirstname: string;
   shippingLastname: string;
-  shippingAddress1: string;
-  shippingAddress2: string | null;
+  shippingAddressLine1: string;
+  shippingAddressLine2: string | null;
   shippingCity: string;
   shippingState: string;
-  shippingZip: string;
+  shippingPostalCode: string;
   shippingPhone: string;
   orderItems: OrderItem[];
+  trackingNumber: string | null;
+  trackingCarrier: string | null;
+  paidAt: string | null;
+  shippedAt: string | null;
 }

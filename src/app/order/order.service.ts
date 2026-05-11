@@ -14,28 +14,13 @@ export class OrderService {
   private readonly http = inject(HttpClient);
 
   /**
-   * Retrieves a list of every order purhcased by a user via user ID.
+   * Gets every order.
    *
-   * ### Error codes
-   * - 404 (Not Found) - If the user does not exist.
-   *
-   * @param userId  ID of the buyer.
-   * @returns List of orders.
+   * @param unfinished If orders should contain only unfulfilled statuses.
+   * @returns
    */
-  getOrdersByUserId(userId: string): Observable<Order[]> {
-    return this.http.get<Order[]>(`${this.baseUrl}/user/${userId}`);
-  }
-
-  /**
-   * Retrieves all orders where at least one item was bought from the specified seller. The retrieved order items will only be
-   * from the seller.
-   *
-   * @param sellerId The seller's user ID.
-   * @param unfinished If the orders should be grouped for in-progress orders
-   * @returns A list of orders showing purchased items sold by the seller.
-   */
-  getOrdersRelevantToSeller(sellerId: string, unfinished: boolean): Observable<Order[]> {
-    return this.http.get<Order[]>(`${this.baseUrl}/seller/${sellerId}`, {
+  getOrders(unfinished: boolean): Observable<Order[]> {
+    return this.http.get<Order[]>(this.baseUrl, {
       params: { unfinished },
     });
   }
@@ -52,5 +37,15 @@ export class OrderService {
    */
   createOrder(orderInfo: CreateOrderRequest): Observable<Order> {
     return this.http.post<Order>(`${this.baseUrl}`, orderInfo);
+  }
+
+  /**
+   * Capture payment status after client confirms payment through PayPal.
+   *
+   * @param orderId ID of order to update.
+   * @returns Order with new payment status
+   */
+  capturePayment(orderId: string): Observable<Order> {
+    return this.http.post<Order>(`${this.baseUrl}/${orderId}/capture`, {});
   }
 }
