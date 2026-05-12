@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { CartItemService } from '../cart/cart-item.service';
 import { AuthService } from '../auth/auth.service';
 import { CartItemCardListComponent } from '../cart/cart-item-card-list/cart-item-card-list.component';
@@ -85,6 +85,18 @@ export class CheckoutComponent {
     }
   }
 
+  get orderTotal(): number {
+    return this.subtotal + (this.orderTax ?? 0) + (this.orderShippingCost ?? 0);
+  }
+
+  get orderShippingCost(): number | null {
+    return this.createdOrder()?.shippingCost ?? null;
+  }
+
+  get orderTax(): number | null {
+    return this.createdOrder()?.tax ?? null;
+  }
+
   private updateOrder() {
     const order = this.createdOrder();
 
@@ -161,7 +173,7 @@ export class CheckoutComponent {
       shippingState: this.checkoutForm.get('state')!.value!,
       shippingPostalCode: this.checkoutForm.get('postalCode')!.value!,
       shippingPhone: this.checkoutForm.get('phone')!.value!,
-      totalPaid: this.subtotal,
+      subtotal: this.subtotal,
     };
 
     return req;

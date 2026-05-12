@@ -5,7 +5,10 @@ export interface Order {
   id: string;
   buyerEmail: string;
   status: OrderStatus;
-  totalPaid: number;
+  subtotal: number;
+  shippingCost: number;
+  tax: number;
+  totalPaid: number | null;
   createdAt: string;
   shippingFirstname: string;
   shippingLastname: string;

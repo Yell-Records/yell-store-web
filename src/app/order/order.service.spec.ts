@@ -14,6 +14,9 @@ describe('OrderService', () => {
     id: '1',
     buyerEmail: 'email@test.com',
     status: OrderStatus.AWAITING_PAYMENT,
+    shippingCost: 5.0,
+    tax: 1.0,
+    subtotal: 2.0,
     totalPaid: 12.0,
     shippingFirstname: 'test',
     shippingLastname: 'guy',
@@ -65,7 +68,7 @@ describe('OrderService', () => {
     const createOrderReq: CreateOrderRequest = {
       buyerEmail: '1',
       guestSessionId: '123',
-      totalPaid: 12.0,
+      subtotal: 12.0,
       shippingFirstName: 'test',
       shippingLastName: 'guy',
       shippingAddressLine1: '123 Road Lane',
