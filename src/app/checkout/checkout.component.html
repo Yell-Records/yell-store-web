@@ -66,7 +66,7 @@
           matButton="filled"
           matStepperNext
           [disabled]="!checkoutForm.valid"
-          (click)="placeOrder()"
+          (click)="placeOrUpdateOrder()"
         >
           Next
         </button>
@@ -86,7 +86,7 @@
 
         <h3>Total: {{ subtotal | currency }}</h3>
 
-        <app-paypal-button [orderId]="'123'"></app-paypal-button>
+        <app-paypal-button [orderId]="createdOrder()?.id ?? ''"></app-paypal-button>
       </mat-step>
     </mat-stepper>
   </section>

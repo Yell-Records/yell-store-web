@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { CreateOrderRequest } from './create-order-request.model';
 import { PayPalOrderResponse } from '../paypal/paypal-order-response.model';
+import { UpdateOrderRequest } from './update-order-request.model';
 
 @Injectable({
   providedIn: 'root',
@@ -41,6 +42,17 @@ export class OrderService {
   }
 
   /**
+   * Updates information on an order. Guest Session Id must match.
+   *
+   * @param orderId
+   * @param updates
+   * @returns
+   */
+  updateOrderDetails(orderId: string, updates: UpdateOrderRequest): Observable<Order> {
+    return this.http.patch<Order>(`${this.baseUrl}/${orderId}`, updates);
+  }
+
+  /**
    * Creates a PayPal order for an existing order.
    *
    * @param orderId
@@ -57,6 +69,6 @@ export class OrderService {
    * @returns Order with new payment status
    */
   capturePayPalPayment(orderId: string): Observable<Order> {
-    return this.http.post<Order>(`${this.baseUrl}/${orderId}/capture`, {});
+    return this.http.post<Order>(`${this.baseUrl}/${orderId}/paypal/capture`, {});
   }
 }

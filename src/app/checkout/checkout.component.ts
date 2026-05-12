@@ -23,6 +23,7 @@ import { EmailDirective } from '../shared/directives/email.directive';
 import { PhoneInputComponent } from '../shared/inputs/phone-input/phone-input.component';
 import { PayPalButtonComponent } from '../paypal/paypal-button/paypal-button.component';
 import { Order } from '../order/order.model';
+import { UpdateOrderRequest } from '../order/update-order-request.model';
 
 @Component({
   selector: 'app-checkout',
@@ -69,13 +70,31 @@ export class CheckoutComponent {
 
   readonly createdOrder = signal<Order | null>(null);
 
-  placeOrder() {
+  placeOrUpdateOrder() {
     if (this.checkoutForm.valid) {
-      const req = this.extractFormValues();
+      if (this.createdOrder() === null) {
+        const req = this.extractFormValues();
 
-      this.orderService.createOrder(req).subscribe({
+        this.orderService.createOrder(req).subscribe({
+          next: (order) => this.createdOrder.set(order),
+          error: () => this.messageService.error('Could not place order.'),
+        });
+      } else {
+        this.updateOrder();
+      }
+    }
+  }
+
+  private updateOrder() {
+    const order = this.createdOrder();
+
+    if (order) {
+      const updates = this.getFormUpdates();
+
+      // Send a request to update the current order
+      this.orderService.updateOrderDetails(order.id, updates).subscribe({
         next: (order) => this.createdOrder.set(order),
-        error: () => this.messageService.error('Could not place order.'),
+        error: () => this.messageService.error('Could not update order.'),
       });
     }
   }
@@ -111,6 +130,23 @@ export class CheckoutComponent {
     } else {
       return `${address1}, ${city}, ${state} ${zip}`;
     }
+  }
+
+  private getFormUpdates(): UpdateOrderRequest {
+    const req: UpdateOrderRequest = {
+      guestSessionId: this.auth.guestId!,
+      buyerEmail: this.checkoutForm.get('buyerEmail')!.value!,
+      shippingFirstName: this.checkoutForm.get('firstName')!.value!,
+      shippingLastName: this.checkoutForm.get('lastName')!.value!,
+      shippingAddressLine1: this.checkoutForm.get('addressLine1')!.value!,
+      shippingAddressLine2: this.checkoutForm.get('addressLine2')?.value ?? null,
+      shippingCity: this.checkoutForm.get('city')!.value!,
+      shippingState: this.checkoutForm.get('state')!.value!,
+      shippingPostalCode: this.checkoutForm.get('postalCode')!.value!,
+      shippingPhone: this.checkoutForm.get('phone')!.value!,
+    };
+
+    return req;
   }
 
   private extractFormValues(): CreateOrderRequest {
