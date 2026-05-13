@@ -35,6 +35,9 @@ describe('OrderComponent', () => {
       trackingNumber: null,
       shippedAt: null,
       paidAt: null,
+      subtotal: 1,
+      shippingCost: 1,
+      tax: 1,
     };
 
     component.order = sampleOrder;
