@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { OrderComponent } from './order.component';
-import { OrderStatus } from '../order-status.enum';
 import { Order } from '../order.model';
+import { OrderStatus } from '../order-status.type';
 
 describe('OrderComponent', () => {
   let component: OrderComponent;
@@ -18,20 +18,26 @@ describe('OrderComponent', () => {
 
     const sampleOrder: Order = {
       id: '1',
-      buyerId: '1',
-      guestEmail: null,
-      status: OrderStatus.PENDING,
+      buyerEmail: 'email@test.com',
+      status: OrderStatus.AWAITING_PAYMENT,
       totalPaid: 50.0,
       shippingFirstname: 'john',
       shippingLastname: 'smith',
-      shippingAddress1: '123 Lane',
-      shippingAddress2: null,
+      shippingAddressLine1: '123 Lane',
+      shippingAddressLine2: null,
       shippingCity: 'Salt Lake City',
       shippingState: 'New York',
-      shippingZip: '65728',
+      shippingPostalCode: '65728',
       shippingPhone: '5552931029',
       createdAt: '',
       orderItems: [],
+      trackingCarrier: null,
+      trackingNumber: null,
+      shippedAt: null,
+      paidAt: null,
+      subtotal: 1,
+      shippingCost: 1,
+      tax: 1,
     };
 
     component.order = sampleOrder;

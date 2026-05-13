@@ -24,16 +24,22 @@ export class OrderComponent {
   }
 
   get addressPart1(): string {
-    const address2 = this.order.shippingAddress2;
+    const address2 = this.order.shippingAddressLine2;
 
     if (address2) {
-      return this.order.shippingAddress1 + ' ' + address2;
+      return this.order.shippingAddressLine1 + ' ' + address2;
     } else {
-      return this.order.shippingAddress1;
+      return this.order.shippingAddressLine1;
     }
   }
 
   get addressPart2(): string {
-    return this.order.shippingCity + ', ' + this.order.shippingState + ' ' + this.order.shippingZip;
+    return (
+      this.order.shippingCity +
+      ', ' +
+      this.order.shippingState +
+      ' ' +
+      this.order.shippingPostalCode
+    );
   }
 }

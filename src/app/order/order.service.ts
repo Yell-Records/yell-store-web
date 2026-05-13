@@ -4,6 +4,8 @@ import { Order } from './order.model';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { CreateOrderRequest } from './create-order-request.model';
+import { PayPalOrderResponse } from '../paypal/paypal-order-response.model';
+import { UpdateOrderRequest } from './update-order-request.model';
 
 @Injectable({
   providedIn: 'root',
@@ -14,28 +16,13 @@ export class OrderService {
   private readonly http = inject(HttpClient);
 
   /**
-   * Retrieves a list of every order purhcased by a user via user ID.
+   * Gets every order.
    *
-   * ### Error codes
-   * - 404 (Not Found) - If the user does not exist.
-   *
-   * @param userId  ID of the buyer.
-   * @returns List of orders.
+   * @param unfinished If orders should contain only unfulfilled statuses.
+   * @returns
    */
-  getOrdersByUserId(userId: string): Observable<Order[]> {
-    return this.http.get<Order[]>(`${this.baseUrl}/user/${userId}`);
-  }
-
-  /**
-   * Retrieves all orders where at least one item was bought from the specified seller. The retrieved order items will only be
-   * from the seller.
-   *
-   * @param sellerId The seller's user ID.
-   * @param unfinished If the orders should be grouped for in-progress orders
-   * @returns A list of orders showing purchased items sold by the seller.
-   */
-  getOrdersRelevantToSeller(sellerId: string, unfinished: boolean): Observable<Order[]> {
-    return this.http.get<Order[]>(`${this.baseUrl}/seller/${sellerId}`, {
+  getOrders(unfinished: boolean): Observable<Order[]> {
+    return this.http.get<Order[]>(this.baseUrl, {
       params: { unfinished },
     });
   }
@@ -52,5 +39,36 @@ export class OrderService {
    */
   createOrder(orderInfo: CreateOrderRequest): Observable<Order> {
     return this.http.post<Order>(`${this.baseUrl}`, orderInfo);
+  }
+
+  /**
+   * Updates information on an order. Guest Session Id must match.
+   *
+   * @param orderId
+   * @param updates
+   * @returns
+   */
+  updateOrderDetails(orderId: string, updates: UpdateOrderRequest): Observable<Order> {
+    return this.http.patch<Order>(`${this.baseUrl}/${orderId}`, updates);
+  }
+
+  /**
+   * Creates a PayPal order for an existing order.
+   *
+   * @param orderId
+   * @returns
+   */
+  createPayPalOrder(orderId: string): Observable<PayPalOrderResponse> {
+    return this.http.post<PayPalOrderResponse>(`${this.baseUrl}/${orderId}/paypal/create`, {});
+  }
+
+  /**
+   * Capture payment status after client confirms payment through PayPal.
+   *
+   * @param orderId ID of order to update.
+   * @returns Order with new payment status
+   */
+  capturePayPalPayment(orderId: string): Observable<Order> {
+    return this.http.post<Order>(`${this.baseUrl}/${orderId}/paypal/capture`, {});
   }
 }

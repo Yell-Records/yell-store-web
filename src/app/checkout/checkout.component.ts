@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CartItemService } from '../cart/cart-item.service';
 import { AuthService } from '../auth/auth.service';
 import { CartItemCardListComponent } from '../cart/cart-item-card-list/cart-item-card-list.component';
@@ -21,6 +21,9 @@ import { US_STATES } from '../shared/data/us-states';
 import { ZipCodeDirective } from '../shared/directives/zip-code.directive';
 import { EmailDirective } from '../shared/directives/email.directive';
 import { PhoneInputComponent } from '../shared/inputs/phone-input/phone-input.component';
+import { PayPalButtonComponent } from '../paypal/paypal-button/paypal-button.component';
+import { Order } from '../order/order.model';
+import { UpdateOrderRequest } from '../order/update-order-request.model';
 
 @Component({
   selector: 'app-checkout',
@@ -39,6 +42,7 @@ import { PhoneInputComponent } from '../shared/inputs/phone-input/phone-input.co
     ZipCodeDirective,
     EmailDirective,
     PhoneInputComponent,
+    PayPalButtonComponent,
   ],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.scss',
@@ -64,17 +68,45 @@ export class CheckoutComponent {
 
   readonly states = US_STATES;
 
-  placeOrder() {
-    if (this.checkoutForm.valid) {
-      const req = this.extractFormValues();
+  readonly createdOrder = signal<Order | null>(null);
 
-      this.orderService.createOrder(req).subscribe({
-        next: () => {
-          this.messageService.success('Order placed!');
-          this.cartService.clearLocalCart();
-          this.router.navigate(['/home']);
-        },
-        error: () => this.messageService.error('Could not place order.'),
+  placeOrUpdateOrder() {
+    if (this.checkoutForm.valid) {
+      if (this.createdOrder() === null) {
+        const req = this.extractFormValues();
+
+        this.orderService.createOrder(req).subscribe({
+          next: (order) => this.createdOrder.set(order),
+          error: () => this.messageService.error('Could not place order.'),
+        });
+      } else {
+        this.updateOrder();
+      }
+    }
+  }
+
+  get orderTotal(): number {
+    return this.subtotal + (this.orderTax ?? 0) + (this.orderShippingCost ?? 0);
+  }
+
+  get orderShippingCost(): number | null {
+    return this.createdOrder()?.shippingCost ?? null;
+  }
+
+  get orderTax(): number | null {
+    return this.createdOrder()?.tax ?? null;
+  }
+
+  private updateOrder() {
+    const order = this.createdOrder();
+
+    if (order) {
+      const updates = this.getFormUpdates();
+
+      // Send a request to update the current order
+      this.orderService.updateOrderDetails(order.id, updates).subscribe({
+        next: (order) => this.createdOrder.set(order),
+        error: () => this.messageService.error('Could not update order.'),
       });
     }
   }
@@ -112,6 +144,23 @@ export class CheckoutComponent {
     }
   }
 
+  private getFormUpdates(): UpdateOrderRequest {
+    const req: UpdateOrderRequest = {
+      guestSessionId: this.auth.guestId!,
+      buyerEmail: this.checkoutForm.get('buyerEmail')!.value!,
+      shippingFirstName: this.checkoutForm.get('firstName')!.value!,
+      shippingLastName: this.checkoutForm.get('lastName')!.value!,
+      shippingAddressLine1: this.checkoutForm.get('addressLine1')!.value!,
+      shippingAddressLine2: this.checkoutForm.get('addressLine2')?.value ?? null,
+      shippingCity: this.checkoutForm.get('city')!.value!,
+      shippingState: this.checkoutForm.get('state')!.value!,
+      shippingPostalCode: this.checkoutForm.get('postalCode')!.value!,
+      shippingPhone: this.checkoutForm.get('phone')!.value!,
+    };
+
+    return req;
+  }
+
   private extractFormValues(): CreateOrderRequest {
     const req: CreateOrderRequest = {
       guestSessionId: this.auth.guestId!,
@@ -124,7 +173,7 @@ export class CheckoutComponent {
       shippingState: this.checkoutForm.get('state')!.value!,
       shippingPostalCode: this.checkoutForm.get('postalCode')!.value!,
       shippingPhone: this.checkoutForm.get('phone')!.value!,
-      totalPaid: this.subtotal,
+      subtotal: this.subtotal,
     };
 
     return req;

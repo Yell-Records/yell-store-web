@@ -62,7 +62,14 @@
           <app-phone-input [required]="true" formControlName="phone"></app-phone-input>
         </form>
 
-        <button matButton="filled" matStepperNext [disabled]="!checkoutForm.valid">Next</button>
+        <button
+          matButton="filled"
+          matStepperNext
+          [disabled]="!checkoutForm.valid"
+          (click)="placeOrUpdateOrder()"
+        >
+          Next
+        </button>
       </mat-step>
 
       <mat-step [completed]="false">
@@ -77,9 +84,15 @@
           <p><b>Contact:</b> {{ formPhone }}</p>
         </div>
 
-        <h3>Total: {{ subtotal | currency }}</h3>
+        <h3>Subtotal: {{ subtotal | currency }}</h3>
+        <h3>Shipping: {{ orderShippingCost | currency }}</h3>
+        <h3>Tax: {{ orderTax | currency }}</h3>
+        <br />
+        <h2>Total: {{ orderTotal | currency }}</h2>
 
-        <button matButton="filled" (click)="placeOrder()">Place Order</button>
+        @if (createdOrder() !== null) {
+          <app-paypal-button [orderId]="createdOrder()!.id"></app-paypal-button>
+        }
       </mat-step>
     </mat-stepper>
   </section>

@@ -35,7 +35,7 @@ module.exports = defineConfig([
         'error',
         {
           selector: 'variable',
-          format: ['camelCase', 'UPPER_CASE'],
+          format: ['camelCase', 'UPPER_CASE', 'PascalCase'],
           leadingUnderscore: 'allow',
         },
         {

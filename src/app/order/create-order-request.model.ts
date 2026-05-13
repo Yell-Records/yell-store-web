@@ -1,7 +1,7 @@
 export interface CreateOrderRequest {
   guestSessionId: string;
   buyerEmail: string;
-  totalPaid: number;
+  subtotal: number;
   shippingFirstName: string;
   shippingLastName: string;
   shippingAddressLine1: string;
