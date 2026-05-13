@@ -3,6 +3,8 @@ import { PayPalService } from '../paypal.service';
 import { OrderService } from '../../order/order.service';
 import { firstValueFrom } from 'rxjs';
 import { Order } from '../../order/order.model';
+import { CartItemService } from '../../cart/cart-item.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-paypal-button',
@@ -14,6 +16,8 @@ export class PayPalButtonComponent implements AfterViewInit {
 
   private readonly paypal = inject(PayPalService);
   private readonly orderService = inject(OrderService);
+  private readonly cartService = inject(CartItemService);
+  private readonly router = inject(Router);
 
   ngAfterViewInit(): void {
     this.paypal.loadSdk().then(() => {
@@ -34,6 +38,10 @@ export class PayPalButtonComponent implements AfterViewInit {
 
   private async capturePayPalOrder(): Promise<Order> {
     const updatedOrder = await firstValueFrom(this.orderService.capturePayPalPayment(this.orderId));
+
+    this.cartService.clearLocalCart();
+
+    this.router.navigate(['/order-placed']);
 
     return updatedOrder;
   }

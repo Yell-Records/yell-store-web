@@ -19,6 +19,7 @@ import { yrTitle } from './title/qm-title';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { adminGuard } from './admin-dashboard/admin-dashboard.guard';
 import { CategoryManagementComponent } from './admin-dashboard/category-management/category-management.component';
+import { OrderPlacedComponent } from './order/order-placed/order-placed.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -66,6 +67,11 @@ export const routes: Routes = [
     canActivate: [authGuard],
     title: yrTitle('Account Settings'),
     children: [],
+  },
+  {
+    path: 'order-placed',
+    component: OrderPlacedComponent,
+    title: yrTitle('Success'),
   },
   {
     path: 'admin-dashboard',
