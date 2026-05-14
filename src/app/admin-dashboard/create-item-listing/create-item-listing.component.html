@@ -4,7 +4,9 @@
   <form [formGroup]="createListingForm">
     <mat-form-field appearance="outline">
       <mat-label>Category</mat-label>
-      <mat-select formControlName="categorySlug">
+      <mat-select formControlName="categorySlug" placeholder="Select one">
+        <mat-option value="" disabled>Select one</mat-option>
+
         @for (category of categories; track $index) {
           <mat-option [value]="category.slug">{{ category.name }}</mat-option>
         }
