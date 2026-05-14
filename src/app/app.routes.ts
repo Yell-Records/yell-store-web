@@ -20,6 +20,8 @@ import { CategoryManagementComponent } from './admin-dashboard/category-manageme
 import { OrderPlacedComponent } from './order/order-placed/order-placed.component';
 import { CreateItemListingComponent } from './admin-dashboard/create-item-listing/create-item-listing.component';
 import { createItemListingGuard } from './admin-dashboard/create-item-listing/create-item-listing.guard';
+import { OrdersInProgressComponent } from './admin-dashboard/orders-in-progress/orders-in-progress.component';
+import { OrdersCompletedComponent } from './admin-dashboard/orders-completed/orders-completed.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -88,6 +90,16 @@ export const routes: Routes = [
         path: 'create-listing',
         component: CreateItemListingComponent,
         canDeactivate: [createItemListingGuard],
+        data: { hideFooter: true },
+      },
+      {
+        path: 'orders/in-progress',
+        component: OrdersInProgressComponent,
+        data: { hideFooter: true },
+      },
+      {
+        path: 'orders/completed',
+        component: OrdersCompletedComponent,
         data: { hideFooter: true },
       },
     ],
