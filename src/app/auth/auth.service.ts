@@ -7,6 +7,7 @@ import { JwtPayload } from './jwt-payload.model';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { v4 as uuidv4 } from 'uuid';
+import { ChangePasswordRequest } from './change-password-request.model';
 
 @Injectable({
   providedIn: 'root',
@@ -34,6 +35,17 @@ export class AuthService {
    */
   login(username: string, rawPassword: string): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.baseUrl}/login`, { username, rawPassword });
+  }
+
+  /**
+   * Sends a request to change the password on a user account. Requires authentication.
+   *
+   * @param userId ID of user to change password on
+   * @param changeRequest
+   * @returns
+   */
+  changeUserPassword(userId: string, changeRequest: ChangePasswordRequest): Observable<void> {
+    return this.http.patch<void>(`${this.baseUrl}/user/${userId}/change-password`, changeRequest);
   }
 
   /**

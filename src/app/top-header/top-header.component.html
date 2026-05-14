@@ -25,6 +25,30 @@
           <app-cart-button [guest]="true"></app-cart-button>
         }
       </div>
+    } @else {
+      <!-- Admin actions -->
+      <div class="admin-actions">
+        <span class="username">Administrator Access</span>
+
+        <button matIconButton (click)="navigateAdminDash()" matTooltip="Admin Dashboard">
+          <mat-icon>admin_panel_settings</mat-icon>
+        </button>
+
+        <button matIconButton [matMenuTriggerFor]="adminOptions">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #adminOptions>
+          <button mat-menu-item (click)="navigateUserSettings()">
+            <mat-icon>account_circle</mat-icon>
+            <span>Account Settings</span>
+          </button>
+
+          <button mat-menu-item (click)="appLogout()">
+            <mat-icon>logout</mat-icon>
+            <span>Logout</span>
+          </button>
+        </mat-menu>
+      </div>
     }
   </div>
 </header>
