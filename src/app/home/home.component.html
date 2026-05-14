@@ -19,15 +19,3 @@
     ></mat-paginator>
   }
 </div>
-@if (loggedIn) {
-  <div class="floating-btn-container">
-    <button
-      matFab
-      matTooltip="Create listing"
-      class="create-listing-btn"
-      (click)="openAddListingDialog()"
-    >
-      <mat-icon>add</mat-icon>
-    </button>
-  </div>
-}

@@ -9,8 +9,6 @@ import { checkoutGuard } from './checkout/checkout.guard';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { SellerDashboardComponent } from './seller-dashboard/seller-dashboard.component';
 import { authGuard } from './auth/auth.guard';
-import { CreateItemListingComponent } from './create-item-listing/create-item-listing.component';
-import { createItemListingGuard } from './create-item-listing/create-item-listing.guard';
 import { CartComponent } from './cart/cart.component';
 import { UserSettingsComponent } from './user-settings/user-settings.component';
 import { ItemListingPageComponent } from './item-listings/item-listing-page/item-listing-page.component';
@@ -20,6 +18,8 @@ import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.compo
 import { adminGuard } from './admin-dashboard/admin-dashboard.guard';
 import { CategoryManagementComponent } from './admin-dashboard/category-management/category-management.component';
 import { OrderPlacedComponent } from './order/order-placed/order-placed.component';
+import { CreateItemListingComponent } from './admin-dashboard/create-item-listing/create-item-listing.component';
+import { createItemListingGuard } from './admin-dashboard/create-item-listing/create-item-listing.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -48,13 +48,6 @@ export const routes: Routes = [
     component: SellerDashboardComponent,
     canActivate: [authGuard],
     title: yrTitle('Dashboard'),
-  },
-  {
-    path: 'create-listing',
-    component: CreateItemListingComponent,
-    canActivate: [authGuard],
-    canDeactivate: [createItemListingGuard],
-    title: yrTitle('Create Listing'),
   },
   {
     path: 'cart',
@@ -90,6 +83,12 @@ export const routes: Routes = [
         path: 'category-management',
         data: { hideFooter: true },
         component: CategoryManagementComponent,
+      },
+      {
+        path: 'create-listing',
+        component: CreateItemListingComponent,
+        canDeactivate: [createItemListingGuard],
+        data: { hideFooter: true },
       },
     ],
   },
