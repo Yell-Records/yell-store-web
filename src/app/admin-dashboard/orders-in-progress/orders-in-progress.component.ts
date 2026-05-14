@@ -1,6 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { OrderService } from '../../order/order.service';
-import { AuthService } from '../../auth/auth.service';
 import { Order } from '../../order/order.model';
 import { OrdersListComponent } from '../../order/orders-list/orders-list.component';
 import { finalize } from 'rxjs';

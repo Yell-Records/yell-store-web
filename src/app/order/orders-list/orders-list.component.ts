@@ -2,10 +2,11 @@ import { Component, Input } from '@angular/core';
 import { Order } from '../order.model';
 import { CurrencyPipe } from '@angular/common';
 import { DateUtil } from '../../shared/utils/date-util';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-orders-list',
-  imports: [CurrencyPipe],
+  imports: [CurrencyPipe, RouterLink],
   templateUrl: './orders-list.component.html',
   styleUrl: './orders-list.component.scss',
 })

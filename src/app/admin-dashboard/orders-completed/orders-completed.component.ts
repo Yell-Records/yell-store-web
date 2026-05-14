@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { Paginator } from '../../shared/utils/paginator';
 import { Order } from '../../order/order.model';
 import { OrderService } from '../../order/order.service';
@@ -13,7 +13,7 @@ import { MatPaginator } from '@angular/material/paginator';
   templateUrl: './orders-completed.component.html',
   styleUrl: './orders-completed.component.scss',
 })
-export class OrdersCompletedComponent {
+export class OrdersCompletedComponent implements OnInit {
   private readonly orderService = inject(OrderService);
 
   readonly orderPaginator = new Paginator<Order>(10);

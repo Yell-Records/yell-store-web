@@ -1,1 +1,54 @@
-<p>order-details works!</p>
+<div>
+  @if (loading()) {
+    <mat-spinner></mat-spinner>
+  } @else if (isError()) {
+    <h1>Order not found</h1>
+    <p>An order with this ID could not be located.</p>
+  } @else if (orderDetails) {
+    <h1>Order #{{ orderDetails.orderNumber }}</h1>
+
+    <p>Status: {{ orderDetails.status }}</p>
+
+    <!-- Shipping -->
+    <div>
+      <h2>Ship to</h2>
+      <p>{{ fullNameOf(orderDetails) }}</p>
+      <p>{{ fullAddressOf(orderDetails) }}</p>
+    </div>
+
+    <!-- Payment -->
+    <div>
+      <h2>Payment totals</h2>
+
+      <p>Subtotal: {{ orderDetails.subtotal | currency }}</p>
+      <p>Tax: {{ orderDetails.tax | currency }}</p>
+      <p>Shipping: {{ orderDetails.shippingCost | currency }}</p>
+
+      <br />
+      <p>Total paid: {{ orderDetails.totalPaid | currency }}</p>
+    </div>
+
+    <!-- Items -->
+    <div>
+      <h2>Items in this order</h2>
+
+      @for (item of orderDetails.orderItems; track $index) {
+        <app-order-item [itemInfo]="item"></app-order-item>
+      }
+    </div>
+
+    <!-- Tracking -->
+    <div>
+      <h2>Tracking details</h2>
+      @if (orderDetails.trackingNumber === null) {
+        <p>No tracking information provided.</p>
+      } @else {
+        <h3>Carrier</h3>
+        <p>{{ orderDetails.trackingCarrier }}</p>
+
+        <h3>Number</h3>
+        <p>{{ orderDetails.trackingNumber }}</p>
+      }
+    </div>
+  }
+</div>

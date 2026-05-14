@@ -1,0 +1,19 @@
+<mat-expansion-panel>
+  <mat-expansion-panel-header [class.even]="!isAlt" [class.odd]="isAlt">
+    <mat-panel-title>
+      <span class="qty-badge">x{{ itemInfo.quantity }}</span>
+      <span>&nbsp;{{ itemInfo.listingTitle }}</span>
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <hr />
+  <div class="description-layout">
+    <section class="description-summary">
+      <h3>{{ itemInfo.listingTitle }}</h3>
+      <img class="listing-img" [src]="itemInfo.listingImageUrl" [alt]="itemInfo.listingTitle" />
+
+      <p><b>Quantity: </b> {{ itemInfo.quantity }}</p>
+      <p><b>Total Paid: </b>{{ itemInfo.listingPrice * itemInfo.quantity | currency }}</p>
+      <p><b>Description: </b>{{ itemInfo.listingDescription || '(empty)' }}</p>
+    </section>
+  </div>
+</mat-expansion-panel>

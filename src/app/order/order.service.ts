@@ -15,16 +15,36 @@ export class OrderService {
 
   private readonly http = inject(HttpClient);
 
+  /**
+   * Retrieves every order in a completed state.
+   *
+   * @returns
+   */
   getCompletedOrders(): Observable<Order[]> {
     return this.http.get<Order[]>(this.baseUrl, {
       params: { unfinished: false },
     });
   }
 
+  /**
+   * Retrieves every order in a status of PAID or IN_PROGRESS.
+   *
+   * @returns
+   */
   getInProgressOrders(): Observable<Order[]> {
     return this.http.get<Order[]>(this.baseUrl, {
       params: { unfinished: true },
     });
+  }
+
+  /**
+   * Gets an order from its ID.
+   *
+   * @param orderId
+   * @returns
+   */
+  getOrder(orderId: string): Observable<Order> {
+    return this.http.get<Order>(`${this.baseUrl}/${orderId}`);
   }
 
   /**

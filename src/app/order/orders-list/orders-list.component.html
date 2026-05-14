@@ -23,7 +23,7 @@
             <td>{{ order.totalPaid | currency }}</td>
             <td>{{ relevantTime(order.createdAt) }}</td>
             <td>
-              <a>View</a>
+              <a [routerLink]="['/admin-dashboard/orders/order-details', order.id]">View</a>
             </td>
           </tr>
         }
