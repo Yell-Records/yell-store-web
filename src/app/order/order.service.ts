@@ -15,15 +15,15 @@ export class OrderService {
 
   private readonly http = inject(HttpClient);
 
-  /**
-   * Gets every order.
-   *
-   * @param unfinished If orders should contain only unfulfilled statuses.
-   * @returns
-   */
-  getOrders(unfinished: boolean): Observable<Order[]> {
+  getCompletedOrders(): Observable<Order[]> {
     return this.http.get<Order[]>(this.baseUrl, {
-      params: { unfinished },
+      params: { unfinished: false },
+    });
+  }
+
+  getInProgressOrders(): Observable<Order[]> {
+    return this.http.get<Order[]>(this.baseUrl, {
+      params: { unfinished: true },
     });
   }
 

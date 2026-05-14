@@ -7,7 +7,6 @@ import { userRedirectGuard } from './users/user-redirect.guard';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { checkoutGuard } from './checkout/checkout.guard';
 import { NotFoundComponent } from './not-found/not-found.component';
-import { SellerDashboardComponent } from './seller-dashboard/seller-dashboard.component';
 import { authGuard } from './auth/auth.guard';
 import { CartComponent } from './cart/cart.component';
 import { UserSettingsComponent } from './user-settings/user-settings.component';
@@ -22,6 +21,7 @@ import { CreateItemListingComponent } from './admin-dashboard/create-item-listin
 import { createItemListingGuard } from './admin-dashboard/create-item-listing/create-item-listing.guard';
 import { OrdersInProgressComponent } from './admin-dashboard/orders-in-progress/orders-in-progress.component';
 import { OrdersCompletedComponent } from './admin-dashboard/orders-completed/orders-completed.component';
+import { OrderDetailsComponent } from './admin-dashboard/order-details/order-details.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -44,12 +44,6 @@ export const routes: Routes = [
     component: CheckoutComponent,
     canActivate: [checkoutGuard],
     title: yrTitle('Checkout'),
-  },
-  {
-    path: 'dashboard',
-    component: SellerDashboardComponent,
-    canActivate: [authGuard],
-    title: yrTitle('Dashboard'),
   },
   {
     path: 'cart',
@@ -100,6 +94,11 @@ export const routes: Routes = [
       {
         path: 'orders/completed',
         component: OrdersCompletedComponent,
+        data: { hideFooter: true },
+      },
+      {
+        path: 'orders/order-details/:orderId',
+        component: OrderDetailsComponent,
         data: { hideFooter: true },
       },
     ],

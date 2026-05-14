@@ -1,0 +1,33 @@
+<div>
+  @if (orders.length === 0) {
+    <p>{{ emptyText }}</p>
+  } @else {
+    <table class="orders-table">
+      <thead>
+        <tr>
+          <th>Order #</th>
+          <th>Customer</th>
+          <th>Status</th>
+          <th>Total</th>
+          <th>Created</th>
+          <th></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (order of orders; track $index) {
+          <tr>
+            <td>{{ order.orderNumber }}</td>
+            <td>{{ fullNameOf(order) }}</td>
+            <td>{{ order.status }}</td>
+            <td>{{ order.totalPaid | currency }}</td>
+            <td>{{ relevantTime(order.createdAt) }}</td>
+            <td>
+              <a>View</a>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>
