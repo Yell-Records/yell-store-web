@@ -38,6 +38,47 @@ export class OrderService {
   }
 
   /**
+   * Marks an order as confirmed and in-progress. Requires admin.
+   *
+   * @param orderId
+   * @returns
+   */
+  confirmOrder(orderId: string): Observable<void> {
+    return this.http.patch<void>(`${this.baseUrl}/${orderId}/confirm`, {});
+  }
+
+  /**
+   * Marks an order as shipped. Requires admin.
+   *
+   * @param orderId
+   * @param trackingNumber UPS tracking number
+   * @returns
+   */
+  shipOrder(orderId: string, trackingNumber: string): Observable<void> {
+    return this.http.patch<void>(`${this.baseUrl}/${orderId}/shipped`, { trackingNumber });
+  }
+
+  /**
+   * Marks an order as fulfilled (aka, package was delivered). Requires admin.
+   *
+   * @param orderId
+   * @returns
+   */
+  fulfillOrder(orderId: string): Observable<void> {
+    return this.http.patch<void>(`${this.baseUrl}/${orderId}/fulfill`, {});
+  }
+
+  /**
+   * Marks an order as canceled. The order state must be pre-shipped. Requires admin.
+   *
+   * @param orderId
+   * @returns
+   */
+  cancelOrder(orderId: string): Observable<void> {
+    return this.http.patch<void>(`${this.baseUrl}/${orderId}/cancel`, {});
+  }
+
+  /**
    * Gets an order from its ID.
    *
    * @param orderId

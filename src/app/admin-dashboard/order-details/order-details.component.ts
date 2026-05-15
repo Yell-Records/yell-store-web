@@ -6,10 +6,11 @@ import { Order } from '../../order/order.model';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { OrderItemComponent } from '../../order-item/order-item.component';
 import { CurrencyPipe } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-order-details',
-  imports: [MatProgressSpinner, OrderItemComponent, CurrencyPipe],
+  imports: [MatProgressSpinner, OrderItemComponent, CurrencyPipe, ReactiveFormsModule],
   templateUrl: './order-details.component.html',
   styleUrl: './order-details.component.scss',
 })
