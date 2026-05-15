@@ -9,11 +9,23 @@
 
     <p>Status: {{ orderDetails.status }}</p>
 
+    <p>Created: {{ creationDateRelevant() }}</p>
+
+    @if (orderDetails.status === OrderStatus.PAID) {
+      <button matButton="filled" (click)="setInProgress()">Mark as In-Progress</button>
+    }
+
     <!-- Shipping -->
     <div>
       <h2>Ship to</h2>
       <p>{{ fullNameOf(orderDetails) }}</p>
       <p>{{ fullAddressOf(orderDetails) }}</p>
+    </div>
+
+    <!-- Email -->
+    <div>
+      <h2>Customer Email</h2>
+      <p>{{ orderDetails.buyerEmail }}</p>
     </div>
 
     <!-- Payment -->
@@ -39,15 +51,26 @@
 
     <!-- Tracking -->
     <div>
-      <h2>Tracking details</h2>
-      @if (orderDetails.trackingNumber === null) {
-        <p>No tracking information provided.</p>
-      } @else {
-        <h3>Carrier</h3>
-        <p>{{ orderDetails.trackingCarrier }}</p>
+      <h2>UPS Tracking Number</h2>
+      @if (orderDetails.status === OrderStatus.IN_PROGRESS) {
+        <!-- Tracking number form -->
+        <div>
+          <p>Provide the UPS tracking number to set this order as shipped.</p>
+          <mat-form-field appearance="outline">
+            <mat-label>UPS Tracking Number</mat-label>
+            <input matInput maxlength="18" [formControl]="upsTrackingNumberControl" />
+          </mat-form-field>
 
-        <h3>Number</h3>
-        <p>{{ orderDetails.trackingNumber }}</p>
+          <button
+            matButton="filled"
+            [disabled]="!upsTrackingNumberControl.valid"
+            (click)="submitShipping()"
+          >
+            Mark as Shipped
+          </button>
+        </div>
+      } @else if (shouldDisplayStaticShipping()) {
+        <p>{{ orderDetails.trackingNumber! }}</p>
       }
     </div>
   }

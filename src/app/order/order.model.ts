@@ -21,7 +21,6 @@ export interface Order {
   shippingPhone: string;
   orderItems: OrderItem[];
   trackingNumber: string | null;
-  trackingCarrier: string | null;
   paidAt: string | null;
   shippedAt: string | null;
 }
