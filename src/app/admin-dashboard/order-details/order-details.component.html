@@ -1,80 +1,150 @@
-<div>
+<div class="order-details">
   @if (loading()) {
-    <mat-spinner></mat-spinner>
+    <div class="loading-center">
+      <mat-spinner></mat-spinner>
+    </div>
   } @else if (isError()) {
-    <h1>Order not found</h1>
-    <p>An order with this ID could not be located.</p>
+    <div class="error-box">
+      <h1>Order not found</h1>
+      <p>An order with this ID could not be located.</p>
+    </div>
   } @else if (orderDetails) {
-    <h1>Order #{{ orderDetails.orderNumber }}</h1>
+    <div class="header">
+      <h1>Order #{{ orderDetails.orderNumber }}</h1>
 
-    <p>Status: {{ normalizedStatus() }}</p>
+      <div class="order-meta">
+        <div class="meta-item">
+          <span class="meta-title">Status</span>
+          <span class="status-badge {{ normalizedStatus() | lowercase }}">
+            {{ normalizedStatus() }}
+          </span>
+        </div>
 
-    @if (orderDetails.status === OrderStatus.PAID) {
-      <button matButton="filled" (click)="setInProgress()">Mark as In-Progress</button>
-    } @else if (orderDetails.status === OrderStatus.SHIPPED) {
-      @if (shouldDisplayStaticShipping()) {
-        <h3>UPS Tracking Number</h3>
-        <p>{{ orderDetails.trackingNumber! }}</p>
-      }
+        <div class="meta-item">
+          <span class="meta-title">Created</span>
+          <span class="meta-pill">
+            {{ creationDateRelevant() }}
+          </span>
+        </div>
+      </div>
 
-      <button matButton="filled" (click)="markFulfilled()">Mark as Fulfilled</button>
-    }
+      <div class="header-actions">
+        @if (orderDetails.status === OrderStatus.PAID) {
+          <button mat-flat-button color="primary" (click)="setInProgress()">
+            Mark as In Progress
+          </button>
+        } @else if (orderDetails.status === OrderStatus.SHIPPED) {
+          @if (shouldDisplayStaticShipping()) {
+            <div class="tracking-inline">
+              <h3>UPS Tracking Number</h3>
+              <p>{{ orderDetails.trackingNumber! }}</p>
+            </div>
+          }
 
-    <p>Created: {{ creationDateRelevant() }}</p>
-
-    <!-- Shipping -->
-    <div>
-      <h2>Ship to</h2>
-      <p>{{ fullNameOf(orderDetails) }}</p>
-      <p>{{ fullAddressOf(orderDetails) }}</p>
+          <button mat-flat-button color="accent" (click)="markFulfilled()">
+            Mark as Fulfilled
+          </button>
+        }
+      </div>
     </div>
 
-    <!-- Email -->
-    <div>
-      <h2>Customer Email</h2>
-      <p>{{ orderDetails.buyerEmail }}</p>
-    </div>
+    <!-- Customer info -->
+    <section class="section">
+      <div class="section-header">
+        <h2>Customer Information</h2>
+      </div>
 
-    <!-- Payment -->
-    <div>
-      <h2>Payment totals</h2>
+      <div class="section-body customer-block with-divider">
+        <div class="customer-col">
+          <h3>Ship To</h3>
+          <p class="bold">{{ fullNameOf(orderDetails) }}</p>
+          <span>{{ orderDetails.shippingAddressLine1 }}</span>
+          <br />
+          @if (orderDetails.shippingAddressLine2) {
+            <span>{{ orderDetails.shippingAddressLine2 }}</span>
+            <br />
+          }
+          <span>{{ addressPart2Of(orderDetails) }}</span>
+        </div>
 
-      <p>Subtotal: {{ orderDetails.subtotal | currency }}</p>
-      <p>Tax: {{ orderDetails.tax | currency }}</p>
-      <p>Shipping: {{ orderDetails.shippingCost | currency }}</p>
+        <div class="customer-col email">
+          <h3>Email</h3>
+          <p class="email-text">{{ orderDetails.buyerEmail }}</p>
+        </div>
+      </div>
+    </section>
 
-      <br />
-      <p>Total paid: {{ orderDetails.totalPaid | currency }}</p>
-    </div>
+    <!-- Payment totals -->
+    <section class="payment-box">
+      <h2>Payment Totals</h2>
 
-    <!-- Items -->
-    <div>
+      <div class="section-body">
+        <div class="payment-row">
+          <span class="payment-label">
+            <span class="label-text">Subtotal</span>
+          </span>
+          <span class="payment-value">{{ orderDetails.subtotal | currency }}</span>
+        </div>
+
+        <div class="payment-row">
+          <span class="payment-label">
+            <span class="label-text">Tax</span>
+          </span>
+          <span class="payment-value">{{ orderDetails.tax | currency }}</span>
+        </div>
+
+        <div class="payment-row">
+          <span class="payment-label">
+            <span class="label-text">Shipping</span>
+          </span>
+          <span class="payment-value">{{ orderDetails.shippingCost | currency }}</span>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="payment-row">
+          <span class="payment-label">
+            <span class="label-text">Total Paid</span>
+          </span>
+          <span class="payment-value">{{ orderDetails.totalPaid | currency }}</span>
+        </div>
+
+        <div class="payment-meta">
+          <mat-icon fontIcon="schedule"></mat-icon>
+          <span>Paid {{ paidAtDateRelevant() }}</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Order Items -->
+    <section class="info-box items-box">
       <h2>Items in this order</h2>
 
       @for (item of orderDetails.orderItems; track $index) {
         <app-order-item [itemInfo]="item"></app-order-item>
       }
-    </div>
+    </section>
 
-    <!-- Tracking -->
+    <!-- Tracking form -->
     @if (showShippingForm()) {
-      <!-- Tracking number form -->
-      <div>
+      <section class="info-box">
         <h2>Shipping Information</h2>
         <p>Provide the UPS tracking number to set this order as shipped.</p>
-        <mat-form-field appearance="outline">
+
+        <mat-form-field appearance="outline" class="tracking-input">
           <mat-label>UPS Tracking Number</mat-label>
           <input matInput maxlength="18" [formControl]="upsTrackingNumberControl" />
         </mat-form-field>
 
         <button
-          matButton="filled"
+          mat-flat-button
+          color="primary"
           [disabled]="!upsTrackingNumberControl.valid"
           (click)="submitShipping()"
         >
           Mark as Shipped
         </button>
-      </div>
+      </section>
     }
   }
 </div>

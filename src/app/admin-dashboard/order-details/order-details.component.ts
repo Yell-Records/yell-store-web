@@ -5,7 +5,7 @@ import { finalize } from 'rxjs';
 import { Order } from '../../order/order.model';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { OrderItemComponent } from '../../order-item/order-item.component';
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, LowerCasePipe } from '@angular/common';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { OrderStatus } from '../../order/order-status.type';
 import { MatAnchor } from '@angular/material/button';
@@ -14,6 +14,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { DateUtil } from '../../shared/utils/date-util';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-order-details',
@@ -26,6 +27,8 @@ import { DateUtil } from '../../shared/utils/date-util';
     MatFormField,
     MatLabel,
     MatInput,
+    LowerCasePipe,
+    MatIcon,
   ],
   templateUrl: './order-details.component.html',
   styleUrl: './order-details.component.scss',
@@ -96,16 +99,8 @@ export class OrderDetailsComponent implements OnInit {
     if (!status) return '';
 
     switch (status) {
-      case OrderStatus.PAID:
-        return 'Paid';
       case OrderStatus.IN_PROGRESS:
-        return 'In Progress';
-      case OrderStatus.SHIPPED:
-        return 'Shipped';
-      case OrderStatus.FULFILLED:
-        return 'Fulfilled';
-      case OrderStatus.CANCELED:
-        return 'Canceled';
+        return 'IN PROGRESS';
       default:
         return status;
     }
@@ -119,17 +114,8 @@ export class OrderDetailsComponent implements OnInit {
     return `${order.shippingFirstname} ${order.shippingLastname}`;
   }
 
-  fullAddressOf(order: Order): string {
-    const address1 = order.shippingAddressLine1;
-    const city = order.shippingCity;
-    const state = order.shippingState;
-    const zip = order.shippingPostalCode;
-
-    if (order.shippingAddressLine2) {
-      return `${address1} ${order.shippingAddressLine2}, ${city}, ${state} ${zip}`;
-    } else {
-      return `${address1}, ${city}, ${state} ${zip}`;
-    }
+  addressPart2Of(order: Order): string {
+    return `${order.shippingCity}, ${order.shippingState} ${order.shippingPostalCode}`;
   }
 
   creationDateRelevant(): string {
@@ -138,6 +124,14 @@ export class OrderDetailsComponent implements OnInit {
     if (!order) return '';
 
     return DateUtil.formatDistanceToNow(order.createdAt);
+  }
+
+  paidAtDateRelevant(): string {
+    const order = this._order();
+
+    if (!order) return '';
+
+    return DateUtil.formatDistanceToNow(order.paidAt!);
   }
 
   shouldDisplayStaticShipping(): boolean {
