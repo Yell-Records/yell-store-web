@@ -7,13 +7,20 @@
   } @else if (orderDetails) {
     <h1>Order #{{ orderDetails.orderNumber }}</h1>
 
-    <p>Status: {{ orderDetails.status }}</p>
-
-    <p>Created: {{ creationDateRelevant() }}</p>
+    <p>Status: {{ normalizedStatus() }}</p>
 
     @if (orderDetails.status === OrderStatus.PAID) {
       <button matButton="filled" (click)="setInProgress()">Mark as In-Progress</button>
+    } @else if (orderDetails.status === OrderStatus.SHIPPED) {
+      @if (shouldDisplayStaticShipping()) {
+        <h3>UPS Tracking Number</h3>
+        <p>{{ orderDetails.trackingNumber! }}</p>
+      }
+
+      <button matButton="filled" (click)="markFulfilled()">Mark as Fulfilled</button>
     }
+
+    <p>Created: {{ creationDateRelevant() }}</p>
 
     <!-- Shipping -->
     <div>
@@ -50,28 +57,24 @@
     </div>
 
     <!-- Tracking -->
-    <div>
-      <h2>UPS Tracking Number</h2>
-      @if (orderDetails.status === OrderStatus.IN_PROGRESS) {
-        <!-- Tracking number form -->
-        <div>
-          <p>Provide the UPS tracking number to set this order as shipped.</p>
-          <mat-form-field appearance="outline">
-            <mat-label>UPS Tracking Number</mat-label>
-            <input matInput maxlength="18" [formControl]="upsTrackingNumberControl" />
-          </mat-form-field>
+    @if (showShippingForm()) {
+      <!-- Tracking number form -->
+      <div>
+        <h2>Shipping Information</h2>
+        <p>Provide the UPS tracking number to set this order as shipped.</p>
+        <mat-form-field appearance="outline">
+          <mat-label>UPS Tracking Number</mat-label>
+          <input matInput maxlength="18" [formControl]="upsTrackingNumberControl" />
+        </mat-form-field>
 
-          <button
-            matButton="filled"
-            [disabled]="!upsTrackingNumberControl.valid"
-            (click)="submitShipping()"
-          >
-            Mark as Shipped
-          </button>
-        </div>
-      } @else if (shouldDisplayStaticShipping()) {
-        <p>{{ orderDetails.trackingNumber! }}</p>
-      }
-    </div>
+        <button
+          matButton="filled"
+          [disabled]="!upsTrackingNumberControl.valid"
+          (click)="submitShipping()"
+        >
+          Mark as Shipped
+        </button>
+      </div>
+    }
   }
 </div>

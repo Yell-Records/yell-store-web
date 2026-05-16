@@ -78,6 +78,43 @@ export class OrderDetailsComponent implements OnInit {
     }
   }
 
+  markFulfilled() {
+    const orderId = this._order()!.id;
+
+    this.orderService.fulfillOrder(orderId).subscribe({
+      next: () => {
+        this.messageService.success('Order marked as fulfilled.');
+        this.updateOrderStatusSignal(OrderStatus.FULFILLED);
+      },
+      error: (err: HttpErrorResponse) => this.messageService.error(err.message),
+    });
+  }
+
+  normalizedStatus(): string {
+    const status = this._order()?.status;
+
+    if (!status) return '';
+
+    switch (status) {
+      case OrderStatus.PAID:
+        return 'Paid';
+      case OrderStatus.IN_PROGRESS:
+        return 'In Progress';
+      case OrderStatus.SHIPPED:
+        return 'Shipped';
+      case OrderStatus.FULFILLED:
+        return 'Fulfilled';
+      case OrderStatus.CANCELED:
+        return 'Canceled';
+      default:
+        return status;
+    }
+  }
+
+  showShippingForm(): boolean {
+    return this._order()?.status === OrderStatus.IN_PROGRESS;
+  }
+
   fullNameOf(order: Order): string {
     return `${order.shippingFirstname} ${order.shippingLastname}`;
   }
