@@ -57,19 +57,25 @@
       <div class="section-body customer-block with-divider">
         <div class="customer-col">
           <h3>Ship To</h3>
-          <p class="bold">{{ fullNameOf(orderDetails) }}</p>
-          <span>{{ orderDetails.shippingAddressLine1 }}</span>
-          <br />
-          @if (orderDetails.shippingAddressLine2) {
-            <span>{{ orderDetails.shippingAddressLine2 }}</span>
+
+          <div class="shipping-text">
+            <span class="bold">{{ fullNameOf(orderDetails) }}</span>
             <br />
-          }
-          <span>{{ addressPart2Of(orderDetails) }}</span>
+            <span>{{ orderDetails.shippingAddressLine1 }}</span>
+            <br />
+            @if (orderDetails.shippingAddressLine2) {
+              <span>{{ orderDetails.shippingAddressLine2 }}</span>
+              <br />
+            }
+            <span>{{ addressPart2Of(orderDetails) }}</span>
+          </div>
         </div>
 
         <div class="customer-col email">
           <h3>Email</h3>
-          <p class="email-text">{{ orderDetails.buyerEmail }}</p>
+          <a class="email-text" [href]="'mailto:' + orderDetails.buyerEmail">
+            {{ orderDetails.buyerEmail }}
+          </a>
         </div>
       </div>
     </section>
@@ -118,10 +124,10 @@
 
     <!-- Order Items -->
     <section class="info-box items-box">
-      <h2>Items in this order</h2>
+      <h2>Items in this order: {{ orderItemCount() }}</h2>
 
       @for (item of orderDetails.orderItems; track $index) {
-        <app-order-item [itemInfo]="item"></app-order-item>
+        <app-order-item [itemInfo]="item" [isAlt]="$index % 2 === 1"></app-order-item>
       }
     </section>
 

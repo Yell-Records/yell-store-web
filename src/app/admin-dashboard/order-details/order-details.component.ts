@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { OrderService } from '../../order/order.service';
 import { finalize } from 'rxjs';
@@ -49,6 +49,10 @@ export class OrderDetailsComponent implements OnInit {
     Validators.required,
     Validators.minLength(18),
   ]);
+
+  readonly orderItemCount = computed(() =>
+    this._order()?.orderItems.reduce((sum, item) => sum + item.quantity, 0),
+  );
 
   ngOnInit(): void {
     this.listenForRouteParams();
