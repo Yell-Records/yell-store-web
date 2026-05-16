@@ -10,12 +10,11 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { MatIcon } from '@angular/material/icon';
 import { MatTooltip } from '@angular/material/tooltip';
-import { ShortNumberPipe } from '../../shared/pipes/short-number.pipe';
 import { AddCartItemRequest } from '../../cart/add-cart-item-request.model';
 
 @Component({
   selector: 'app-item-listing',
-  imports: [MatCardModule, CurrencyPipe, MatIcon, MatTooltip, MatFabButton, ShortNumberPipe],
+  imports: [MatCardModule, CurrencyPipe, MatIcon, MatTooltip, MatFabButton],
   templateUrl: './item-listing.component.html',
   styleUrl: './item-listing.component.scss',
 })

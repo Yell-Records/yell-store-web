@@ -15,7 +15,7 @@
       <div class="order-meta">
         <div class="meta-item">
           <span class="meta-title">Status</span>
-          <span class="status-badge {{ normalizedStatus() | lowercase }}">
+          <span class="status-badge {{ orderDetails.status | lowercase }}">
             {{ normalizedStatus() }}
           </span>
         </div>
@@ -30,9 +30,7 @@
 
       <div class="header-actions">
         @if (orderDetails.status === OrderStatus.PAID) {
-          <button mat-flat-button color="primary" (click)="setInProgress()">
-            Mark as In Progress
-          </button>
+          <button matButton="filled" (click)="setInProgress()">Mark as In Progress</button>
         } @else if (orderDetails.status === OrderStatus.SHIPPED) {
           @if (shouldDisplayStaticShipping()) {
             <div class="tracking-inline">
@@ -47,6 +45,30 @@
         }
       </div>
     </div>
+
+    <!-- Tracking form -->
+    @if (showShippingForm()) {
+      <section class="info-box">
+        <h2>Shipping Information</h2>
+        <p>Provide the UPS tracking number to set this order as shipped.</p>
+
+        <mat-form-field appearance="outline" class="tracking-input">
+          <mat-label>UPS Tracking Number</mat-label>
+          <input matInput maxlength="18" [formControl]="upsTrackingNumberControl" />
+        </mat-form-field>
+
+        <br />
+
+        <button
+          mat-flat-button
+          color="primary"
+          [disabled]="!upsTrackingNumberControl.valid"
+          (click)="submitShipping()"
+        >
+          Mark as Shipped
+        </button>
+      </section>
+    }
 
     <!-- Customer info -->
     <section class="section">
@@ -71,10 +93,14 @@
           </div>
         </div>
 
-        <div class="customer-col email">
-          <h3>Email</h3>
+        <div class="customer-col contact">
+          <h3>Contact</h3>
           <a class="email-text" [href]="'mailto:' + orderDetails.buyerEmail">
             {{ orderDetails.buyerEmail }}
+          </a>
+          <br />
+          <a class="phone-link" href="tel:{{ orderDetails.shippingPhone }}">
+            {{ formattedPhone() }}
           </a>
         </div>
       </div>
@@ -131,26 +157,26 @@
       }
     </section>
 
-    <!-- Tracking form -->
-    @if (showShippingForm()) {
-      <section class="info-box">
-        <h2>Shipping Information</h2>
-        <p>Provide the UPS tracking number to set this order as shipped.</p>
+    @if (canCancelOrder()) {
+      <div class="danger-zone">
+        <details class="danger-expand">
+          <summary>Danger Zone</summary>
 
-        <mat-form-field appearance="outline" class="tracking-input">
-          <mat-label>UPS Tracking Number</mat-label>
-          <input matInput maxlength="18" [formControl]="upsTrackingNumberControl" />
-        </mat-form-field>
+          <mat-checkbox [formControl]="confirmCancelControl">
+            I confirm that canceling this order will refund the buyer.
+          </mat-checkbox>
 
-        <button
-          mat-flat-button
-          color="primary"
-          [disabled]="!upsTrackingNumberControl.valid"
-          (click)="submitShipping()"
-        >
-          Mark as Shipped
-        </button>
-      </section>
+          <br />
+
+          <button
+            class="cancel-button"
+            [disabled]="!confirmCancelControl.valid"
+            (click)="cancelOrder()"
+          >
+            Cancel Order
+          </button>
+        </details>
+      </div>
     }
   }
 </div>

@@ -57,7 +57,7 @@ export class TopHeaderComponent {
   appLogout() {
     this.confirmDialog.confirm('Logout?').subscribe((confirmed) => {
       if (confirmed) {
-        this.auth.logout();
+        this.userStore.clear({ navigateLogin: true });
         this.messageService.info('You have been logged out.');
       }
     });
