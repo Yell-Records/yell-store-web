@@ -29,7 +29,6 @@ describe('OrderService', () => {
     shippingPostalCode: '61029',
     createdAt: '',
     orderItems: [],
-    trackingCarrier: null,
     trackingNumber: null,
     paidAt: null,
     shippedAt: null,

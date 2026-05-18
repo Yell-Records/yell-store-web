@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { OrdersInProgressComponent } from './orders-in-progress.component';
+import { OrderService } from '../../order/order.service';
+import { of } from 'rxjs';
 
 describe('OrdersInProgressComponent', () => {
   let component: OrdersInProgressComponent;
@@ -9,6 +11,7 @@ describe('OrdersInProgressComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [OrdersInProgressComponent],
+      providers: [{ provide: OrderService, useValue: { getInProgressOrders: () => of([]) } }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(OrdersInProgressComponent);
