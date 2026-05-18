@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
@@ -20,7 +20,6 @@ import { finalize } from 'rxjs';
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-    RouterLink,
     MatProgressSpinner,
   ],
   templateUrl: './login.component.html',

@@ -1,0 +1,85 @@
+.qty-badge {
+  background: #eee;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  color: #555;
+}
+
+.even {
+  background-color: #fafafa;
+}
+
+.odd {
+  background-color: #f0f0f0;
+}
+
+.odd .qty-badge {
+  background-color: #dfe9ff;
+}
+
+.item-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  padding: 16px 0;
+  width: 100%;
+}
+
+.details-left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.no-select {
+  user-select: none;
+}
+
+.details-right {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.listing-img {
+  width: 140px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+.image-link {
+  display: inline-block;
+  user-select: none;
+}
+
+.view-listing-link {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.85rem;
+  color: #3f51b5;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+@media (max-width: 600px) {
+  .item-details {
+    flex-direction: column-reverse;
+    align-items: center;
+    text-align: center;
+  }
+
+  .details-right {
+    margin-bottom: 12px;
+  }
+}

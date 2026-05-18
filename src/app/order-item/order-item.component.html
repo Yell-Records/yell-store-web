@@ -1,0 +1,28 @@
+<mat-expansion-panel>
+  <mat-expansion-panel-header [class.even]="!isAlt" [class.odd]="isAlt">
+    <mat-panel-title>
+      <span class="qty-badge no-select">x{{ itemInfo.quantity }}</span>
+      <span class="no-select">&nbsp;{{ itemInfo.listingTitle }}</span>
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+
+  <div class="item-details">
+    <div class="details-left">
+      <h3>{{ itemInfo.listingTitle }}</h3>
+
+      <p><b>Quantity:</b> {{ itemInfo.quantity }}</p>
+      <p><b>Total Paid:</b> {{ itemInfo.listingPrice * itemInfo.quantity | currency }}</p>
+      <p><b>Description:</b> {{ itemInfo.listingDescription || '(empty)' }}</p>
+    </div>
+
+    <div class="details-right">
+      <a [routerLink]="['/listing', itemInfo.listingId]" class="image-link">
+        <img class="listing-img" [src]="itemInfo.listingImageUrl" [alt]="itemInfo.listingTitle" />
+      </a>
+
+      <a class="view-listing-link" [routerLink]="['/listing', itemInfo.listingId]">
+        View Listing →
+      </a>
+    </div>
+  </div>
+</mat-expansion-panel>

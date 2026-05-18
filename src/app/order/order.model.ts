@@ -3,6 +3,7 @@ import { OrderStatus } from './order-status.type';
 
 export interface Order {
   id: string;
+  orderNumber: number;
   buyerEmail: string;
   status: OrderStatus;
   subtotal: number;
@@ -20,7 +21,6 @@ export interface Order {
   shippingPhone: string;
   orderItems: OrderItem[];
   trackingNumber: string | null;
-  trackingCarrier: string | null;
   paidAt: string | null;
   shippedAt: string | null;
 }

@@ -1,8 +1,15 @@
 <div class="dash-container">
   <aside class="dash-menu">
-    <h3>Admin Dashboard</h3>
+    <h2>Admin Dashboard</h2>
 
     <a routerLink="category-management" routerLinkActive="active">Category Management</a>
+    <a routerLink="create-listing" routerLinkActive="active">Create new Product Listing</a>
+
+    <div class="nav-group">
+      <h3 class="parent">Orders</h3>
+      <a class="child" routerLink="orders/in-progress" routerLinkActive="active"> In-Progress </a>
+      <a class="child" routerLink="orders/completed" routerLinkActive="active"> Completed </a>
+    </div>
   </aside>
 
   <section class="dash-contents">

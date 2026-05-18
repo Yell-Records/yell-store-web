@@ -12,9 +12,9 @@
     </mat-form-field>
 
     <br />
+
     @if (!loading()) {
       <button matButton="filled" (click)="login()" [disabled]="btnLoginDisabled">Login</button>
-      <div>New user? <a [routerLink]="['/register']">Sign up</a></div>
     } @else {
       <mat-spinner></mat-spinner>
     }

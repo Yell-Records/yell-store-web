@@ -2,7 +2,6 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { MatAnchor } from '@angular/material/button';
-import { PriceInputComponent } from '../shared/inputs/price-input/price-input.component';
 import {
   FormControl,
   FormGroup,
@@ -10,18 +9,19 @@ import {
   ɵInternalFormsSharedModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { ItemListingService } from '../item-listings/item-listing.service';
-import { AuthService } from '../auth/auth.service';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { TitleDirective } from '../shared/directives/title.directive';
-import { DescriptionDirective } from '../shared/directives/description.directive';
-import { MessageService } from '../shared/message/message.service';
-import { CreateItemListingRequest } from '../item-listings/create-item-listing-request.model';
-import { ImageInputComponent } from '../shared/inputs/image-input/image-input.component';
-import { CategoryService } from '../categories/category.service';
-import { Category } from '../categories/category.model';
 import { MatSelect, MatOption } from '@angular/material/select';
+import { PriceInputComponent } from '../../shared/inputs/price-input/price-input.component';
+import { TitleDirective } from '../../shared/directives/title.directive';
+import { DescriptionDirective } from '../../shared/directives/description.directive';
+import { ImageInputComponent } from '../../shared/inputs/image-input/image-input.component';
+import { ItemListingService } from '../../item-listings/item-listing.service';
+import { AuthService } from '../../auth/auth.service';
+import { MessageService } from '../../shared/message/message.service';
+import { CategoryService } from '../../categories/category.service';
+import { Category } from '../../categories/category.model';
+import { CreateItemListingRequest } from '../../item-listings/create-item-listing-request.model';
 
 @Component({
   selector: 'app-create-item-listing',

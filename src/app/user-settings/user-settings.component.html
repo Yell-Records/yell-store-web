@@ -1,10 +1,83 @@
 <div class="settings-container">
-  <aside class="settings-menu">
-    <h3>Account Settings</h3>
-    <a routerLink="saved-addresses" routerLinkActive="active">Saved Addresses</a>
-  </aside>
+  <h1 class="page-title">Account Settings</h1>
 
-  <section class="settings-content">
-    <router-outlet></router-outlet>
+  <section class="section-card">
+    <div class="profile-row">
+      <span class="label">Username</span>
+      <span class="value">{{ username }}</span>
+    </div>
+  </section>
+
+  <section class="section-card">
+    <h2 class="section-title">Update Email</h2>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Email</mat-label>
+      <input matInput appEmail maxlength="100" [formControl]="emailControl" />
+    </mat-form-field>
+
+    <button
+      mat-flat-button
+      color="primary"
+      class="action-btn"
+      (click)="submitEmailForm()"
+      [disabled]="disableEmailControl()"
+    >
+      Update Email
+    </button>
+  </section>
+
+  <section class="section-card">
+    <h2 class="section-title">Change Password</h2>
+
+    <form class="password-form" [formGroup]="changePasswordForm">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Current Password</mat-label>
+        <input matInput type="password" maxlength="30" formControlName="currentPassword" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>New Password</mat-label>
+        <input matInput type="password" maxlength="30" formControlName="newPassword" />
+      </mat-form-field>
+
+      <div class="rules-container">
+        <span class="rules-title">Password must include:</span>
+        <ul class="password-rules">
+          <li [class.valid]="passwordRules.length">At least 8 characters</li>
+          <li [class.valid]="passwordRules.upper">One uppercase letter</li>
+          <li [class.valid]="passwordRules.lower">One lowercase letter</li>
+          <li [class.valid]="passwordRules.number">One number</li>
+          <li [class.valid]="passwordRules.symbol">One symbol</li>
+        </ul>
+      </div>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Confirm New Password</mat-label>
+        <input matInput type="password" maxlength="30" formControlName="confirmPassword" />
+      </mat-form-field>
+
+      @if (changePasswordForm.errors && changePasswordForm.touched) {
+        <div class="form-errors">
+          @if (changePasswordForm.hasError('passwordsMismatch')) {
+            <mat-error> Passwords do not match </mat-error>
+          }
+
+          @if (changePasswordForm.hasError('samePassword')) {
+            <mat-error> New password must be different from current password </mat-error>
+          }
+        </div>
+      }
+
+      <button
+        mat-flat-button
+        color="primary"
+        class="action-btn"
+        [disabled]="changePasswordForm.invalid"
+        (click)="submitPasswordForm()"
+      >
+        Change Password
+      </button>
+    </form>
   </section>
 </div>

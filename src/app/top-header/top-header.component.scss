@@ -68,3 +68,15 @@
 .view-cart-btn {
   margin-right: 50px;
 }
+
+.admin-actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.username {
+  font-weight: bold;
+  margin-right: 20px;
+}

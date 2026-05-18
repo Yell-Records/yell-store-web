@@ -47,4 +47,15 @@ export class UserService {
   getUserById(id: string): Observable<User> {
     return this.http.get<User>(`${this.baseUrl}/${id}`);
   }
+
+  /**
+   * Updates a user's email.
+   *
+   * @param userId
+   * @param emailReq
+   * @returns
+   */
+  updateEmail(userId: string, emailReq: string): Observable<void> {
+    return this.http.patch<void>(`${this.baseUrl}/${userId}/email`, { newEmail: emailReq });
+  }
 }

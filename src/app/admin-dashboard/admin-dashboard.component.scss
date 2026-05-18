@@ -5,6 +5,19 @@
   padding-left: 100px;
 }
 
+.nav-group .parent {
+  font-weight: 600;
+  margin-top: 16px;
+  color: #444;
+}
+
+.nav-group .child {
+  padding-left: 20px;
+  font-size: 14px;
+  display: block;
+  margin: 4px 0;
+}
+
 .dash-menu {
   width: 240px;
   padding: 32px 24px;

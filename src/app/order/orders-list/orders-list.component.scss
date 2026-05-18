@@ -1,0 +1,16 @@
+.orders-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: monospace;
+}
+
+.orders-table th,
+.orders-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.orders-table th {
+  background: #f5f5f5;
+  font-weight: bold;
+}

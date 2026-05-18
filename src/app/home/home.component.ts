@@ -3,7 +3,6 @@ import { ItemListingService } from '../item-listings/item-listing.service';
 import { ItemListing } from '../item-listings/item-listing.model';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { AuthService } from '../auth/auth.service';
-import { MatFabButton } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -22,7 +21,6 @@ import { CategoryService } from '../categories/category.service';
   selector: 'app-home',
   imports: [
     MatGridListModule,
-    MatFabButton,
     MatIconModule,
     MatTooltipModule,
     MatProgressSpinnerModule,
@@ -66,10 +64,6 @@ export class HomeComponent implements OnInit {
     this.loadListings();
 
     this.listenForCategoryParams();
-  }
-
-  openAddListingDialog(): void {
-    this.router.navigate(['/create-listing']);
   }
 
   private loadCategories() {

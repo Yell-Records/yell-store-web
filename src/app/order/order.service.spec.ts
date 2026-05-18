@@ -12,6 +12,7 @@ describe('OrderService', () => {
 
   const sampleOrder: Order = {
     id: '1',
+    orderNumber: 123,
     buyerEmail: 'email@test.com',
     status: OrderStatus.AWAITING_PAYMENT,
     shippingCost: 5.0,
@@ -28,7 +29,6 @@ describe('OrderService', () => {
     shippingPostalCode: '61029',
     createdAt: '',
     orderItems: [],
-    trackingCarrier: null,
     trackingNumber: null,
     paidAt: null,
     shippedAt: null,
@@ -47,9 +47,15 @@ describe('OrderService', () => {
   });
 
   function expectRelevantOrders(unfinished: boolean) {
-    service.getOrders(unfinished).subscribe((res) => {
-      expect(res).to.deep.equal([sampleOrder]);
-    });
+    if (unfinished) {
+      service.getInProgressOrders().subscribe((res) => {
+        expect(res).to.deep.equal([sampleOrder]);
+      });
+    } else {
+      service.getCompletedOrders().subscribe((res) => {
+        expect(res).to.deep.equal([sampleOrder]);
+      });
+    }
 
     const req = httpMock.expectOne(`${service.baseUrl}?unfinished=${unfinished}`);
     expect(req.request.method).to.equal('GET');

@@ -1,8 +1,8 @@
 import { CanDeactivateFn } from '@angular/router';
 import { CreateItemListingComponent } from './create-item-listing.component';
 import { inject } from '@angular/core';
-import { ConfirmDialogService } from '../shared/dialogs/confirm-dialog.service';
 import { map } from 'rxjs';
+import { ConfirmDialogService } from '../../shared/dialogs/confirm-dialog.service';
 
 export const createItemListingGuard: CanDeactivateFn<CreateItemListingComponent> = (
   component: CreateItemListingComponent,

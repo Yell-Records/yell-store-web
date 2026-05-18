@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CreateItemListingComponent } from './create-item-listing.component';
 import { provideRouter } from '@angular/router';
-import { HomeComponent } from '../home/home.component';
 import { of } from 'rxjs';
-import { CategoryService } from '../categories/category.service';
+import { HomeComponent } from '../../home/home.component';
+import { CategoryService } from '../../categories/category.service';
 
 describe('CreateItemListingComponent', () => {
   let component: CreateItemListingComponent;
