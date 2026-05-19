@@ -22,7 +22,7 @@ import { createItemListingGuard } from './admin-dashboard/create-item-listing/cr
 import { OrdersInProgressComponent } from './admin-dashboard/orders-in-progress/orders-in-progress.component';
 import { OrdersCompletedComponent } from './admin-dashboard/orders-completed/orders-completed.component';
 import { OrderDetailsComponent } from './admin-dashboard/order-details/order-details.component';
-import { PolicyViewerComponent } from './policy-viewer/policy-viewer.component';
+import { checkoutDeactivateGuard } from './checkout/checkout-deactivate.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -44,6 +44,7 @@ export const routes: Routes = [
     path: 'checkout',
     component: CheckoutComponent,
     canActivate: [checkoutGuard],
+    canDeactivate: [checkoutDeactivateGuard],
     title: yrTitle('Checkout'),
   },
   {
@@ -56,6 +57,7 @@ export const routes: Routes = [
         resolve: {
           file: () => 'assets/policies/privacy-policy.html',
         },
+        title: yrTitle('Privacy Policy'),
       },
       {
         path: 'terms-of-service',
@@ -64,6 +66,7 @@ export const routes: Routes = [
         resolve: {
           file: () => 'assets/policies/terms-of-service.html',
         },
+        title: yrTitle('Terms of Service'),
       },
     ],
   },
@@ -77,7 +80,6 @@ export const routes: Routes = [
     component: UserSettingsComponent,
     canActivate: [authGuard],
     title: yrTitle('Account Settings'),
-    children: [],
   },
   {
     path: 'order-placed',

@@ -10,4 +10,5 @@ export interface CreateOrderRequest {
   shippingState: string;
   shippingPostalCode: string;
   shippingPhone: string;
+  acceptedTerms: boolean;
 }

@@ -21,7 +21,7 @@ export const checkoutGuard: CanActivateFn = () => {
     take(1),
     map(() => {
       if (cartService.cartCount() === 0) {
-        messageService.error('Cart is empty.');
+        messageService.error('Your cart is empty.');
         return router.createUrlTree(['/home']);
       }
 

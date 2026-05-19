@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, HostListener, inject, signal } from '@angular/core';
 import { CartItemService } from '../cart/cart-item.service';
 import { AuthService } from '../auth/auth.service';
 import { CartItemCardListComponent } from '../cart/cart-item-card-list/cart-item-card-list.component';
@@ -12,7 +12,6 @@ import { CartItem } from '../cart/cart-item.model';
 import { OrderService } from '../order/order.service';
 import { CreateOrderRequest } from '../order/create-order-request.model';
 import { MessageService } from '../shared/message/message.service';
-import { Router } from '@angular/router';
 import { PersonNameDirective } from '../shared/directives/person-name.directive';
 import { MatInput } from '@angular/material/input';
 import { AddressDirective } from '../shared/directives/address.directive';
@@ -24,6 +23,7 @@ import { PhoneInputComponent } from '../shared/inputs/phone-input/phone-input.co
 import { PayPalButtonComponent } from '../paypal/paypal-button/paypal-button.component';
 import { Order } from '../order/order.model';
 import { UpdateOrderRequest } from '../order/update-order-request.model';
+import { MatCheckbox } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-checkout',
@@ -43,6 +43,7 @@ import { UpdateOrderRequest } from '../order/update-order-request.model';
     EmailDirective,
     PhoneInputComponent,
     PayPalButtonComponent,
+    MatCheckbox,
   ],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.scss',
@@ -51,7 +52,6 @@ export class CheckoutComponent {
   private readonly cartService = inject(CartItemService);
   private readonly orderService = inject(OrderService);
   private readonly messageService = inject(MessageService);
-  private readonly router = inject(Router);
   private readonly auth = inject(AuthService);
 
   readonly checkoutForm = new FormGroup({
@@ -64,6 +64,7 @@ export class CheckoutComponent {
     state: new FormControl('', Validators.required),
     postalCode: new FormControl('', [Validators.required, Validators.pattern(/^[0-9]+$/)]),
     phone: new FormControl('', Validators.required),
+    policiesAccepted: new FormControl(false, Validators.requiredTrue),
   });
 
   readonly states = US_STATES;
@@ -123,6 +124,17 @@ export class CheckoutComponent {
     return this.checkoutForm.get('phone')!.value!;
   }
 
+  canExit(): boolean {
+    return !this.checkoutForm.dirty;
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  onBeforeUnload(event: BeforeUnloadEvent) {
+    if (!this.canExit()) {
+      event.preventDefault();
+    }
+  }
+
   shippingFullName(): string {
     const firstName = this.checkoutForm.get('firstName')!.value!;
     const lastName = this.checkoutForm.get('lastName')!.value!;
@@ -174,6 +186,7 @@ export class CheckoutComponent {
       shippingPostalCode: this.checkoutForm.get('postalCode')!.value!,
       shippingPhone: this.checkoutForm.get('phone')!.value!,
       subtotal: this.subtotal,
+      acceptedTerms: this.checkoutForm.get('policiesAccepted')!.value!,
     };
 
     return req;

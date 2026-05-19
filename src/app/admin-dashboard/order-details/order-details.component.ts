@@ -5,7 +5,7 @@ import { finalize } from 'rxjs';
 import { Order } from '../../order/order.model';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { OrderItemComponent } from '../../order-item/order-item.component';
-import { CurrencyPipe, LowerCasePipe } from '@angular/common';
+import { CurrencyPipe, DatePipe, LowerCasePipe } from '@angular/common';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { OrderStatus } from '../../order/order-status.type';
 import { MatAnchor } from '@angular/material/button';
@@ -32,6 +32,7 @@ import { MatCheckbox } from '@angular/material/checkbox';
     LowerCasePipe,
     MatIcon,
     MatCheckbox,
+    DatePipe,
   ],
   templateUrl: './order-details.component.html',
   styleUrl: './order-details.component.scss',
@@ -175,6 +176,54 @@ export class OrderDetailsComponent implements OnInit {
     return DateUtil.formatDistanceToNow(order.createdAt);
   }
 
+  showDangerZone(): boolean {
+    return this.canCancelOrder() || this.canAnonymize();
+  }
+
+  canAnonymize(): boolean {
+    const order = this._order();
+
+    if (!order || order.anonymized) return false;
+
+    const validStatuses: OrderStatus[] = [
+      OrderStatus.CANCELED,
+      OrderStatus.FULFILLED,
+      OrderStatus.SHIPPED,
+    ];
+
+    return validStatuses.includes(order.status);
+  }
+
+  anonymizeOrder() {
+    if (this.canAnonymize()) {
+      const message =
+        'Are you sure you want to anonymize the customer data on this order? This action is permanent.';
+
+      this.confirmDialog
+        .confirm(message, { title: 'WARNING', confirmBtn: 'Anonymize Data' })
+        .subscribe((confirmed) => {
+          if (confirmed) {
+            const order = this._order();
+
+            if (!order) {
+              this.messageService.error('Order not loaded.');
+              return;
+            }
+
+            // Call service to save anonymization
+            this.orderService.anonymizeOrder(order.id).subscribe({
+              next: (anonymizedOrder) => {
+                this.messageService.success('Order anonymized successfully.');
+
+                this._order.set(anonymizedOrder);
+              },
+              error: (err: HttpErrorResponse) => this.messageService.error(err.message),
+            });
+          }
+        });
+    }
+  }
+
   paidAtDateRelevant(): string {
     const order = this._order();
 
@@ -199,7 +248,7 @@ export class OrderDetailsComponent implements OnInit {
         'Are you sure you want to cancel this order? You will need to issue a refund.';
 
       this.confirmDialog
-        .confirm(message, 'WARNING', 'Cancel Order', 'Go Back')
+        .confirm(message, { title: 'WARNING', cancelBtn: 'Cancel Order', confirmBtn: 'Go Back' })
         .subscribe((confirmed) => {
           if (confirmed) {
             const orderId = this._order()!.id;
