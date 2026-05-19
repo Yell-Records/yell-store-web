@@ -22,6 +22,7 @@ import { createItemListingGuard } from './admin-dashboard/create-item-listing/cr
 import { OrdersInProgressComponent } from './admin-dashboard/orders-in-progress/orders-in-progress.component';
 import { OrdersCompletedComponent } from './admin-dashboard/orders-completed/orders-completed.component';
 import { OrderDetailsComponent } from './admin-dashboard/order-details/order-details.component';
+import { PolicyViewerComponent } from './policy-viewer/policy-viewer.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -44,6 +45,27 @@ export const routes: Routes = [
     component: CheckoutComponent,
     canActivate: [checkoutGuard],
     title: yrTitle('Checkout'),
+  },
+  {
+    path: 'policy',
+    children: [
+      {
+        path: 'privacy-policy',
+        loadComponent: () =>
+          import('./policy-viewer/policy-viewer.component').then((c) => c.PolicyViewerComponent),
+        resolve: {
+          file: () => 'assets/policies/privacy-policy.html',
+        },
+      },
+      {
+        path: 'terms-of-service',
+        loadComponent: () =>
+          import('./policy-viewer/policy-viewer.component').then((c) => c.PolicyViewerComponent),
+        resolve: {
+          file: () => 'assets/policies/terms-of-service.html',
+        },
+      },
+    ],
   },
   {
     path: 'cart',
