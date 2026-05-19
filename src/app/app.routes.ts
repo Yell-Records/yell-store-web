@@ -23,6 +23,8 @@ import { OrdersInProgressComponent } from './admin-dashboard/orders-in-progress/
 import { OrdersCompletedComponent } from './admin-dashboard/orders-completed/orders-completed.component';
 import { OrderDetailsComponent } from './admin-dashboard/order-details/order-details.component';
 import { checkoutDeactivateGuard } from './checkout/checkout-deactivate.guard';
+import { EditPolicyComponent } from './admin-dashboard/edit-policy/edit-policy.component';
+import { editPolicyDeactivateGuard } from './admin-dashboard/edit-policy/edit-policy-deactivate.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -123,6 +125,12 @@ export const routes: Routes = [
       {
         path: 'orders/order-details/:orderId',
         component: OrderDetailsComponent,
+        data: { hideFooter: true },
+      },
+      {
+        path: 'policies/:name/edit',
+        component: EditPolicyComponent,
+        canDeactivate: [editPolicyDeactivateGuard],
         data: { hideFooter: true },
       },
     ],
