@@ -1,0 +1,38 @@
+<div>
+  <h1>Create Artist Page</h1>
+
+  <form class="artist-form" [formGroup]="createArtistForm">
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Artist Name</mat-label>
+        <input matInput appPersonName maxlength="100" formControlName="name" />
+      </mat-form-field>
+
+      @if (categoriesLoading()) {
+        <p>Loading categories...</p>
+      } @else {
+        <mat-form-field appearance="outline">
+          <mat-label>Associated Category</mat-label>
+
+          <mat-select formControlName="categorySlug" placeholder="Select one">
+            <mat-option value="" disabled>Select one</mat-option>
+
+            @for (category of categories; track $index) {
+              <mat-option [value]="category.slug">{{ category.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      }
+    </div>
+
+    <!-- TODO: Wait for quill editor import -->
+    <mat-form-field appearance="outline">
+      <mat-label>Page Content (PLACEHOLDER)</mat-label>
+      <textarea matInput rows="10" formControlName="bodyHtml"></textarea>
+    </mat-form-field>
+  </form>
+
+  <button matButton="filled" [disabled]="saveButtonDisabled()" (click)="createArtistPage()">
+    Create Page
+  </button>
+</div>

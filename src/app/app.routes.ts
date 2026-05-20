@@ -22,6 +22,7 @@ import { createItemListingGuard } from './admin-dashboard/create-item-listing/cr
 import { OrdersInProgressComponent } from './admin-dashboard/orders-in-progress/orders-in-progress.component';
 import { OrdersCompletedComponent } from './admin-dashboard/orders-completed/orders-completed.component';
 import { OrderDetailsComponent } from './admin-dashboard/order-details/order-details.component';
+import { AddArtistPageComponent } from './admin-dashboard/add-artist-page/add-artist-page.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -99,6 +100,11 @@ export const routes: Routes = [
       {
         path: 'orders/order-details/:orderId',
         component: OrderDetailsComponent,
+        data: { hideFooter: true },
+      },
+      {
+        path: 'add-artist-page',
+        component: AddArtistPageComponent,
         data: { hideFooter: true },
       },
     ],

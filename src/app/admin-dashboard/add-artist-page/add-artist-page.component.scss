@@ -1,0 +1,15 @@
+.artist-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  .form-row {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .form-row > * {
+    flex: 1;
+  }
+}
