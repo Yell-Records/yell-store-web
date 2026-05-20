@@ -100,13 +100,12 @@
   <section class="summary-box">
     <h2>Summary</h2>
     <hr />
-    <h3>Total: {{ subtotal | currency }}</h3>
+    <h3>Subtotal: {{ subtotal | currency }}</h3>
   </section>
 
   <section class="cart-contents-box">
     @if (cartItems !== null) {
       <h2>In your cart</h2>
-      <hr />
       <app-cart-item-card-list [cartItems]="cartItems" [showDelete]="false" />
     }
   </section>
