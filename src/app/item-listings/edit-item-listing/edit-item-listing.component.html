@@ -1,43 +1,53 @@
 <div class="page-block">
-  <h1>Editing "{{ listing()?.title ?? 'item listing' }}"</h1>
+  @if (loading()) {
+    <mat-spinner></mat-spinner>
+  } @else {
+    <h1>Editing "{{ listing()?.title ?? 'item listing' }}"</h1>
 
-  <form [formGroup]="editListingForm">
-    <mat-form-field appearance="outline">
-      <mat-label>Category</mat-label>
-      <mat-select formControlName="categorySlug">
-        @for (category of categories; track $index) {
-          <mat-option [value]="category.slug">{{ category.name }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
+    <form class="edit-form" [formGroup]="editListingForm">
+      <mat-slide-toggle [checked]="listing()?.isActive ?? false" formControlName="isActive">
+        Active
+      </mat-slide-toggle>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Title</mat-label>
-      <input matInput appTitle maxlength="200" formControlName="title" />
-    </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Category</mat-label>
+        <mat-select formControlName="categorySlug">
+          @for (category of categories; track $index) {
+            <mat-option [value]="category.slug">{{ category.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Description</mat-label>
-      <textarea
-        matInput
-        appDescription
-        rows="6"
-        maxlength="1000"
-        formControlName="description"
-      ></textarea>
-    </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Title</mat-label>
+        <input matInput appTitle maxlength="200" formControlName="title" />
+      </mat-form-field>
 
-    <app-image-input
-      text="Change Image"
-      [existingUrl]="currentImageUrl"
-      (uploaded)="adjustImageUrl($event)"
-    ></app-image-input>
+      <mat-form-field appearance="outline">
+        <mat-label>Description</mat-label>
+        <textarea
+          matInput
+          appDescription
+          rows="6"
+          maxlength="1000"
+          formControlName="description"
+        ></textarea>
+      </mat-form-field>
 
-    <app-price-input formControlName="price" [required]="true"></app-price-input>
-  </form>
+      <app-price-input formControlName="price" [required]="true"></app-price-input>
 
-  <button matButton (click)="navigateBack()">Cancel</button>
-  <button matButton="filled" (click)="saveClicked()" [disabled]="!editListingForm.valid">
-    Save
-  </button>
+      <app-image-input
+        text="Change Image"
+        [existingUrl]="currentImageUrl"
+        (uploaded)="adjustImageUrl($event)"
+      ></app-image-input>
+    </form>
+
+    <div class="form-buttons">
+      <button matButton (click)="navigateBack()">Cancel</button>
+      <button matButton="filled" (click)="saveClicked()" [disabled]="!editListingForm.valid">
+        Save
+      </button>
+    </div>
+  }
 </div>

@@ -1,0 +1,28 @@
+<div>
+  <h1>List of Products</h1>
+  @if (paginatorListings.length === 0) {
+    <p>No item listings found.</p>
+  } @else {
+    <div class="link-list">
+      @for (listing of paginatorListings.pagedItems(); track $index) {
+        <a
+          class="listing-link"
+          [class.inactive]="!listing.isActive"
+          [routerLink]="['/listing', listing.id]"
+        >
+          {{ listing.title }}
+        </a>
+      }
+    </div>
+
+    @if (paginatorListings.length > 20) {
+      <mat-paginator
+        [length]="paginatorListings.length"
+        [pageIndex]="paginatorListings.pageIndex"
+        [pageSize]="paginatorListings.pageSize"
+        [pageSizeOptions]="[20, 50]"
+        (page)="paginatorListings.onPage($event)"
+      ></mat-paginator>
+    }
+  }
+</div>
