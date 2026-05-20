@@ -74,7 +74,7 @@ export class HomeComponent implements OnInit {
 
   private loadListings() {
     this.itemListingService
-      .getAllListings()
+      .getActiveListings()
       .pipe(finalize(() => this.loadingListings.set(false)))
       .subscribe({
         next: (data) => this.allListings.set(data),

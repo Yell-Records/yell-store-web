@@ -8,6 +8,8 @@
   />
 </div>
 
-<div class="image-preview">
-  <img [src]="existingUrl" alt="Current Image" />
-</div>
+@if (showImagePreview()) {
+  <div class="image-preview">
+    <img [src]="existingUrl" alt="Image preview" />
+  </div>
+}

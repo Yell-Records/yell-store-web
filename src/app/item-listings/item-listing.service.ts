@@ -15,12 +15,21 @@ export class ItemListingService {
   private readonly http = inject(HttpClient);
 
   /**
-   * Retrieves every single item listing from the database.
+   * Retrieves every item listing marked as active.
    *
    * @returns List containing each item listing.
    */
+  getActiveListings(): Observable<ItemListing[]> {
+    return this.http.get<ItemListing[]>(this.baseUrl);
+  }
+
+  /**
+   * Retrieves ALL item listings.
+   *
+   * @returns
+   */
   getAllListings(): Observable<ItemListing[]> {
-    return this.http.get<ItemListing[]>(`${this.baseUrl}`);
+    return this.http.get<ItemListing[]>(`${this.baseUrl}/all`);
   }
 
   /**
@@ -43,7 +52,7 @@ export class ItemListingService {
    * @returns Item listing associated with the ID.
    */
   getListingById(id: string): Observable<ItemListing> {
-    return this.http.get<ItemListing>(`${this.baseUrl}/${id}`);
+    return this.http.get<ItemListing>(`${this.baseUrl}/listing/${id}`);
   }
 
   /**
@@ -53,7 +62,7 @@ export class ItemListingService {
    * @returns The saved item listing.
    */
   createListing(req: CreateItemListingRequest): Observable<ItemListing> {
-    return this.http.post<ItemListing>(`${this.baseUrl}`, req);
+    return this.http.post<ItemListing>(this.baseUrl, req);
   }
 
   /**

@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output, signal } from '@angular/core';
 import { ImageService } from '../../../image-service/image.service';
 import { MessageService } from '../../message/message.service';
 
@@ -9,7 +9,7 @@ import { MessageService } from '../../message/message.service';
   templateUrl: './image-input.component.html',
   styleUrl: './image-input.component.scss',
 })
-export class ImageInputComponent {
+export class ImageInputComponent implements OnInit {
   /** Text to display above the file upload input. */
   @Input() text = 'Upload image';
 
@@ -25,6 +25,12 @@ export class ImageInputComponent {
   private readonly imageService = inject(ImageService);
   private readonly messageService = inject(MessageService);
 
+  readonly showImagePreview = signal(false);
+
+  ngOnInit(): void {
+    this.showImagePreview.set(this.existingUrl !== null);
+  }
+
   onImageFileChanged(event: Event) {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];
@@ -39,6 +45,7 @@ export class ImageInputComponent {
       next: (url) => {
         this.uploaded.emit(url);
         this.existingUrl = url;
+        this.showImagePreview.set(true);
       },
       error: (err: HttpErrorResponse) => this.messageService.error(err.message),
     });
