@@ -23,4 +23,7 @@ export interface Order {
   trackingNumber: string | null;
   paidAt: string | null;
   shippedAt: string | null;
+  policiesAcceptedAt: string;
+  anonymized: boolean;
+  anonymizedAt: string | null;
 }

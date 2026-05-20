@@ -1,10 +1,14 @@
 @if (showFooter()) {
   <footer class="bottom-footer">
-    <div>
-      <section>
-        <h1>Customer Service</h1>
-        <div>Contact us at info@yellrecords.com</div>
-      </section>
-    </div>
+    <section aria-labelledby="footer-customer-service">
+      <h2 id="footer-customer-service">Customer Service</h2>
+      <p>Contact us at info@yellrecords.com</p>
+    </section>
+
+    <section aria-labelledby="footer-legal">
+      <h2 id="footer-legal">Legal</h2>
+      <p><a href="policy/terms-of-service">Terms of Service</a></p>
+      <p><a href="policy/privacy-policy">Privacy Policy</a></p>
+    </section>
   </footer>
 }

@@ -5,6 +5,7 @@ import {
   ConfirmDialogComponent,
   ConfirmDialogData,
 } from './confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogOptions } from './confirm-dialog-options.model';
 
 @Injectable({
   providedIn: 'root',
@@ -16,22 +17,22 @@ export class ConfirmDialogService {
    * Prompts the user a confirmation dialog.
    *
    * @param message Text to show in the dialog content.
-   * @param title Dialog title (default: 'Confirmation')
-   * @param confirmBtn Text for the confirm button (default: 'Confirm')
-   * @param cancelBtn Text for the cancel button (default: 'Cancel')
+   * @param options Additional configurations to use.
    * @returns Observable answering if the user wants to proceed.
    */
-  confirm(
-    message: string,
-    title = 'Confirmation',
-    confirmBtn = 'Confirm',
-    cancelBtn = 'Cancel',
-  ): Observable<boolean> {
+  confirm(message: string, options: Partial<ConfirmDialogOptions> = {}): Observable<boolean> {
+    const finalOptions: ConfirmDialogOptions = {
+      title: 'Confirmation',
+      confirmBtn: 'Confirm',
+      cancelBtn: 'Cancel',
+      ...options,
+    };
+
     const data: ConfirmDialogData = {
-      title: title,
+      title: finalOptions.title,
       message: message,
-      confirm: confirmBtn,
-      cancel: cancelBtn,
+      confirm: finalOptions.confirmBtn,
+      cancel: finalOptions.cancelBtn,
     };
 
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {

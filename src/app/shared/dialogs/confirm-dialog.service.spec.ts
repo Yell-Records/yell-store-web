@@ -30,7 +30,11 @@ describe('ConfirmDialogService', () => {
     const afterClosed$ = of(true);
     openStub.returns({ afterClosed: () => afterClosed$ });
 
-    const result$ = service.confirm('Delete?', 'Confirm', 'Yes', 'No');
+    const result$ = service.confirm('Delete?', {
+      title: 'Confirm',
+      confirmBtn: 'Yes',
+      cancelBtn: 'No',
+    });
 
     result$.subscribe((value) => {
       expect(value).to.equal(true);
