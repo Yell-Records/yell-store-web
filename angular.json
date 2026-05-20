@@ -69,7 +69,8 @@
               "buildTarget": "YellStoreWeb:build:production"
             },
             "development": {
-              "buildTarget": "YellStoreWeb:build:development"
+              "buildTarget": "YellStoreWeb:build:development",
+              "proxyConfig": "proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"

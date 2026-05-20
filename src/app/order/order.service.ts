@@ -79,6 +79,16 @@ export class OrderService {
   }
 
   /**
+   * Anonymizes customer info in an order. Only allowed if the order state is not in-progress.
+   *
+   * @param orderId
+   * @returns Order with anonymized data
+   */
+  anonymizeOrder(orderId: string): Observable<Order> {
+    return this.http.patch<Order>(`${this.baseUrl}/${orderId}/anonymize`, {});
+  }
+
+  /**
    * Gets an order from its ID.
    *
    * @param orderId

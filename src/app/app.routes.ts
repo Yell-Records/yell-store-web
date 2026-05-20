@@ -23,6 +23,9 @@ import { OrdersInProgressComponent } from './admin-dashboard/orders-in-progress/
 import { OrdersCompletedComponent } from './admin-dashboard/orders-completed/orders-completed.component';
 import { OrderDetailsComponent } from './admin-dashboard/order-details/order-details.component';
 import { ItemListingsListComponent } from './admin-dashboard/item-listings-list/item-listings-list.component';
+import { checkoutDeactivateGuard } from './checkout/checkout-deactivate.guard';
+import { EditPolicyComponent } from './admin-dashboard/edit-policy/edit-policy.component';
+import { editPolicyDeactivateGuard } from './admin-dashboard/edit-policy/edit-policy-deactivate.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -44,7 +47,31 @@ export const routes: Routes = [
     path: 'checkout',
     component: CheckoutComponent,
     canActivate: [checkoutGuard],
+    canDeactivate: [checkoutDeactivateGuard],
     title: yrTitle('Checkout'),
+  },
+  {
+    path: 'policy',
+    children: [
+      {
+        path: 'privacy-policy',
+        loadComponent: () =>
+          import('./policy-viewer/policy-viewer.component').then((c) => c.PolicyViewerComponent),
+        resolve: {
+          file: () => '/api/policies/privacy-policy',
+        },
+        title: yrTitle('Privacy Policy'),
+      },
+      {
+        path: 'terms-of-service',
+        loadComponent: () =>
+          import('./policy-viewer/policy-viewer.component').then((c) => c.PolicyViewerComponent),
+        resolve: {
+          file: () => '/api/policies/terms-of-service',
+        },
+        title: yrTitle('Terms of Service'),
+      },
+    ],
   },
   {
     path: 'cart',
@@ -56,7 +83,6 @@ export const routes: Routes = [
     component: UserSettingsComponent,
     canActivate: [authGuard],
     title: yrTitle('Account Settings'),
-    children: [],
   },
   {
     path: 'order-placed',
@@ -105,6 +131,12 @@ export const routes: Routes = [
       {
         path: 'list-of-products',
         component: ItemListingsListComponent,
+        data: { hideFooter: true },
+      },
+      {
+        path: 'policies/:name/edit',
+        component: EditPolicyComponent,
+        canDeactivate: [editPolicyDeactivateGuard],
         data: { hideFooter: true },
       },
     ],

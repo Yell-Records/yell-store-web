@@ -37,6 +37,9 @@ describe('OrdersListComponent', () => {
       trackingNumber: null,
       paidAt: null,
       shippedAt: null,
+      anonymized: false,
+      anonymizedAt: null,
+      policiesAcceptedAt: '000000000000',
     };
 
     fixture = TestBed.createComponent(OrdersListComponent);

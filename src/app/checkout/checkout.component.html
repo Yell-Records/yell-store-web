@@ -60,6 +60,15 @@
           </div>
 
           <app-phone-input [required]="true" formControlName="phone"></app-phone-input>
+
+          <mat-checkbox formControlName="policiesAccepted">
+            <mat-label>
+              I agree to the
+              <a href="/policy/terms-of-service" target="_blank">Terms of Service</a>
+              and
+              <a href="/policy/privacy-policy" target="_blank">Privacy Policy</a>
+            </mat-label>
+          </mat-checkbox>
         </form>
 
         <button
