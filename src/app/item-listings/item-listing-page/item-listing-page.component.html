@@ -21,15 +21,14 @@
         <span class="price">${{ listing.price | number: '1.2-2' }}</span>
       </div>
 
-      @if (!isLoggedIn) {
+      @if (listing.isActive) {
         <button class="add-btn" [disabled]="isLoggedIn" (click)="addToCart()">Add to Cart</button>
+      } @else {
+        <p>This item is currently not for sale.</p>
       }
 
       <div class="meta-row">
         <span>Listed {{ listing.createdAt | date: 'mediumDate' }}</span>
-        @if (listing.quantitySold > 0) {
-          <span class="sold">{{ listing.quantitySold }} sold</span>
-        }
       </div>
     </div>
   </div>

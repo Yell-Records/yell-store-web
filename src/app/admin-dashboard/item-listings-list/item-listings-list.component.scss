@@ -1,0 +1,27 @@
+.link-list {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0;
+}
+
+.listing-link {
+  font-size: 16px;
+  font-weight: 500;
+  color: #1976d2;
+  text-decoration: none;
+  padding: 6px 0;
+  width: fit-content;
+  transition:
+    color 0.2s ease,
+    opacity 0.2s ease;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.listing-link.inactive {
+  opacity: 0.55;
+  pointer-events: auto;
+  color: #555;
+}

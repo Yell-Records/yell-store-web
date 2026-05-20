@@ -22,6 +22,7 @@ import { createItemListingGuard } from './admin-dashboard/create-item-listing/cr
 import { OrdersInProgressComponent } from './admin-dashboard/orders-in-progress/orders-in-progress.component';
 import { OrdersCompletedComponent } from './admin-dashboard/orders-completed/orders-completed.component';
 import { OrderDetailsComponent } from './admin-dashboard/order-details/order-details.component';
+import { ItemListingsListComponent } from './admin-dashboard/item-listings-list/item-listings-list.component';
 import { checkoutDeactivateGuard } from './checkout/checkout-deactivate.guard';
 import { EditPolicyComponent } from './admin-dashboard/edit-policy/edit-policy.component';
 import { editPolicyDeactivateGuard } from './admin-dashboard/edit-policy/edit-policy-deactivate.guard';
@@ -125,6 +126,11 @@ export const routes: Routes = [
       {
         path: 'orders/order-details/:orderId',
         component: OrderDetailsComponent,
+        data: { hideFooter: true },
+      },
+      {
+        path: 'list-of-products',
+        component: ItemListingsListComponent,
         data: { hideFooter: true },
       },
       {
