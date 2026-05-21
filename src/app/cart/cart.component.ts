@@ -5,14 +5,14 @@ import { CartItemCardListComponent } from './cart-item-card-list/cart-item-card-
 import { ItemListing } from '../item-listings/item-listing.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { MatAnchor } from '@angular/material/button';
 import { ConfirmDialogService } from '../shared/dialogs/confirm-dialog.service';
 import { MessageService } from '../shared/message/message.service';
 import { AuthService } from '../auth/auth.service';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-cart',
-  imports: [CartItemCardListComponent, MatAnchor],
+  imports: [CartItemCardListComponent, CurrencyPipe],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.scss',
 })
@@ -55,5 +55,9 @@ export class CartComponent {
 
   get cartItems(): CartItem[] {
     return this.cartItemService.cartItems();
+  }
+
+  get totalPrice(): number {
+    return this.cartItemService.subtotal();
   }
 }
