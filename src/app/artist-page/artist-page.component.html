@@ -1,1 +1,13 @@
-<p>artist-page works!</p>
+<div>
+  @if (loading()) {
+    <mat-spinner></mat-spinner>
+  } @else if (artistPage === null) {
+    <h1>Artist Not Found</h1>
+    <p>Info on this artist could not be located.</p>
+  } @else {
+    <div [innerHTML]="artistPage.bodyHtml"></div>
+
+    <h2>Available products for this artist</h2>
+    <app-item-listing-list [listings]="artistListings"></app-item-listing-list>
+  }
+</div>

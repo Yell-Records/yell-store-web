@@ -27,6 +27,8 @@ import { checkoutDeactivateGuard } from './checkout/checkout-deactivate.guard';
 import { EditPolicyComponent } from './admin-dashboard/edit-policy/edit-policy.component';
 import { editPolicyDeactivateGuard } from './admin-dashboard/edit-policy/edit-policy-deactivate.guard';
 import { AddArtistPageComponent } from './admin-dashboard/add-artist-page/add-artist-page.component';
+import { ArtistPageComponent } from './artist-page/artist-page.component';
+import { ArtistsListPageComponent } from './artists-list-page/artists-list-page.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -84,6 +86,15 @@ export const routes: Routes = [
     component: UserSettingsComponent,
     canActivate: [authGuard],
     title: yrTitle('Account Settings'),
+  },
+  {
+    path: 'artists',
+    component: ArtistsListPageComponent,
+    title: yrTitle('Artists'),
+  },
+  {
+    path: 'artists/:artistSlug',
+    component: ArtistPageComponent,
   },
   {
     path: 'order-placed',

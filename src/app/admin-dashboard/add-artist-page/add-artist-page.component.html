@@ -21,15 +21,14 @@
               <mat-option [value]="category.slug">{{ category.name }}</mat-option>
             }
           </mat-select>
+
+          <mat-hint>Products listed under this category will be displayed on the page.</mat-hint>
         </mat-form-field>
       }
     </div>
 
-    <!-- TODO: Wait for quill editor import -->
-    <mat-form-field appearance="outline">
-      <mat-label>Page Content (PLACEHOLDER)</mat-label>
-      <textarea matInput rows="10" formControlName="bodyHtml"></textarea>
-    </mat-form-field>
+    <h3>Page Content</h3>
+    <quill-editor formControlName="bodyHtml"></quill-editor>
   </form>
 
   <button matButton="filled" [disabled]="saveButtonDisabled()" (click)="createArtistPage()">

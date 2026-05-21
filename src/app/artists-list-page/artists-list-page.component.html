@@ -1,0 +1,16 @@
+<div>
+  <h1>List of Artists</h1>
+  @if (loading()) {
+    <mat-spinner></mat-spinner>
+  } @else if (artists.length === 0) {
+    <p>Nothing found.</p>
+  } @else {
+    <ul>
+      @for (artist of artists; track $index) {
+        <li>
+          <a [routerLink]="[artist.slug]">{{ artist.name }}</a>
+        </li>
+      }
+    </ul>
+  }
+</div>

@@ -1,7 +1,7 @@
 import { Component, HostListener, inject, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ArtistPageService } from '../../artist-page/service/artist-page.service';
-import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatFormField, MatLabel, MatHint } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { PersonNameDirective } from '../../shared/directives/person-name.directive';
 import { MatSelect, MatOption } from '@angular/material/select';
@@ -13,6 +13,8 @@ import { CreateArtistPageRequest } from '../../artist-page/service/create-artist
 import { MessageService } from '../../shared/message/message.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatAnchor } from '@angular/material/button';
+import { QuillEditorComponent } from 'ngx-quill';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-artist-page',
@@ -25,6 +27,8 @@ import { MatAnchor } from '@angular/material/button';
     MatSelect,
     MatOption,
     MatAnchor,
+    QuillEditorComponent,
+    MatHint,
   ],
   templateUrl: './add-artist-page.component.html',
   styleUrl: './add-artist-page.component.scss',
@@ -34,12 +38,11 @@ export class AddArtistPageComponent implements OnInit {
   private readonly categoryService = inject(CategoryService);
   private readonly confirmDialog = inject(ConfirmDialogService);
   private readonly messageService = inject(MessageService);
+  private readonly router = inject(Router);
 
   readonly createArtistForm = new FormGroup({
     name: new FormControl('', Validators.required),
-    slug: new FormControl('', Validators.required),
     bodyHtml: new FormControl(''),
-    youtubeUrls: new FormControl<string[]>([]),
     categorySlug: new FormControl('', Validators.required),
   });
 
@@ -51,7 +54,6 @@ export class AddArtistPageComponent implements OnInit {
     this.loadCategories();
   }
 
-  // TODO Create a route deactivate guard after changes are merged in from other branch
   canExit(): boolean {
     return !this.createArtistForm.dirty && !this.reqSubmitted();
   }
@@ -86,7 +88,7 @@ export class AddArtistPageComponent implements OnInit {
               this.messageService.success('Artist page created.');
               this.createArtistForm.reset();
 
-              // TODO Navigate to artist page
+              this.router.navigate(['/artists', artistPage.slug]);
             },
             error: (err: HttpErrorResponse) => this.messageService.error(err.message),
           });
@@ -105,14 +107,23 @@ export class AddArtistPageComponent implements OnInit {
 
   /** Extracts form values into a creation request. */
   private extractFormData(): CreateArtistPageRequest {
+    const name = this.createArtistForm.get('name')!.value!;
+    const slug = this.toSlug(name);
+
     const req: CreateArtistPageRequest = {
-      name: this.createArtistForm.get('name')!.value!,
-      slug: this.createArtistForm.get('slug')!.value!,
+      name: name,
+      slug: slug,
       bodyHtml: this.createArtistForm.get('bodyHtml')!.value!,
-      youtubeUrls: this.createArtistForm.get('youtubeUrls')!.value!,
       categorySlug: this.createArtistForm.get('categorySlug')!.value!,
     };
 
     return req;
+  }
+
+  private toSlug(str: string): string {
+    return str
+      .toLowerCase()
+      .replaceAll(' ', '-')
+      .replaceAll(/[^a-z0-9-]+/g, '');
   }
 }

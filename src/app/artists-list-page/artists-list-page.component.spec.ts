@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ArtistPageComponent } from './artist-page.component';
+import { ArtistsListPageComponent } from './artists-list-page.component';
 import { provideRouter } from '@angular/router';
 
-describe('ArtistPageComponent', () => {
-  let component: ArtistPageComponent;
-  let fixture: ComponentFixture<ArtistPageComponent>;
+describe('ArtistsListPageComponent', () => {
+  let component: ArtistsListPageComponent;
+  let fixture: ComponentFixture<ArtistsListPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ArtistPageComponent],
+      imports: [ArtistsListPageComponent],
       providers: [provideRouter([])],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ArtistPageComponent);
+    fixture = TestBed.createComponent(ArtistsListPageComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

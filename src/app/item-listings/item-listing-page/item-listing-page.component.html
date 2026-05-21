@@ -17,9 +17,11 @@
 
       <h1 class="title">{{ listing.title }}</h1>
 
-      <div class="price-row">
-        <span class="price">${{ listing.price | number: '1.2-2' }}</span>
-      </div>
+      @if (listing.isActive) {
+        <div class="price-row">
+          <span class="price">${{ listing.price | number: '1.2-2' }}</span>
+        </div>
+      }
 
       @if (listing.isActive) {
         <button class="add-btn" [disabled]="isLoggedIn" (click)="addToCart()">Add to Cart</button>

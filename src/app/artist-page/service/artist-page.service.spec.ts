@@ -15,8 +15,7 @@ describe('ArtistPageService', () => {
     name: 'Sample Artist',
     slug: 'sample-artist',
     bodyHtml: '<p>Sample artist page works!</p>',
-    youtubeUrls: [],
-    categoryId: '1',
+    categorySlug: '1',
     createdAt: '0000000000',
     updatedAt: '0000000000',
   };
@@ -63,7 +62,6 @@ describe('ArtistPageService', () => {
       name: 'new artist',
       slug: 'new-artist',
       bodyHtml: '<p>new page</p>',
-      youtubeUrls: [],
       categorySlug: 'vinyls',
     };
 
