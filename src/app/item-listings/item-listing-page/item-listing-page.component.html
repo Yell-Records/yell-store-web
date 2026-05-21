@@ -30,7 +30,10 @@
       }
 
       <div class="meta-row">
-        <span>Listed {{ listing.createdAt | date: 'mediumDate' }}</span>
+        <span>Listed {{ createdDate() }}</span>
+        @if (updatedHasDifference()) {
+          <span>Updated {{ updatedDate() }}</span>
+        }
       </div>
     </div>
   </div>

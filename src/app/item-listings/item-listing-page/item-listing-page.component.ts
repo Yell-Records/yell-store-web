@@ -5,7 +5,7 @@ import { ItemListingService } from '../item-listing.service';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { AuthService } from '../../auth/auth.service';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
-import { DatePipe, DecimalPipe } from '@angular/common';
+import { DecimalPipe } from '@angular/common';
 import { Title } from '@angular/platform-browser';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatButtonModule } from '@angular/material/button';
@@ -16,6 +16,7 @@ import { CartItemService } from '../../cart/cart-item.service';
 import { MessageService } from '../../shared/message/message.service';
 import { AddCartItemRequest } from '../../cart/add-cart-item-request.model';
 import { yrTitle } from '../../title/qm-title';
+import { DateUtil } from '../../shared/utils/date-util';
 
 @Component({
   imports: [
@@ -23,7 +24,6 @@ import { yrTitle } from '../../title/qm-title';
     NotFoundComponent,
     MatProgressSpinner,
     DecimalPipe,
-    DatePipe,
     MatButtonModule,
     MatIcon,
     MatTooltip,
@@ -73,6 +73,27 @@ export class ItemListingPageComponent implements OnInit {
       next: () => this.messageService.info(`${this.listing?.title} was added to your cart.`),
       error: (err: HttpErrorResponse) => this.messageService.error(err.message),
     });
+  }
+
+  updatedHasDifference(): boolean {
+    const listing = this._listing();
+    if (!listing) return false;
+
+    return DateUtil.isTimeDifferent(listing.createdAt, listing.updatedAt);
+  }
+
+  createdDate(): string {
+    const listing = this._listing();
+    if (!listing) return '';
+
+    return DateUtil.formatDistanceToNow(listing.createdAt);
+  }
+
+  updatedDate(): string {
+    const listing = this._listing();
+    if (!listing) return '';
+
+    return DateUtil.formatDistanceToNow(listing.updatedAt);
   }
 
   private loadListing(listingId: string) {
