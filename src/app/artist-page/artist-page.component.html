@@ -5,6 +5,15 @@
     <h1>Artist Not Found</h1>
     <p>Info on this artist could not be located.</p>
   } @else {
+    @if (isLoggedIn) {
+      <div class="artist-page__edit-container">
+        <button class="artist-page__edit-btn" (click)="navigateEdit()">
+          <span class="material-icons">edit</span>
+          Edit
+        </button>
+      </div>
+    }
+
     <div class="artist-page__content" [innerHTML]="artistPage.bodyHtml"></div>
 
     @if (artistListings.length > 0) {

@@ -4,6 +4,36 @@
   padding: 0;
 }
 
+.artist-page__edit-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
+
+.artist-page__edit-btn {
+  padding: 0.45rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: #f8f8f8;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: absolute;
+  align-items: center;
+  display: inline-flex;
+  gap: 8px;
+
+  &:hover {
+    background: #fff;
+    border-color: #999;
+  }
+
+  &:active {
+    background: #eee;
+  }
+}
+
 /* Quill-rendered content */
 .artist-page__content {
   padding: 1rem 0;

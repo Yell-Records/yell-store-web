@@ -1,0 +1,28 @@
+.page-title {
+  padding: 20px;
+}
+
+.edit-artist-page {
+  margin: 0 auto;
+  max-width: 1000px;
+
+  .artist-form {
+    display: flex;
+    flex-direction: column;
+
+    .form-row {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+    }
+
+    .form-row > * {
+      flex: 1;
+    }
+
+    button {
+      align-self: flex-end;
+      margin-top: 20px;
+    }
+  }
+}

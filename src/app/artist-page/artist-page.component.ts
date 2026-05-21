@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ArtistPageService } from './service/artist-page.service';
 import { ItemListingService } from '../item-listings/item-listing.service';
 import { ArtistPage } from './service/artist-page.model';
@@ -9,6 +9,7 @@ import { ItemListing } from '../item-listings/item-listing.model';
 import { ItemListingListComponent } from '../item-listings/item-listing-list/item-listing-list.component';
 import { Title } from '@angular/platform-browser';
 import { yrTitle } from '../title/qm-title';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-artist-page',
@@ -21,6 +22,8 @@ export class ArtistPageComponent implements OnInit {
   private readonly artistService = inject(ArtistPageService);
   private readonly itemListingService = inject(ItemListingService);
   private readonly title = inject(Title);
+  private readonly auth = inject(AuthService);
+  private readonly router = inject(Router);
 
   private readonly _artist = signal<ArtistPage | null>(null);
   private readonly _artistListings = signal<ItemListing[]>([]);
@@ -31,12 +34,20 @@ export class ArtistPageComponent implements OnInit {
     this.listenForRouteParams();
   }
 
+  navigateEdit() {
+    this.router.navigate(['edit'], { relativeTo: this.route });
+  }
+
   get artistPage(): ArtistPage | null {
     return this._artist();
   }
 
   get artistListings(): ItemListing[] {
     return this._artistListings();
+  }
+
+  get isLoggedIn(): boolean {
+    return this.auth.isLoggedIn;
   }
 
   private listenForRouteParams() {

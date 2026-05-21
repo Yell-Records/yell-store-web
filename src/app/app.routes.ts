@@ -7,7 +7,6 @@ import { userRedirectGuard } from './users/user-redirect.guard';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { checkoutGuard } from './checkout/checkout.guard';
 import { NotFoundComponent } from './not-found/not-found.component';
-import { authGuard } from './auth/auth.guard';
 import { CartComponent } from './cart/cart.component';
 import { UserSettingsComponent } from './user-settings/user-settings.component';
 import { ItemListingPageComponent } from './item-listings/item-listing-page/item-listing-page.component';
@@ -30,6 +29,9 @@ import { AddArtistPageComponent } from './admin-dashboard/add-artist-page/add-ar
 import { ArtistPageComponent } from './artist-page/artist-page.component';
 import { ArtistsListPageComponent } from './artists-list-page/artists-list-page.component';
 import { addArtistDeactivateGuard } from './admin-dashboard/add-artist-page/add-artist-deactivate.guard';
+import { EditArtistPageComponent } from './artist-page/edit-artist-page/edit-artist-page.component';
+import { editArtistDeactivateGuard } from './artist-page/edit-artist-page/edit-artist-deactivate.guard';
+import { editGuard } from './shared/guards/edit.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -45,7 +47,7 @@ export const routes: Routes = [
   {
     path: 'listing/:listid/edit',
     component: EditItemListingComponent,
-    canActivate: [authGuard],
+    canActivate: [editGuard],
   },
   {
     path: 'checkout',
@@ -85,7 +87,7 @@ export const routes: Routes = [
   {
     path: 'account-settings',
     component: UserSettingsComponent,
-    canActivate: [authGuard],
+    canActivate: [adminGuard],
     title: yrTitle('Account Settings'),
   },
   {
@@ -96,6 +98,12 @@ export const routes: Routes = [
   {
     path: 'artists/:artistSlug',
     component: ArtistPageComponent,
+  },
+  {
+    path: 'artists/:artistSlug/edit',
+    component: EditArtistPageComponent,
+    canActivate: [editGuard],
+    canDeactivate: [editArtistDeactivateGuard],
   },
   {
     path: 'order-placed',
