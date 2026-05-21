@@ -1,12 +1,22 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { provideRouter } from '@angular/router';
+import { ArtistPageService } from './artist-page/service/artist-page.service';
+import { of } from 'rxjs';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AppComponent],
-      providers: [provideRouter([])],
+      providers: [
+        provideRouter([]),
+        {
+          provide: ArtistPageService,
+          useValue: {
+            getArtistPages: () => of([]),
+          },
+        },
+      ],
     }).compileComponents();
   });
 

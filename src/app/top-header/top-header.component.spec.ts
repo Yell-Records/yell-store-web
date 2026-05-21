@@ -2,6 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TopHeaderComponent } from './top-header.component';
 import { provideRouter } from '@angular/router';
+import { ArtistPageService } from '../artist-page/service/artist-page.service';
+import { of } from 'rxjs';
 
 describe('TopHeaderComponent', () => {
   let component: TopHeaderComponent;
@@ -10,7 +12,15 @@ describe('TopHeaderComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [TopHeaderComponent],
-      providers: [provideRouter([])],
+      providers: [
+        provideRouter([]),
+        {
+          provide: ArtistPageService,
+          useValue: {
+            getArtistPages: () => of([]),
+          },
+        },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TopHeaderComponent);

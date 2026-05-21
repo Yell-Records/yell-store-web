@@ -4,7 +4,6 @@ import { ArtistPageService } from './service/artist-page.service';
 import { ItemListingService } from '../item-listings/item-listing.service';
 import { ArtistPage } from './service/artist-page.model';
 import { finalize } from 'rxjs';
-import { HttpErrorResponse } from '@angular/common/http';
 import { MessageService } from '../shared/message/message.service';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { ItemListing } from '../item-listings/item-listing.model';
@@ -62,7 +61,6 @@ export class ArtistPageComponent implements OnInit {
           this.title.setTitle(yrTitle(`Artist: ${artist.name}`));
           this.loadItemsFromCategorySlug(artist.categorySlug);
         },
-        error: (err: HttpErrorResponse) => this.messageService.error(err.message),
       });
   }
 

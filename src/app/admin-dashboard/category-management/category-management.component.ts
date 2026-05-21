@@ -1,13 +1,11 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatFormField, MatLabel, MatHint } from '@angular/material/form-field';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { MatAnchor } from '@angular/material/button';
-import { MatCheckbox } from '@angular/material/checkbox';
 import { AdminCategoryDisplayComponent } from './admin-category-display/admin-category-display.component';
 import { TitleDirective } from '../../shared/directives/title.directive';
-import { CategorySlugDirective } from '../../shared/directives/category-slug.directive';
 import { CategoryService } from '../../categories/category.service';
 import { MessageService } from '../../shared/message/message.service';
 import { ConfirmDialogService } from '../../shared/dialogs/confirm-dialog.service';
@@ -24,9 +22,6 @@ import { CreateCategoryRequest } from '../../categories/create-category-request.
     MatInput,
     TitleDirective,
     MatAnchor,
-    MatHint,
-    CategorySlugDirective,
-    MatCheckbox,
     AdminCategoryDisplayComponent,
   ],
   templateUrl: './category-management.component.html',
@@ -38,42 +33,12 @@ export class CategoryManagementComponent implements OnInit {
   private readonly confirmDialog = inject(ConfirmDialogService);
   private readonly auth = inject(AuthService);
 
-  readonly createCategoryForm = new FormGroup({
-    name: new FormControl('', Validators.required),
-    generateSlug: new FormControl(true),
-    slug: new FormControl({ value: '', disabled: true }, Validators.required),
-  });
+  readonly categoryNameControl = new FormControl('', Validators.required);
 
   private readonly _categories = signal<Category[]>([]);
 
   ngOnInit(): void {
     this.loadCategories();
-
-    // Disable/enable the slug form input based on the generate slug checkbox
-    this.createCategoryForm.get('generateSlug')!.valueChanges.subscribe((checked) => {
-      const slug = this.createCategoryForm.get('slug')!;
-
-      if (checked) {
-        slug.disable();
-
-        const name = this.createCategoryForm.get('name')!.value!;
-
-        slug.patchValue(this.toSlug(name));
-      } else {
-        slug.enable();
-      }
-    });
-
-    // Automatically generate slug on name input if the generate checkbox is checked
-    this.createCategoryForm.get('name')!.valueChanges.subscribe((value) => {
-      const shouldGenerate = this.createCategoryForm.get('generateSlug')!.value!;
-
-      if (value && shouldGenerate) {
-        this.createCategoryForm.patchValue({ slug: this.toSlug(value) });
-      } else if (value === null || value === '') {
-        this.createCategoryForm.patchValue({ slug: '' });
-      }
-    });
   }
 
   get categories(): Category[] {
@@ -81,19 +46,20 @@ export class CategoryManagementComponent implements OnInit {
   }
 
   submitCreateForm() {
-    if (this.createCategoryForm.valid && this.auth.isLoggedIn) {
+    if (this.categoryNameControl.valid && this.auth.isLoggedIn) {
       this.confirmDialog
         .confirm('Create new category? This action is permanent.')
         .subscribe((confirmed) => {
           if (confirmed) {
+            const name = this.categoryNameControl.value!;
             const req: CreateCategoryRequest = {
-              name: this.createCategoryForm.get('name')!.value!,
-              slug: this.createCategoryForm.get('slug')!.value!,
+              name: name,
+              slug: this.toSlug(name),
             };
 
             this.categoryService.createCategory(req).subscribe({
               next: (category) => {
-                this.createCategoryForm.reset();
+                this.categoryNameControl.reset();
                 this.messageService.success('Category created.');
 
                 // Update the signal

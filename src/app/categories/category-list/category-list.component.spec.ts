@@ -15,6 +15,8 @@ describe('CategoryListComponent', () => {
 
     fixture = TestBed.createComponent(CategoryListComponent);
     component = fixture.componentInstance;
+    component.categories = [];
+
     await fixture.whenStable();
   });
 

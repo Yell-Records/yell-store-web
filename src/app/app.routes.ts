@@ -29,6 +29,7 @@ import { editPolicyDeactivateGuard } from './admin-dashboard/edit-policy/edit-po
 import { AddArtistPageComponent } from './admin-dashboard/add-artist-page/add-artist-page.component';
 import { ArtistPageComponent } from './artist-page/artist-page.component';
 import { ArtistsListPageComponent } from './artists-list-page/artists-list-page.component';
+import { addArtistDeactivateGuard } from './admin-dashboard/add-artist-page/add-artist-deactivate.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -154,6 +155,7 @@ export const routes: Routes = [
       {
         path: 'add-artist-page',
         component: AddArtistPageComponent,
+        canDeactivate: [addArtistDeactivateGuard],
         data: { hideFooter: true },
       },
     ],
