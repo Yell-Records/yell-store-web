@@ -9,6 +9,12 @@
       <p>An order with this ID could not be located.</p>
     </div>
   } @else if (orderDetails) {
+    @if (orderDetails.anonymized) {
+      <div class="anonymized-banner">
+        <mat-icon>visibility_off</mat-icon>
+        This order was anonymized at {{ orderDetails.anonymizedAt | date: 'medium' }}
+      </div>
+    }
     <div class="header">
       <h1>Order #{{ orderDetails.orderNumber }}</h1>
 
@@ -24,6 +30,13 @@
           <span class="meta-title">Created</span>
           <span class="meta-pill">
             {{ creationDateRelevant() }}
+          </span>
+        </div>
+
+        <div class="meta-item">
+          <span class="meta-title">Policies Accepted</span>
+          <span class="meta-pill">
+            {{ orderDetails.policiesAcceptedAt | date: "MMM d, y 'at' h:mm a z" }}
           </span>
         </div>
       </div>
@@ -157,24 +170,33 @@
       }
     </section>
 
-    @if (canCancelOrder()) {
+    @if (showDangerZone()) {
       <div class="danger-zone">
         <details class="danger-expand">
           <summary>Danger Zone</summary>
 
-          <mat-checkbox [formControl]="confirmCancelControl">
-            I confirm that canceling this order will refund the buyer.
-          </mat-checkbox>
+          @if (canCancelOrder()) {
+            <mat-checkbox [formControl]="confirmCancelControl">
+              I confirm that canceling this order will refund the buyer.
+            </mat-checkbox>
 
-          <br />
+            <br />
 
-          <button
-            class="cancel-button"
-            [disabled]="!confirmCancelControl.valid"
-            (click)="cancelOrder()"
-          >
-            Cancel Order
-          </button>
+            <button
+              class="cancel-button"
+              [disabled]="!confirmCancelControl.valid"
+              (click)="cancelOrder()"
+            >
+              Cancel Order
+            </button>
+          }
+
+          @if (canAnonymize()) {
+            <button class="cancel-button" (click)="anonymizeOrder()">
+              <mat-icon>person_off</mat-icon>
+              <span>Anonymize Customer Data</span>
+            </button>
+          }
         </details>
       </div>
     }

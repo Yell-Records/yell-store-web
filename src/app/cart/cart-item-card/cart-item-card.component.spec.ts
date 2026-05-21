@@ -4,6 +4,7 @@ import { CartItemCardComponent } from './cart-item-card.component';
 import { SinonSpy, spy } from 'sinon';
 import { CartItem } from '../cart-item.model';
 import { mockListing } from '@testing/mock-item-listing';
+import { provideRouter } from '@angular/router';
 
 describe('CartItemCardComponent', () => {
   let component: CartItemCardComponent;
@@ -19,6 +20,7 @@ describe('CartItemCardComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [CartItemCardComponent],
+      providers: [provideRouter([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(CartItemCardComponent);

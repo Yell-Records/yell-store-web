@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, HostListener, inject, OnInit, signal } from '@angular/core';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { TitleDirective } from '../../shared/directives/title.directive';
@@ -20,6 +20,9 @@ import { MatSelect, MatOption } from '@angular/material/select';
 import { ImageInputComponent } from '../../shared/inputs/image-input/image-input.component';
 import { CategoryService } from '../../categories/category.service';
 import { Category } from '../../categories/category.model';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-edit-item-listing',
@@ -35,12 +38,15 @@ import { Category } from '../../categories/category.model';
     ImageInputComponent,
     MatSelect,
     MatOption,
+    MatSlideToggle,
+    MatProgressSpinner,
   ],
   templateUrl: './edit-item-listing.component.html',
   styleUrl: './edit-item-listing.component.scss',
 })
 export class EditItemListingComponent implements OnInit {
   readonly editListingForm = new FormGroup({
+    isActive: new FormControl<boolean | null>(null, Validators.required),
     categorySlug: new FormControl<string>('', Validators.required),
     title: new FormControl('', Validators.required),
     description: new FormControl<string | null>(null),
@@ -49,6 +55,8 @@ export class EditItemListingComponent implements OnInit {
   });
 
   readonly listing = signal<ItemListing | null>(null);
+
+  readonly loading = signal(true);
 
   private readonly itemListingService = inject(ItemListingService);
   private readonly activeRoute = inject(ActivatedRoute);
@@ -73,6 +81,17 @@ export class EditItemListingComponent implements OnInit {
     this.loadCategories();
   }
 
+  canExit(): boolean {
+    return !this.editListingForm.dirty;
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  onBeforeUnload(event: BeforeUnloadEvent) {
+    if (!this.canExit()) {
+      event.preventDefault();
+    }
+  }
+
   get categories(): Category[] {
     return this._categories();
   }
@@ -93,6 +112,7 @@ export class EditItemListingComponent implements OnInit {
       this.itemListingService.updateListing(listing.id!, updates).subscribe({
         next: () => {
           this.messageService.success('Listing updated.');
+          this.editListingForm.markAsPristine();
           this.navigateBack(false);
         },
         error: (err: HttpErrorResponse) => this.messageService.error(err.message),
@@ -119,14 +139,17 @@ export class EditItemListingComponent implements OnInit {
   }
 
   private loadListing(listingId: string) {
-    this.itemListingService.getListingById(listingId).subscribe({
-      next: (listing) => {
-        this.listing.set(listing);
-        this.title.setTitle(yrTitle('Editing ' + listing.title));
-        this.autoFillForm(listing);
-      },
-      error: () => this.router.navigate(['/404']),
-    });
+    this.itemListingService
+      .getListingById(listingId)
+      .pipe(finalize(() => this.loading.set(false)))
+      .subscribe({
+        next: (listing) => {
+          this.listing.set(listing);
+          this.title.setTitle(yrTitle('Editing ' + listing.title));
+          this.autoFillForm(listing);
+        },
+        error: () => this.router.navigate(['/404']),
+      });
   }
 
   private autoFillForm(listing: ItemListing) {
@@ -136,6 +159,7 @@ export class EditItemListingComponent implements OnInit {
       description: listing.description,
       imageUrl: listing.imageUrl,
       price: listing.price.toString(),
+      isActive: listing.isActive,
     });
   }
 
@@ -163,6 +187,8 @@ export class EditItemListingComponent implements OnInit {
     if (ogListing.categorySlug !== fields.categorySlug) {
       updates.categorySlug = fields.categorySlug!;
     }
+
+    updates.isActive = fields.isActive!;
 
     return updates;
   }

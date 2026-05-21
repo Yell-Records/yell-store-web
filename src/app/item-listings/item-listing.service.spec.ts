@@ -24,7 +24,7 @@ describe('ItemListingService', () => {
   it('should GET all item listings', () => {
     const mockResponse = [mockListing];
 
-    service.getAllListings().subscribe((res) => {
+    service.getActiveListings().subscribe((res) => {
       expect(res).to.deep.equal(mockResponse);
     });
 
@@ -41,7 +41,7 @@ describe('ItemListingService', () => {
       expect(res).to.deep.equal(mockListing);
     });
 
-    const req = httpMock.expectOne(`${service.baseUrl}/${listingId}`);
+    const req = httpMock.expectOne(`${service.baseUrl}/listing/${listingId}`);
     expect(req.request.method).to.equal('GET');
 
     req.flush(mockListing);

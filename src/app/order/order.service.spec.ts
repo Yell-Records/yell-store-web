@@ -32,6 +32,9 @@ describe('OrderService', () => {
     trackingNumber: null,
     paidAt: null,
     shippedAt: null,
+    policiesAcceptedAt: '0000000000000',
+    anonymized: false,
+    anonymizedAt: null,
   };
 
   beforeEach(() => {
@@ -83,6 +86,7 @@ describe('OrderService', () => {
       shippingState: 'Rhode Island',
       shippingPhone: '5552981029',
       shippingPostalCode: '61029',
+      acceptedTerms: true,
     };
 
     service.createOrder(createOrderReq).subscribe((res) => {

@@ -1,0 +1,10 @@
+<h1>
+  Editing Policy:
+  <pre>{{ name() }}.html</pre>
+</h1>
+
+<br />
+
+<quill-editor [formControl]="editorControl"></quill-editor>
+
+<button matButton="filled" [disabled]="canExit()" class="save-btn" (click)="save()">Save</button>

@@ -1,13 +1,13 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CartItem } from '../cart-item.model';
-import { MatList, MatListItem, MatDivider } from '@angular/material/list';
+import { MatList, MatListItem } from '@angular/material/list';
 import { CartItemCardComponent } from '../cart-item-card/cart-item-card.component';
 import { ItemListing } from '../../item-listings/item-listing.model';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-cart-item-card-list',
-  imports: [MatList, MatListItem, CartItemCardComponent, MatDivider, MatProgressSpinner],
+  imports: [MatList, MatListItem, CartItemCardComponent, MatProgressSpinner],
   templateUrl: './cart-item-card-list.component.html',
   styleUrl: './cart-item-card-list.component.scss',
 })

@@ -1,9 +1,17 @@
 .image-preview {
   margin-bottom: 20px;
+  padding: 2px;
+  border: 1px solid gray;
+  border-radius: 2px;
+  width: fit-content;
+  min-width: 200px;
 
   img {
+    justify-content: center;
+    display: flex;
     max-width: 480px;
     max-height: 480px;
+    min-height: 100px;
   }
 }
 

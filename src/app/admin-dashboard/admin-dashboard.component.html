@@ -3,7 +3,14 @@
     <h2>Admin Dashboard</h2>
 
     <a routerLink="category-management" routerLinkActive="active">Category Management</a>
-    <a routerLink="create-listing" routerLinkActive="active">Create new Product Listing</a>
+
+    <div class="nav-group">
+      <h3>Product Listings</h3>
+      <a class="child" routerLink="create-listing" routerLinkActive="active">
+        Create new Product Listing
+      </a>
+      <a class="child" routerLink="list-of-products" routerLinkActive="active">List of Products</a>
+    </div>
 
     <div class="nav-group">
       <h3 class="parent">Artist Pages</h3>
@@ -14,6 +21,12 @@
       <h3 class="parent">Orders</h3>
       <a class="child" routerLink="orders/in-progress" routerLinkActive="active"> In-Progress </a>
       <a class="child" routerLink="orders/completed" routerLinkActive="active"> Completed </a>
+    </div>
+
+    <div class="nav-group">
+      <h3 class="parent">Edit Policies</h3>
+      <a class="child" routerLink="policies/privacy-policy/edit">Privacy Policy</a>
+      <a class="child" routerLink="policies/terms-of-service/edit">Terms of Service</a>
     </div>
   </aside>
 
