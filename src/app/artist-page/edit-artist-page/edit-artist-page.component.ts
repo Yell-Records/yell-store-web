@@ -129,9 +129,19 @@ export class EditArtistPageComponent implements OnInit {
 
     const current = this._artist()!;
 
-    const formName = this.editArtistPageForm.get('name')!.value;
+    const formName = this.editArtistPageForm.get('name')!.value!;
     if (current.name !== formName) {
-      req.name = formName!;
+      req.name = formName;
+    }
+
+    const formCategorySlug = this.editArtistPageForm.get('categorySlug')!.value!;
+    if (current.categorySlug !== formCategorySlug) {
+      req.categorySlug = formCategorySlug;
+    }
+
+    const formHtml = this.editArtistPageForm.get('bodyHtml')!.value!;
+    if (current.bodyHtml !== formHtml) {
+      req.bodyHtml = formHtml;
     }
 
     return req;
