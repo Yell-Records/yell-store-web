@@ -86,18 +86,20 @@
 
         <h2>Review your shipping address</h2>
 
-        <div>
+        <div class="review-box">
           <h3>Ships to:</h3>
           <p>{{ shippingFullName() }}</p>
           <p>{{ shippingFullAddress() }}</p>
           <p><b>Contact:</b> {{ formPhone }}</p>
         </div>
 
-        <h3>Subtotal: {{ subtotal | currency }}</h3>
-        <h3>Shipping: {{ orderShippingCost | currency }}</h3>
-        <h3>Tax: {{ orderTax | currency }}</h3>
-        <br />
-        <h2>Total: {{ orderTotal | currency }}</h2>
+        <div class="price-breakdown">
+          <h3>Subtotal: {{ subtotal | currency }}</h3>
+          <h3>Shipping: {{ orderShippingCost | currency }}</h3>
+          <h3>Tax: {{ orderTax | currency }}</h3>
+        </div>
+
+        <div class="total-line">Total: {{ orderTotal | currency }}</div>
 
         @if (createdOrder() !== null) {
           <app-paypal-button [orderId]="createdOrder()!.id"></app-paypal-button>
@@ -109,13 +111,12 @@
   <section class="summary-box">
     <h2>Summary</h2>
     <hr />
-    <h3>Total: {{ subtotal | currency }}</h3>
+    <h3>Subtotal: {{ subtotal | currency }}</h3>
   </section>
 
   <section class="cart-contents-box">
     @if (cartItems !== null) {
       <h2>In your cart</h2>
-      <hr />
       <app-cart-item-card-list [cartItems]="cartItems" [showDelete]="false" />
     }
   </section>

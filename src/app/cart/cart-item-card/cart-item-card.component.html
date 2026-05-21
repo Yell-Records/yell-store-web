@@ -1,21 +1,32 @@
-<mat-card>
-  <mat-card-header>
-    <mat-card-title>{{ cartItem.itemListing.title }}</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <b>Amount: {{ cartItem.quantity }}</b>
-    <h3>
+<div class="cart-item-card">
+  <a class="cart-item-image" [routerLink]="['/listing', cartItem.itemListing.id]">
+    <img [src]="cartItem.itemListing.imageUrl" [alt]="cartItem.itemListing.title" />
+  </a>
+
+  <div class="cart-item-content">
+    <div class="title-row">
+      <h3 class="title">
+        <a [routerLink]="['/listing', cartItem.itemListing.id]">
+          {{ cartItem.itemListing.title }}
+        </a>
+      </h3>
+
+      @if (showDelete) {
+        <button class="btn btn-outline btn-remove" (click)="onRemove()">Remove</button>
+      }
+    </div>
+
+    <div class="quantity">
+      <span class="label">Amount:</span>
+      <span class="value">{{ cartItem.quantity }}</span>
+    </div>
+
+    <div class="price">
       {{ cartItem.itemListing.price * cartItem.quantity | currency }}
-    </h3>
+    </div>
+
     @if (cartItem.quantity > 1) {
-      <p>({{ cartItem.itemListing.price | currency }} / ea.)</p>
+      <div class="unit-price">({{ cartItem.itemListing.price | currency }} / ea.)</div>
     }
-  </mat-card-content>
-  @if (showDelete) {
-    <mat-card-actions>
-      <button matIconButton matTooltip="Remove" (click)="onRemove()">
-        <mat-icon>delete</mat-icon>
-      </button>
-    </mat-card-actions>
-  }
-</mat-card>
+  </div>
+</div>

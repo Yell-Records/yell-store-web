@@ -1,29 +1,13 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CartItem } from '../cart-item.model';
-import {
-  MatCard,
-  MatCardHeader,
-  MatCardTitle,
-  MatCardContent,
-  MatCardActions,
-} from '@angular/material/card';
 import { CurrencyPipe } from '@angular/common';
-import { MatIcon } from '@angular/material/icon';
 import { ItemListing } from '../../item-listings/item-listing.model';
 import { MatButtonModule } from '@angular/material/button';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-cart-item-card',
-  imports: [
-    MatCard,
-    MatCardHeader,
-    MatCardTitle,
-    MatCardContent,
-    CurrencyPipe,
-    MatCardActions,
-    MatIcon,
-    MatButtonModule,
-  ],
+  imports: [CurrencyPipe, MatButtonModule, RouterLink],
   templateUrl: './cart-item-card.component.html',
   styleUrl: './cart-item-card.component.scss',
 })
