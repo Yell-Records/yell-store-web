@@ -38,8 +38,11 @@
       border-color: #ccc;
     }
 
-    &:active {
-      background: #ddd;
+    &.active {
+      background: #222;
+      color: #fff;
+      border-color: #222;
+      font-weight: 600;
     }
   }
 }
