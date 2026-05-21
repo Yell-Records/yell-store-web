@@ -46,8 +46,6 @@ export class AdminCategoryDisplayComponent implements OnChanges {
 
     if (sameContainer) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-
-      // TODO allow endpoint call to change category order
       return;
     }
 
