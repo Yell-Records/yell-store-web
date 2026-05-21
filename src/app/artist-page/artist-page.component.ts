@@ -4,7 +4,6 @@ import { ArtistPageService } from './service/artist-page.service';
 import { ItemListingService } from '../item-listings/item-listing.service';
 import { ArtistPage } from './service/artist-page.model';
 import { finalize } from 'rxjs';
-import { MessageService } from '../shared/message/message.service';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { ItemListing } from '../item-listings/item-listing.model';
 import { ItemListingListComponent } from '../item-listings/item-listing-list/item-listing-list.component';
@@ -21,7 +20,6 @@ export class ArtistPageComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly artistService = inject(ArtistPageService);
   private readonly itemListingService = inject(ItemListingService);
-  private readonly messageService = inject(MessageService);
   private readonly title = inject(Title);
 
   private readonly _artist = signal<ArtistPage | null>(null);
