@@ -6,10 +6,11 @@ import { finalize } from 'rxjs';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { Paginator } from '../../shared/utils/paginator';
 import { MatPaginator } from '@angular/material/paginator';
+import { OrderNumberSearchComponent } from '../../shared/display/order-number-search/order-number-search.component';
 
 @Component({
   selector: 'app-orders-in-progress',
-  imports: [OrdersListComponent, MatProgressSpinner, MatPaginator],
+  imports: [OrdersListComponent, MatProgressSpinner, MatPaginator, OrderNumberSearchComponent],
   templateUrl: './orders-in-progress.component.html',
   styleUrl: './orders-in-progress.component.scss',
 })

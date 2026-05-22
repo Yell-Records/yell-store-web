@@ -17,13 +17,17 @@
       <tbody>
         @for (order of orders; track $index) {
           <tr>
-            <td>{{ order.orderNumber }}</td>
+            <td>
+              <a [routerLink]="['/admin-dashboard/orders/order-details', order.id]">
+                {{ order.orderNumber }}
+              </a>
+            </td>
             <td>{{ fullNameOf(order) }}</td>
-            <td>{{ order.status }}</td>
+            <td>{{ normalizeStatus(order.status) }}</td>
             <td>{{ order.totalPaid | currency }}</td>
             <td>{{ relevantTime(order.createdAt) }}</td>
             <td>
-              <a [routerLink]="['/admin-dashboard/orders/order-details', order.id]">View</a>
+              <button class="view-button" (click)="navigateToOrder(order)">View</button>
             </td>
           </tr>
         }

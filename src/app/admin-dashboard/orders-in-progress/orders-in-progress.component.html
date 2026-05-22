@@ -4,6 +4,8 @@
   @if (loading()) {
     <mat-spinner></mat-spinner>
   } @else {
+    <app-order-number-search></app-order-number-search>
+
     <app-orders-list [orders]="unfinishedOrders"></app-orders-list>
 
     @if (unfinishedOrders.length > 5) {

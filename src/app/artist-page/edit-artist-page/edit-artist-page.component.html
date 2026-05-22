@@ -19,9 +19,7 @@
           <mat-form-field appearance="outline">
             <mat-label>Associated Category</mat-label>
 
-            <mat-select formControlName="categorySlug" placeholder="Select one">
-              <mat-option value="" disabled>Select one</mat-option>
-
+            <mat-select formControlName="categorySlug">
               @for (category of categories; track $index) {
                 <mat-option [value]="category.slug">{{ category.name }}</mat-option>
               }
@@ -35,9 +33,16 @@
       <h3>Page Content</h3>
       <quill-editor formControlName="bodyHtml"></quill-editor>
 
-      <button matButton="filled" [disabled]="disableSaveButton()" (click)="saveChanges()">
-        Save Changes
-      </button>
+      <div class="page-buttons">
+        <button class="delete-button" [disabled]="delReqSent()" (click)="deletePage()">
+          <span class="material-icons">delete</span>
+          Delete Page
+        </button>
+
+        <button matButton="filled" [disabled]="disableSaveButton()" (click)="saveChanges()">
+          Save Changes
+        </button>
+      </div>
     </form>
   }
 </div>

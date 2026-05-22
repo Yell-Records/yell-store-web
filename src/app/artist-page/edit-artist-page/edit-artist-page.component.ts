@@ -16,6 +16,7 @@ import { QuillEditorComponent } from 'ngx-quill';
 import { MatAnchor } from '@angular/material/button';
 import { ConfirmDialogService } from '../../shared/dialogs/confirm-dialog.service';
 import { UpdateArtistPageRequest } from '../service/update-artist-page-request.model';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-edit-artist-page',
@@ -48,6 +49,8 @@ export class EditArtistPageComponent implements OnInit {
 
   readonly loading = signal(true);
   readonly categoriesLoading = signal(true);
+
+  readonly delReqSent = signal(false);
 
   readonly editArtistPageForm = new FormGroup({
     name: new FormControl('', Validators.required),
@@ -122,6 +125,36 @@ export class EditArtistPageComponent implements OnInit {
           }
         });
     }
+  }
+
+  deletePage() {
+    const message = 'Delete this artist page? This action is permanent.';
+
+    this.confirmDialog
+      .confirm(message, { title: 'WARNING', confirmBtn: 'Delete this page' })
+      .subscribe((confirmed) => {
+        if (confirmed) {
+          this.deleteArtist();
+        }
+      });
+  }
+
+  private deleteArtist() {
+    const artist = this._artist();
+
+    if (!artist) return;
+
+    this.artistService
+      .deleteArtistPage(artist.id)
+      .pipe(finalize(() => this.delReqSent.set(false)))
+      .subscribe({
+        next: () => {
+          this.editArtistPageForm.markAsPristine();
+          this.messageService.info('Artist page deleted.');
+          this.router.navigate(['/artists']);
+        },
+        error: (err: HttpErrorResponse) => this.messageService.error(err.message),
+      });
   }
 
   private extractFormData(): UpdateArtistPageRequest {

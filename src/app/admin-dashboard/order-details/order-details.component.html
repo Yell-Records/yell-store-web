@@ -12,7 +12,7 @@
     @if (orderDetails.anonymized) {
       <div class="anonymized-banner">
         <mat-icon>visibility_off</mat-icon>
-        This order was anonymized at {{ orderDetails.anonymizedAt | date: 'medium' }}
+        This order was anonymized on {{ orderDetails.anonymizedAt | date: "MMM d, y 'at' h:mm a" }}
       </div>
     }
     <div class="header">
@@ -84,40 +84,42 @@
     }
 
     <!-- Customer info -->
-    <section class="section">
-      <div class="section-header">
-        <h2>Customer Information</h2>
-      </div>
+    @if (!orderDetails.anonymized) {
+      <section class="section">
+        <div class="section-header">
+          <h2>Customer Information</h2>
+        </div>
 
-      <div class="section-body customer-block with-divider">
-        <div class="customer-col">
-          <h3>Ship To</h3>
+        <div class="section-body customer-block with-divider">
+          <div class="customer-col">
+            <h3>Ship To</h3>
 
-          <div class="shipping-text">
-            <span class="bold">{{ fullNameOf(orderDetails) }}</span>
-            <br />
-            <span>{{ orderDetails.shippingAddressLine1 }}</span>
-            <br />
-            @if (orderDetails.shippingAddressLine2) {
-              <span>{{ orderDetails.shippingAddressLine2 }}</span>
+            <div class="shipping-text">
+              <span class="bold">{{ fullNameOf(orderDetails) }}</span>
               <br />
-            }
-            <span>{{ addressPart2Of(orderDetails) }}</span>
+              <span>{{ orderDetails.shippingAddressLine1 }}</span>
+              <br />
+              @if (orderDetails.shippingAddressLine2) {
+                <span>{{ orderDetails.shippingAddressLine2 }}</span>
+                <br />
+              }
+              <span>{{ addressPart2Of(orderDetails) }}</span>
+            </div>
+          </div>
+
+          <div class="customer-col contact">
+            <h3>Contact</h3>
+            <a class="email-text" [href]="'mailto:' + orderDetails.buyerEmail">
+              {{ orderDetails.buyerEmail }}
+            </a>
+            <br />
+            <a class="phone-link" href="tel:{{ orderDetails.shippingPhone }}">
+              {{ formattedPhone() }}
+            </a>
           </div>
         </div>
-
-        <div class="customer-col contact">
-          <h3>Contact</h3>
-          <a class="email-text" [href]="'mailto:' + orderDetails.buyerEmail">
-            {{ orderDetails.buyerEmail }}
-          </a>
-          <br />
-          <a class="phone-link" href="tel:{{ orderDetails.shippingPhone }}">
-            {{ formattedPhone() }}
-          </a>
-        </div>
-      </div>
-    </section>
+      </section>
+    }
 
     <!-- Payment totals -->
     <section class="payment-box">

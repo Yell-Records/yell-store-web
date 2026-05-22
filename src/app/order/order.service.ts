@@ -38,6 +38,19 @@ export class OrderService {
   }
 
   /**
+   * Retrieves an order associated with an order number.
+   *
+   * ### Error code
+   * - 404: If the order does not exist.
+   *
+   * @param orderNumber
+   * @returns
+   */
+  getOrderFromNumber(orderNumber: number): Observable<Order> {
+    return this.http.get<Order>(`${this.baseUrl}/order-number/${orderNumber}`);
+  }
+
+  /**
    * Marks an order as confirmed and in-progress. Requires admin.
    *
    * @param orderId
