@@ -1,1 +1,24 @@
-<p>artist-page works!</p>
+<div class="artist-page">
+  @if (loading()) {
+    <mat-spinner></mat-spinner>
+  } @else if (artistPage === null) {
+    <h1>Artist Not Found</h1>
+    <p>Info on this artist could not be located.</p>
+  } @else {
+    @if (isLoggedIn) {
+      <div class="artist-page__edit-container">
+        <button class="artist-page__edit-btn" (click)="navigateEdit()">
+          <span class="material-icons">edit</span>
+          Edit
+        </button>
+      </div>
+    }
+
+    <div class="artist-page__content" [innerHTML]="artistPage.bodyHtml"></div>
+
+    @if (artistListings.length > 0) {
+      <h2>Available products from this artist</h2>
+      <app-item-listing-list [listings]="artistListings"></app-item-listing-list>
+    }
+  }
+</div>

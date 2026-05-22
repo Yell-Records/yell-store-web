@@ -3,8 +3,7 @@ export interface ArtistPage {
   slug: string;
   name: string;
   bodyHtml: string;
-  youtubeUrls: string[];
-  categoryId: string;
+  categorySlug: string;
   createdAt: string;
   updatedAt: string;
 }

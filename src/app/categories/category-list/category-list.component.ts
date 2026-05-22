@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, OnInit, signal } from '@angular/core';
 import { Category } from '../category.model';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -8,13 +8,19 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './category-list.component.html',
   styleUrl: './category-list.component.scss',
 })
-export class CategoryListComponent {
+export class CategoryListComponent implements OnInit {
   @Input({ required: true }) categories!: Category[];
 
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
 
   private currentSlug: string | null = null;
+
+  readonly activeCategory = signal<string | null>(null);
+
+  ngOnInit(): void {
+    this.listenForRouteParams();
+  }
 
   applyCategoryParam(slug: string) {
     if (slug !== this.currentSlug) {
@@ -30,6 +36,14 @@ export class CategoryListComponent {
 
       this.clearParams();
     }
+  }
+
+  private listenForRouteParams() {
+    this.route.queryParamMap.subscribe((params) => {
+      const category = params.get('category');
+
+      this.activeCategory.set(category);
+    });
   }
 
   private clearParams() {

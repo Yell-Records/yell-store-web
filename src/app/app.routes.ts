@@ -7,7 +7,6 @@ import { userRedirectGuard } from './users/user-redirect.guard';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { checkoutGuard } from './checkout/checkout.guard';
 import { NotFoundComponent } from './not-found/not-found.component';
-import { authGuard } from './auth/auth.guard';
 import { CartComponent } from './cart/cart.component';
 import { UserSettingsComponent } from './user-settings/user-settings.component';
 import { ItemListingPageComponent } from './item-listings/item-listing-page/item-listing-page.component';
@@ -26,6 +25,13 @@ import { ItemListingsListComponent } from './admin-dashboard/item-listings-list/
 import { checkoutDeactivateGuard } from './checkout/checkout-deactivate.guard';
 import { EditPolicyComponent } from './admin-dashboard/edit-policy/edit-policy.component';
 import { editPolicyDeactivateGuard } from './admin-dashboard/edit-policy/edit-policy-deactivate.guard';
+import { AddArtistPageComponent } from './admin-dashboard/add-artist-page/add-artist-page.component';
+import { ArtistPageComponent } from './artist-page/artist-page.component';
+import { ArtistsListPageComponent } from './artists-list-page/artists-list-page.component';
+import { addArtistDeactivateGuard } from './admin-dashboard/add-artist-page/add-artist-deactivate.guard';
+import { EditArtistPageComponent } from './artist-page/edit-artist-page/edit-artist-page.component';
+import { editArtistDeactivateGuard } from './artist-page/edit-artist-page/edit-artist-deactivate.guard';
+import { editGuard } from './shared/guards/edit.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -41,7 +47,7 @@ export const routes: Routes = [
   {
     path: 'listing/:listid/edit',
     component: EditItemListingComponent,
-    canActivate: [authGuard],
+    canActivate: [editGuard],
   },
   {
     path: 'checkout',
@@ -81,8 +87,23 @@ export const routes: Routes = [
   {
     path: 'account-settings',
     component: UserSettingsComponent,
-    canActivate: [authGuard],
+    canActivate: [adminGuard],
     title: yrTitle('Account Settings'),
+  },
+  {
+    path: 'artists',
+    component: ArtistsListPageComponent,
+    title: yrTitle('Artists'),
+  },
+  {
+    path: 'artists/:artistSlug',
+    component: ArtistPageComponent,
+  },
+  {
+    path: 'artists/:artistSlug/edit',
+    component: EditArtistPageComponent,
+    canActivate: [editGuard],
+    canDeactivate: [editArtistDeactivateGuard],
   },
   {
     path: 'order-placed',
@@ -137,6 +158,12 @@ export const routes: Routes = [
         path: 'policies/:name/edit',
         component: EditPolicyComponent,
         canDeactivate: [editPolicyDeactivateGuard],
+        data: { hideFooter: true },
+      },
+      {
+        path: 'add-artist-page',
+        component: AddArtistPageComponent,
+        canDeactivate: [addArtistDeactivateGuard],
         data: { hideFooter: true },
       },
     ],

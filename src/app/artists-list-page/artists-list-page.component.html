@@ -1,0 +1,19 @@
+<div class="artist-list-page">
+  <h1 class="artist-list-title">Artists</h1>
+
+  @if (loading()) {
+    <mat-spinner></mat-spinner>
+  } @else if (artists.length === 0) {
+    <p class="artist-list-empty">No artists found.</p>
+  } @else {
+    <ul class="artist-grid">
+      @for (artist of artists; track $index) {
+        <li class="artist-card">
+          <a [routerLink]="[artist.slug]" class="artist-card-link">
+            <div class="artist-card-name">{{ artist.name }}</div>
+          </a>
+        </li>
+      }
+    </ul>
+  }
+</div>

@@ -50,8 +50,8 @@ export class ArtistPageService {
    * @param updates
    * @returns
    */
-  updateArtistPage(pageId: string, updates: UpdateArtistPageRequest): Observable<void> {
-    return this.http.patch<void>(`${this.baseUrl}/${pageId}`, updates);
+  updateArtistPage(pageId: string, updates: UpdateArtistPageRequest): Observable<ArtistPage> {
+    return this.http.patch<ArtistPage>(`${this.baseUrl}/${pageId}`, updates);
   }
 
   /**

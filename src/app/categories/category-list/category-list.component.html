@@ -1,9 +1,19 @@
-<ul class="categories">
-  @for (category of categories; track $index) {
-    <li class="category">
-      <button class="category__link" (click)="applyCategoryParam(category.slug)">
-        {{ category.name }}
-      </button>
-    </li>
-  }
-</ul>
+@if (categories.length > 0) {
+  <ul class="categories">
+    <h3 class="categories__title">Categories</h3>
+
+    <div class="category-list">
+      @for (category of categories; track $index) {
+        <li class="category">
+          <button
+            class="category__link"
+            [class.active]="activeCategory() === category.slug"
+            (click)="applyCategoryParam(category.slug)"
+          >
+            {{ category.name }}
+          </button>
+        </li>
+      }
+    </div>
+  </ul>
+}

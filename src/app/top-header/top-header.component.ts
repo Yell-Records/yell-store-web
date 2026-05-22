@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { Router, RouterLinkWithHref, RouterLinkActive } from '@angular/router';
 import { User } from '../users/user.model';
 import { UserStore } from '../core/stores/user.store';
@@ -8,10 +8,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { CartButtonComponent } from '../cart/cart-button/cart-button.component';
 import { MatIcon } from '@angular/material/icon';
 import { MatMenu, MatMenuTrigger, MatMenuItem } from '@angular/material/menu';
-import { AuthService } from '../auth/auth.service';
 import { ConfirmDialogService } from '../shared/dialogs/confirm-dialog.service';
 import { MessageService } from '../shared/message/message.service';
 import { MatTooltip } from '@angular/material/tooltip';
+import { ArtistPageService } from '../artist-page/service/artist-page.service';
 
 @Component({
   selector: 'app-top-header',
@@ -30,15 +30,21 @@ import { MatTooltip } from '@angular/material/tooltip';
   templateUrl: './top-header.component.html',
   styleUrl: './top-header.component.scss',
 })
-export class TopHeaderComponent {
+export class TopHeaderComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly userStore = inject(UserStore);
-  private readonly auth = inject(AuthService);
   private readonly confirmDialog = inject(ConfirmDialogService);
   private readonly messageService = inject(MessageService);
+  private readonly artistService = inject(ArtistPageService);
+
+  private readonly _artistsCount = signal(0);
 
   get user(): User | null {
     return this.userStore.user();
+  }
+
+  ngOnInit(): void {
+    this.loadArtists();
   }
 
   showNavTabs(): boolean {
@@ -52,6 +58,10 @@ export class TopHeaderComponent {
     const isAtCart = this.router.url.includes('/cart');
 
     return !isAtCheckout && !isAtCart;
+  }
+
+  showArtistsTab(): boolean {
+    return this._artistsCount() > 0;
   }
 
   appLogout() {
@@ -73,5 +83,11 @@ export class TopHeaderComponent {
 
   private isAt404(): boolean {
     return this.router.routerState.snapshot.root.firstChild?.component === NotFoundComponent;
+  }
+
+  private loadArtists() {
+    this.artistService.getArtistPages().subscribe({
+      next: (artists) => this._artistsCount.set(artists.length),
+    });
   }
 }

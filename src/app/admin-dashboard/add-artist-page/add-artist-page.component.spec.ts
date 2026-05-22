@@ -1,29 +1,29 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TopHeaderComponent } from './top-header.component';
+import { AddArtistPageComponent } from './add-artist-page.component';
 import { provideRouter } from '@angular/router';
-import { ArtistPageService } from '../artist-page/service/artist-page.service';
+import { CategoryService } from '../../categories/category.service';
 import { of } from 'rxjs';
 
-describe('TopHeaderComponent', () => {
-  let component: TopHeaderComponent;
-  let fixture: ComponentFixture<TopHeaderComponent>;
+describe('AddArtistPageComponent', () => {
+  let component: AddArtistPageComponent;
+  let fixture: ComponentFixture<AddArtistPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TopHeaderComponent],
+      imports: [AddArtistPageComponent],
       providers: [
         provideRouter([]),
         {
-          provide: ArtistPageService,
+          provide: CategoryService,
           useValue: {
-            getArtistPages: () => of([]),
+            getAllCategories: () => of([]),
           },
         },
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(TopHeaderComponent);
+    fixture = TestBed.createComponent(AddArtistPageComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

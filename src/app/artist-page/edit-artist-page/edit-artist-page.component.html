@@ -1,0 +1,43 @@
+<div class="edit-artist-page">
+  @if (loading()) {
+    <mat-spinner></mat-spinner>
+  } @else if (currentData === null) {
+    <p>Could not load artist page data.</p>
+  } @else {
+    <h1 class="page-title">Editing artist page: {{ currentData.name }}</h1>
+
+    <form class="artist-form" [formGroup]="editArtistPageForm">
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Artist Name</mat-label>
+          <input matInput appPersonName maxlength="100" formControlName="name" />
+        </mat-form-field>
+
+        @if (categoriesLoading()) {
+          <p>Loading categories...</p>
+        } @else {
+          <mat-form-field appearance="outline">
+            <mat-label>Associated Category</mat-label>
+
+            <mat-select formControlName="categorySlug" placeholder="Select one">
+              <mat-option value="" disabled>Select one</mat-option>
+
+              @for (category of categories; track $index) {
+                <mat-option [value]="category.slug">{{ category.name }}</mat-option>
+              }
+            </mat-select>
+
+            <mat-hint>Products listed under this category will be displayed on the page.</mat-hint>
+          </mat-form-field>
+        }
+      </div>
+
+      <h3>Page Content</h3>
+      <quill-editor formControlName="bodyHtml"></quill-editor>
+
+      <button matButton="filled" [disabled]="disableSaveButton()" (click)="saveChanges()">
+        Save Changes
+      </button>
+    </form>
+  }
+</div>

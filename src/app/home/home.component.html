@@ -4,7 +4,7 @@
   @if (loadingListings()) {
     <mat-spinner></mat-spinner>
   } @else if (paginatorListings.length === 0) {
-    <p class="center-align">There are no listings yet.</p>
+    <p class="center-align">No product listings were found.</p>
   } @else {
     <app-item-listing-list [listings]="paginatorListings.pagedItems()"></app-item-listing-list>
 

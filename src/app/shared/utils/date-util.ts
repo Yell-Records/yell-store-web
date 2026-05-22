@@ -85,6 +85,23 @@ export class DateUtil {
   }
 
   /**
+   * Checks if two dates are at least 1 minute apart.
+   *
+   * @param date1
+   * @param date2
+   * @returns
+   */
+  static isTimeDifferent(date1: string | Date, date2: string | Date): boolean {
+    const d1 = new Date(date1).getTime();
+    const d2 = new Date(date2).getTime();
+
+    const diffMs = Math.abs(d1 - d2);
+
+    // Treat differences under 1 minute as "the same"
+    return diffMs > DateUtil.MS_PER_MINUTE;
+  }
+
+  /**
    * Gets the difference in calendar days between two dates.
    *
    * Example: 01/29/2026 6:00 AM vs 02/01/2026 3:00 AM = `2` days

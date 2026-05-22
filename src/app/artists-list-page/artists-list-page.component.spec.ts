@@ -1,22 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CategoryListComponent } from './category-list.component';
+import { ArtistsListPageComponent } from './artists-list-page.component';
 import { provideRouter } from '@angular/router';
 
-describe('CategoryListComponent', () => {
-  let component: CategoryListComponent;
-  let fixture: ComponentFixture<CategoryListComponent>;
+describe('ArtistsListPageComponent', () => {
+  let component: ArtistsListPageComponent;
+  let fixture: ComponentFixture<ArtistsListPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CategoryListComponent],
+      imports: [ArtistsListPageComponent],
       providers: [provideRouter([])],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(CategoryListComponent);
+    fixture = TestBed.createComponent(ArtistsListPageComponent);
     component = fixture.componentInstance;
-    component.categories = [];
-
     await fixture.whenStable();
   });
 
