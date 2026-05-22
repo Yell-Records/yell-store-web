@@ -5,6 +5,7 @@ import { firstValueFrom } from 'rxjs';
 import { Order } from '../../order/order.model';
 import { CartItemService } from '../../cart/cart-item.service';
 import { Router } from '@angular/router';
+import { CheckoutNavigationService } from '../../checkout/checkout-navigation-service/checkout-navigation.service';
 
 @Component({
   selector: 'app-paypal-button',
@@ -18,6 +19,7 @@ export class PayPalButtonComponent implements AfterViewInit {
   private readonly orderService = inject(OrderService);
   private readonly cartService = inject(CartItemService);
   private readonly router = inject(Router);
+  private readonly checkoutNavService = inject(CheckoutNavigationService);
 
   ngAfterViewInit(): void {
     this.paypal.loadSdk().then(() => {
@@ -41,6 +43,8 @@ export class PayPalButtonComponent implements AfterViewInit {
 
     this.cartService.clearLocalCart();
 
+    // Override the exit flag at checkout
+    this.checkoutNavService.allowExit();
     this.router.navigate(['/order-placed']);
 
     return updatedOrder;
