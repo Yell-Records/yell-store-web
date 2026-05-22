@@ -24,6 +24,7 @@ import { PayPalButtonComponent } from '../paypal/paypal-button/paypal-button.com
 import { Order } from '../order/order.model';
 import { UpdateOrderRequest } from '../order/update-order-request.model';
 import { MatCheckbox } from '@angular/material/checkbox';
+import { CheckoutNavigationService } from './checkout-navigation-service/checkout-navigation.service';
 
 @Component({
   selector: 'app-checkout',
@@ -53,6 +54,7 @@ export class CheckoutComponent {
   private readonly orderService = inject(OrderService);
   private readonly messageService = inject(MessageService);
   private readonly auth = inject(AuthService);
+  private readonly checkoutNavService = inject(CheckoutNavigationService);
 
   readonly checkoutForm = new FormGroup({
     buyerEmail: new FormControl('', [Validators.required, Validators.email]),
@@ -121,11 +123,26 @@ export class CheckoutComponent {
   }
 
   get formPhone(): string {
-    return this.checkoutForm.get('phone')!.value!;
+    const raw = this.checkoutForm.get('phone')!.value ?? '';
+    const digits = raw.replace(/\D+/g, '').slice(0, 10);
+
+    if (digits.length <= 3) {
+      return digits;
+    }
+
+    if (digits.length <= 6) {
+      return `(${digits.slice(0, 3)}) ${digits.slice(3)}`;
+    }
+
+    return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
+  }
+
+  get formEmail(): string {
+    return this.checkoutForm.get('buyerEmail')!.value!;
   }
 
   canExit(): boolean {
-    return !this.checkoutForm.dirty;
+    return !this.checkoutForm.dirty || this.checkoutNavService.canExit();
   }
 
   @HostListener('window:beforeunload', ['$event'])

@@ -1,0 +1,9 @@
+<div class="search-container">
+  <mat-form-field appearance="outline">
+    <mat-label>{{ placeholder }}</mat-label>
+    <input matInput appDigitsOnly maxlength="10" [formControl]="searchControl" />
+  </mat-form-field>
+
+  <button matButton="filled" [disabled]="reqSent()" (click)="searchAndNavigate()">Search</button>
+  <button matButton="text" (click)="reset()">Clear</button>
+</div>
