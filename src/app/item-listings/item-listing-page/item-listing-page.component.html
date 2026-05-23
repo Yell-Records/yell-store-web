@@ -26,7 +26,9 @@
       }
 
       @if (listing.isActive) {
-        <button class="add-btn" [disabled]="isLoggedIn" (click)="addToCart()">Add to Cart</button>
+        <button class="add-btn" [disabled]="isLoggedIn || reqSent()" (click)="addToCart()">
+          Add to Cart
+        </button>
       } @else {
         <p>This item is currently not for sale.</p>
       }

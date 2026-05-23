@@ -17,6 +17,7 @@ import { MessageService } from '../../shared/message/message.service';
 import { AddCartItemRequest } from '../../cart/add-cart-item-request.model';
 import { yrTitle } from '../../title/qm-title';
 import { DateUtil } from '../../shared/utils/date-util';
+import { finalize } from 'rxjs';
 import { ShippingAlertComponent } from '../../shared/display/shipping-alert/shipping-alert.component';
 
 @Component({
@@ -45,6 +46,7 @@ export class ItemListingPageComponent implements OnInit {
   private readonly _listing = signal<ItemListing | null>(null);
 
   readonly notFound = signal(false);
+  readonly reqSent = signal(false);
 
   ngOnInit(): void {
     this.listenForRouteParams();
@@ -71,10 +73,15 @@ export class ItemListingPageComponent implements OnInit {
       itemQuantity: 1,
     };
 
-    this.cartService.addItemToCart(addItemRequest).subscribe({
-      next: () => this.messageService.info(`${this.listing?.title} was added to your cart.`),
-      error: (err: HttpErrorResponse) => this.messageService.error(err.message),
-    });
+    this.reqSent.set(true);
+
+    this.cartService
+      .addItemToCart(addItemRequest)
+      .pipe(finalize(() => this.reqSent.set(false)))
+      .subscribe({
+        next: () => this.messageService.info(`${this.listing?.title} was added to your cart.`),
+        error: (err: HttpErrorResponse) => this.messageService.error(err.message),
+      });
   }
 
   updatedHasDifference(): boolean {
