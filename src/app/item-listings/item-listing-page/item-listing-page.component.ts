@@ -18,6 +18,7 @@ import { AddCartItemRequest } from '../../cart/add-cart-item-request.model';
 import { yrTitle } from '../../title/qm-title';
 import { DateUtil } from '../../shared/utils/date-util';
 import { finalize } from 'rxjs';
+import { ShippingAlertComponent } from '../../shared/display/shipping-alert/shipping-alert.component';
 
 @Component({
   imports: [
@@ -28,6 +29,7 @@ import { finalize } from 'rxjs';
     MatButtonModule,
     MatIcon,
     MatTooltip,
+    ShippingAlertComponent,
   ],
   templateUrl: './item-listing-page.component.html',
   styleUrl: './item-listing-page.component.scss',
