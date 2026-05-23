@@ -9,25 +9,6 @@
   </section>
 
   <section class="section-card">
-    <h2 class="section-title">Update Email</h2>
-
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Email</mat-label>
-      <input matInput appEmail maxlength="100" [formControl]="emailControl" />
-    </mat-form-field>
-
-    <button
-      mat-flat-button
-      color="primary"
-      class="action-btn"
-      (click)="submitEmailForm()"
-      [disabled]="disableEmailControl()"
-    >
-      Update Email
-    </button>
-  </section>
-
-  <section class="section-card">
     <h2 class="section-title">Change Password</h2>
 
     <form class="password-form" [formGroup]="changePasswordForm">

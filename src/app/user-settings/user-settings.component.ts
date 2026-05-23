@@ -14,27 +14,16 @@ import { UserStore } from '../core/stores/user.store';
 import { ChangePasswordRequest } from '../auth/change-password-request.model';
 import { MessageService } from '../shared/message/message.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { EmailDirective } from '../shared/directives/email.directive';
-import { UserService } from '../users/user.service';
 
 @Component({
   selector: 'app-user-settings',
-  imports: [
-    ReactiveFormsModule,
-    MatFormField,
-    MatLabel,
-    MatInput,
-    MatAnchor,
-    EmailDirective,
-    MatError,
-  ],
+  imports: [ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatAnchor, MatError],
   templateUrl: './user-settings.component.html',
   styleUrl: './user-settings.component.scss',
 })
 export class UserSettingsComponent {
   private readonly auth = inject(AuthService);
   private readonly userStore = inject(UserStore);
-  private readonly userService = inject(UserService);
   private readonly messageService = inject(MessageService);
 
   readonly emailControl = new FormControl('', [Validators.required, Validators.email]);
@@ -62,21 +51,6 @@ export class UserSettingsComponent {
 
       this.emailControl.setValue(user.email);
     });
-  }
-
-  disableEmailControl(): boolean {
-    const isSame = this.userStore.user()?.email === this.emailControl.value;
-
-    return isSame || !this.emailControl.touched;
-  }
-
-  submitEmailForm() {
-    if (this.emailControl.valid) {
-      this.userService.updateEmail(this.auth.userId!, this.emailControl.value!).subscribe({
-        next: () => this.messageService.success('Email updated.'),
-        error: (err: HttpErrorResponse) => this.messageService.error(err.message),
-      });
-    }
   }
 
   submitPasswordForm() {
