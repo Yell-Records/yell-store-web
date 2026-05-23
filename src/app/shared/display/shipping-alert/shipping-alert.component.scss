@@ -1,0 +1,30 @@
+.shipping-alert {
+  background: #fff8e1; /* warm vintage yellow */
+  border: 1px solid #e0c97f; /* soft gold */
+  color: #5a4a1f; /* warm brown */
+  padding: 10px 14px;
+  margin-bottom: 20px;
+  border-radius: 6px;
+}
+
+.notice-text {
+  background: #e0c97f; /* soft gold */
+  color: #3d3314; /* warm brown */
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-right: 10px;
+  letter-spacing: 0.5px;
+}
+
+.shipping-alert-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+mat-icon {
+  color: #5a4a1f;
+}

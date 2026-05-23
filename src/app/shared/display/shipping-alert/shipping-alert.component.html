@@ -1,0 +1,12 @@
+@if (showAlert()) {
+  <mat-card class="shipping-alert">
+    <div class="shipping-alert-content">
+      <mat-icon>warning</mat-icon>
+      <span><b>Please note:</b> We currently ship only within the United States.</span>
+
+      <button matIconButton (click)="dismissAlert()" matTooltip="Dismiss">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </mat-card>
+}
