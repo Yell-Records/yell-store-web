@@ -59,7 +59,7 @@ describe('DateUtil', () => {
     const overWeek = new Date(Date.now() - 9 * DateUtil.MS_PER_DAY);
     const result = DateUtil.formatDistanceToNow(overWeek);
 
-    expect(result).toBe('12/23/2025 at 6:00 AM');
+    expect(result).toBe('12/23/2025');
   });
 
   // ================

@@ -6,6 +6,11 @@
   color: #1f2937; /* slate-800 */
 }
 
+.record-image {
+  width: 128px;
+  height: 128px;
+}
+
 .about-hero {
   text-align: center;
   margin-bottom: 48px;
@@ -40,7 +45,7 @@ section h2::after {
   display: block;
   width: 40px;
   height: 3px;
-  background: #3b82f6; /* electric blue accent */
+  background: goldenrod; /* electric blue accent */
   margin-top: 6px;
   border-radius: 2px;
 }
