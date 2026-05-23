@@ -49,19 +49,48 @@
 
 .nav-tabs {
   display: flex;
-  gap: 40px;
+  justify-content: center;
+  gap: 6rem;
+  padding: 1rem 0;
 
   a {
+    position: relative;
+    padding: 0.5rem 0;
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: #555; /* default text */
     text-decoration: none;
-    color: black;
-    font-size: medium;
-    padding: 20px 40px;
-  }
+    transition: color 0.25s ease;
 
-  a.active {
-    font-weight: bold;
-    border: 1px solid gray;
-    border-radius: 12px;
+    &:hover {
+      color: #000; /* darker on hover */
+    }
+
+    /* Animated underline */
+    &::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      bottom: -4px;
+      width: 0;
+      height: 2px;
+      background: darkorange;
+      border-radius: 2px;
+      transition: all 0.25s ease;
+      transform: translateX(-50%);
+    }
+
+    &:hover::after {
+      width: 60%;
+    }
+
+    &.active {
+      color: #000; /* active tab text */
+
+      &::after {
+        width: 60%;
+      }
+    }
   }
 }
 

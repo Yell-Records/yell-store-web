@@ -81,7 +81,7 @@ export class DateUtil {
     }
 
     // Final fallback
-    return `${d.toLocaleDateString()} at ${this.formatTime(d)}`;
+    return d.toLocaleDateString();
   }
 
   /**

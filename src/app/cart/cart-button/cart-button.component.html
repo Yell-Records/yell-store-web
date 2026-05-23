@@ -1,19 +1,5 @@
-@if (!guest) {
-  <button matIconButton matTooltip="View cart" (click)="navigateCart()">
-    <mat-icon
-      [matBadge]="cartItemCount"
-      [matBadgeHidden]="cartItemCount === 0"
-      matBadgeColor="accent"
-    >
-      shopping_cart
-    </mat-icon>
-  </button>
-} @else {
-  <button class="guest-btn" (click)="navigateCart()">
-    <span>View Cart</span>
-    &nbsp;
-    @if (cartItemCount > 0) {
-      <span>({{ cartItemCount }})</span>
-    }
-  </button>
-}
+<button class="guest-btn" (click)="navigateCart()">
+  <span class="material-icons">shopping_cart</span>
+  <span>View Cart</span>
+  <span>({{ cartItemCount }})</span>
+</button>

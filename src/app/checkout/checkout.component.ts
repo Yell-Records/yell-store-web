@@ -89,7 +89,7 @@ export class CheckoutComponent {
   }
 
   get orderTotal(): number {
-    return this.subtotal + (this.orderTax ?? 0) + (this.orderShippingCost ?? 0);
+    return this.subtotal + (this.orderShippingCost ?? 0);
   }
 
   get orderShippingCost(): number | null {
