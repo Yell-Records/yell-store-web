@@ -17,6 +17,7 @@ import { MessageService } from '../../shared/message/message.service';
 import { AddCartItemRequest } from '../../cart/add-cart-item-request.model';
 import { yrTitle } from '../../title/qm-title';
 import { DateUtil } from '../../shared/utils/date-util';
+import { ShippingAlertComponent } from '../../shared/display/shipping-alert/shipping-alert.component';
 
 @Component({
   imports: [
@@ -27,6 +28,7 @@ import { DateUtil } from '../../shared/utils/date-util';
     MatButtonModule,
     MatIcon,
     MatTooltip,
+    ShippingAlertComponent,
   ],
   templateUrl: './item-listing-page.component.html',
   styleUrl: './item-listing-page.component.scss',

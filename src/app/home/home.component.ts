@@ -16,6 +16,7 @@ import { ItemListingListComponent } from '../item-listings/item-listing-list/ite
 import { CategoryListComponent } from '../categories/category-list/category-list.component';
 import { Category } from '../categories/category.model';
 import { CategoryService } from '../categories/category.service';
+import { ShippingAlertComponent } from '../shared/display/shipping-alert/shipping-alert.component';
 
 @Component({
   selector: 'app-home',
@@ -29,6 +30,7 @@ import { CategoryService } from '../categories/category.service';
     MatPaginator,
     ItemListingListComponent,
     CategoryListComponent,
+    ShippingAlertComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',

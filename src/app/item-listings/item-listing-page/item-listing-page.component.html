@@ -3,6 +3,8 @@
 } @else if (!listing) {
   <mat-spinner></mat-spinner>
 } @else {
+  <app-shipping-alert></app-shipping-alert>
+
   <div class="listing-container">
     <div class="image-col">
       <img [src]="listing.imageUrl || 'assets/no_image.jpg'" [alt]="listing.title" />
