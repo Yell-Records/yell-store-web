@@ -1,5 +1,34 @@
-.center-align {
-  display: grid;
-  justify-content: center;
+.login-container {
+  display: flex;
+  flex-direction: column;
   align-items: center;
+
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.too-many-req-alert {
+  background: #fff7db;
+  border: 1px solid #d8c27a;
+  color: #4a3e1a;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+.too-many-req-alert-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+mat-icon {
+  color: #4a3e1a;
+  font-size: 20px;
+  height: 20px;
+  width: 20px;
+  opacity: 0.85;
 }

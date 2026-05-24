@@ -1,22 +1,31 @@
-<div class="center-align">
+<div class="login-container">
+  @if (isTooManyReq()) {
+    <mat-card class="too-many-req-alert">
+      <div class="too-many-req-alert-content">
+        <mat-icon>error</mat-icon>
+        <span>Too many login attempts. Please try again in a moment.</span>
+      </div>
+    </mat-card>
+  }
+
   <h1>Login</h1>
   <form [formGroup]="loginForm">
-    <mat-form-field>
+    <mat-form-field appearance="fill">
       <mat-label>Username</mat-label>
       <input matInput (change)="formValid()" formControlName="username" required />
     </mat-form-field>
-    <br />
-    <mat-form-field>
+
+    <mat-form-field appearance="fill">
       <mat-label>Password</mat-label>
       <input matInput (change)="formValid()" type="password" formControlName="password" required />
     </mat-form-field>
-
-    <br />
-
-    @if (!loading()) {
-      <button matButton="filled" (click)="login()" [disabled]="btnLoginDisabled">Login</button>
-    } @else {
-      <mat-spinner></mat-spinner>
-    }
   </form>
+
+  @if (!loading()) {
+    <button matButton="filled" (click)="login()" [disabled]="btnLoginDisabled() || isTooManyReq()">
+      Login
+    </button>
+  } @else {
+    <mat-spinner></mat-spinner>
+  }
 </div>
