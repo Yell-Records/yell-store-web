@@ -10,14 +10,16 @@
   } @else {
     <app-item-listing-list [listings]="paginatorListings.pagedItems()"></app-item-listing-list>
 
-    <br />
+    @if (paginatorListings.length > 20) {
+      <br />
 
-    <mat-paginator
-      [length]="paginatorListings.length"
-      [pageIndex]="paginatorListings.pageIndex"
-      [pageSize]="paginatorListings.pageSize"
-      [pageSizeOptions]="[20, 50]"
-      (page)="paginatorListings.onPage($event)"
-    ></mat-paginator>
+      <mat-paginator
+        [length]="paginatorListings.length"
+        [pageIndex]="paginatorListings.pageIndex"
+        [pageSize]="paginatorListings.pageSize"
+        [pageSizeOptions]="[20, 50]"
+        (page)="paginatorListings.onPage($event)"
+      ></mat-paginator>
+    }
   }
 </div>

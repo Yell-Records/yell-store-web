@@ -1,3 +1,11 @@
+:host {
+  font-family: 'Inter', sans-serif;
+}
+
+:host * {
+  font-family: inherit;
+}
+
 .settings-container {
   max-width: 600px;
   margin: 0 auto;
