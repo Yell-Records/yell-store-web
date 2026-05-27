@@ -1,3 +1,11 @@
+:host {
+  font-family: 'Inter', sans-serif;
+}
+
+:host * {
+  font-family: inherit;
+}
+
 .dash-container {
   display: flex;
   min-height: calc(100vh - 64px);
