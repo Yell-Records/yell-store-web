@@ -11,10 +11,6 @@
     The front-end dashboard for the Yell Records store.
 </p>
 
-<p align="center">
-    <img src="https://img.shields.io/badge/status-in_development-blue" />
-</p>
-
 ## Project Overview
 
 This repository is public for CI/CD purposes only. All rights reserved. No permission is granted to use, copy, modify, or
