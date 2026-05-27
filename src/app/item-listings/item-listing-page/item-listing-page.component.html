@@ -33,17 +33,10 @@
         <p>This item is currently not for sale.</p>
       }
 
-      <div class="meta-row">
-        <span>Listed {{ createdDate() }}</span>
-        @if (updatedHasDifference()) {
-          <span>Updated {{ updatedDate() }}</span>
-        }
-      </div>
+      <section class="description-section">
+        <h2>Description</h2>
+        <p>{{ listing.description || 'No description provided.' }}</p>
+      </section>
     </div>
   </div>
-
-  <section class="description-section">
-    <h2>Description</h2>
-    <p>{{ listing.description || 'No description provided.' }}</p>
-  </section>
 }
