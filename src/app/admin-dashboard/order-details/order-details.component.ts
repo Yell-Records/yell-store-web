@@ -248,7 +248,7 @@ export class OrderDetailsComponent implements OnInit {
         'Are you sure you want to cancel this order? You will need to issue a refund.';
 
       this.confirmDialog
-        .confirm(message, { title: 'WARNING', cancelBtn: 'Cancel Order', confirmBtn: 'Go Back' })
+        .confirm(message, { title: 'WARNING', confirmBtn: 'Cancel Order', cancelBtn: 'Go Back' })
         .subscribe((confirmed) => {
           if (confirmed) {
             const orderId = this._order()!.id;
