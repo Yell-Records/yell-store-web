@@ -1,7 +1,7 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { AuthService } from './auth.service';
-import { tap } from 'rxjs';
+import { catchError, switchMap, throwError } from 'rxjs';
 
 /**
  * Interceptor which attaches the login token to every request.
@@ -11,26 +11,22 @@ import { tap } from 'rxjs';
  * @returns
  */
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const authService = inject(AuthService);
-  const token = authService.rawToken;
-
-  const authReq =
-    token && authService.isTokenValid()
-      ? req.clone({
-          setHeaders: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-      : req;
+  const authReq = req.clone({
+    withCredentials: true,
+  });
 
   return next(authReq).pipe(
-    tap({
-      error: (err: HttpErrorResponse) => {
-        // Token retrieved is invalid. Logout the user
-        if (err.status === 401) {
-          authService.logout();
-        }
-      },
+    catchError((error: HttpErrorResponse) => {
+      if (error.status === 401) {
+        const auth = inject(AuthService);
+        // Attemp refresh call
+        return auth.refreshCurrentSession().pipe(
+          switchMap(() => next(req)),
+          catchError(() => throwError(() => error)),
+        );
+      }
+
+      return throwError(() => error);
     }),
   );
 };

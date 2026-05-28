@@ -4,13 +4,13 @@ import { MatCardModule } from '@angular/material/card';
 import { ItemListing } from '../item-listing.model';
 import { MatFabButton } from '@angular/material/button';
 import { CartItemService } from '../../cart/cart-item.service';
-import { AuthService } from '../../auth/auth.service';
 import { MessageService } from '../../shared/message/message.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { MatIcon } from '@angular/material/icon';
 import { MatTooltip } from '@angular/material/tooltip';
 import { AddCartItemRequest } from '../../cart/add-cart-item-request.model';
+import { UserStore } from '../../core/stores/user.store';
 
 @Component({
   selector: 'app-item-listing',
@@ -23,7 +23,7 @@ export class ItemListingComponent {
   @Input() showUsername = true;
 
   private readonly cartService = inject(CartItemService);
-  private readonly auth = inject(AuthService);
+  private readonly userStore = inject(UserStore);
   private readonly messageService = inject(MessageService);
   private readonly router = inject(Router);
 
@@ -33,7 +33,7 @@ export class ItemListingComponent {
 
   addToCart(): void {
     const addItemRequest: AddCartItemRequest = {
-      guestSessionId: this.auth.guestId!,
+      guestSessionId: this.userStore.guestSessionId!, // Not null since users cannot add items
       listingInfo: this.listing,
       itemQuantity: 1,
     };
@@ -46,6 +46,6 @@ export class ItemListingComponent {
   }
 
   get isLoggedIn(): boolean {
-    return this.auth.isLoggedIn;
+    return this.userStore.isLoggedIn();
   }
 }

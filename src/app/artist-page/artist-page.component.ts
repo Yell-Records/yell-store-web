@@ -9,7 +9,7 @@ import { ItemListing } from '../item-listings/item-listing.model';
 import { ItemListingListComponent } from '../item-listings/item-listing-list/item-listing-list.component';
 import { Title } from '@angular/platform-browser';
 import { yrTitle } from '../title/qm-title';
-import { AuthService } from '../auth/auth.service';
+import { UserStore } from '../core/stores/user.store';
 
 @Component({
   selector: 'app-artist-page',
@@ -22,7 +22,7 @@ export class ArtistPageComponent implements OnInit {
   private readonly artistService = inject(ArtistPageService);
   private readonly itemListingService = inject(ItemListingService);
   private readonly title = inject(Title);
-  private readonly auth = inject(AuthService);
+  private readonly userStore = inject(UserStore);
   private readonly router = inject(Router);
 
   private readonly _artist = signal<ArtistPage | null>(null);
@@ -47,7 +47,7 @@ export class ArtistPageComponent implements OnInit {
   }
 
   get isLoggedIn(): boolean {
-    return this.auth.isLoggedIn;
+    return this.userStore.isLoggedIn();
   }
 
   private listenForRouteParams() {
