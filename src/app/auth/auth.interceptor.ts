@@ -12,7 +12,7 @@ let isRefreshing = false;
 let refreshSubject: ReplaySubject<string | null> | null = null;
 
 /**
- * Interceptor which attaches the login token to every request.
+ * Attaches cookie credentials to requests and calls for a refresh if the cookie is invalid.
  *
  * @param req
  * @param next
@@ -54,6 +54,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
             }),
           );
         } else {
+          // Await the initial response from the first refresh
           return refreshSubject!.pipe(
             filter((it) => it !== null),
             take(1),
