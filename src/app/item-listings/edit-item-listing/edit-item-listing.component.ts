@@ -105,7 +105,7 @@ export class EditItemListingComponent implements OnInit {
   }
 
   saveClicked() {
-    if (this.userStore.isLoggedIn() && this.editListingForm.valid) {
+    if (this.userStore.hasUser() && this.editListingForm.valid) {
       const listing = this.listing()!;
       const updates = this.getUpdates();
 

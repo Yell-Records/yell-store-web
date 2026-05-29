@@ -70,7 +70,7 @@ export class CreateItemListingComponent implements OnInit {
   }
 
   createListing() {
-    if (this.createListingForm.valid && this.userStore.isLoggedIn()) {
+    if (this.createListingForm.valid && this.userStore.hasUser()) {
       const values = this.createListingForm.value!;
       const price = Number(values.price!.replace(',', ''));
 

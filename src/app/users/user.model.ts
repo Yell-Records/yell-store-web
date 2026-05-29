@@ -3,6 +3,5 @@ export interface User {
   email: string;
   id: string;
   role: string;
-  balance: number;
   createdAt: string;
 }

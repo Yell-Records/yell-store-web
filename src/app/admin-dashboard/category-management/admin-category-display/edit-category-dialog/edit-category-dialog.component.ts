@@ -62,7 +62,7 @@ export class EditCategoryDialogComponent {
     const valuesAreDifferent =
       formName !== this.existingCategory.name && formSlug !== this.existingCategory.slug;
 
-    return valuesAreDifferent && this.userStore.isLoggedIn() && this.editCategoryForm.valid;
+    return valuesAreDifferent && this.userStore.hasUser() && this.editCategoryForm.valid;
   }
 
   submitForm() {

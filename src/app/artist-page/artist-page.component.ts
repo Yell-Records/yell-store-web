@@ -47,7 +47,7 @@ export class ArtistPageComponent implements OnInit {
   }
 
   get isLoggedIn(): boolean {
-    return this.userStore.isLoggedIn();
+    return this.userStore.hasUser();
   }
 
   private listenForRouteParams() {

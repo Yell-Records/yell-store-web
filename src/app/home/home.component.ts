@@ -119,6 +119,6 @@ export class HomeComponent implements OnInit {
   }
 
   get loggedIn(): boolean {
-    return this.userStore.isLoggedIn();
+    return this.userStore.hasUser();
   }
 }

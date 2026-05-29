@@ -46,7 +46,7 @@ export class CategoryManagementComponent implements OnInit {
   }
 
   submitCreateForm() {
-    if (this.categoryNameControl.valid && this.userStore.isLoggedIn()) {
+    if (this.categoryNameControl.valid && this.userStore.hasUser()) {
       this.confirmDialog
         .confirm('Create new category? This action is permanent.')
         .subscribe((confirmed) => {

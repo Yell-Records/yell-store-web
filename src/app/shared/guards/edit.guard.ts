@@ -12,7 +12,7 @@ export const editGuard: CanActivateFn = (route: ActivatedRouteSnapshot) => {
   const userStore = inject(UserStore);
   const router = inject(Router);
 
-  if (userStore.isLoggedIn()) {
+  if (userStore.hasUser()) {
     return true;
   }
 

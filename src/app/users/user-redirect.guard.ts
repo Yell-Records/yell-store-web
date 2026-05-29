@@ -6,5 +6,5 @@ export const userRedirectGuard: CanActivateFn = () => {
   const userStore = inject(UserStore);
   const router = inject(Router);
 
-  return userStore.isLoggedIn() ? router.createUrlTree(['/home']) : true;
+  return userStore.hasUser() ? router.createUrlTree(['/home']) : true;
 };

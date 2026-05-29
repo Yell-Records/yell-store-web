@@ -12,7 +12,7 @@ export const adminGuard: CanActivateFn = () => {
   const userStore = inject(UserStore);
   const router = inject(Router);
 
-  if (!userStore.isLoggedIn()) {
+  if (!userStore.hasUser()) {
     return router.createUrlTree(['/404']);
   }
 

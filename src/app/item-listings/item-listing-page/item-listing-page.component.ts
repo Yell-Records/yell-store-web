@@ -57,7 +57,7 @@ export class ItemListingPageComponent implements OnInit {
   }
 
   get isLoggedIn(): boolean {
-    return this.userStore.isLoggedIn();
+    return this.userStore.hasUser();
   }
 
   navigateEdit() {
@@ -65,7 +65,7 @@ export class ItemListingPageComponent implements OnInit {
   }
 
   addToCart() {
-    if (this.userStore.isLoggedIn()) return;
+    if (this.userStore.hasUser()) return;
 
     const addItemRequest: AddCartItemRequest = {
       guestSessionId: this.userStore.guestSessionId!,

@@ -46,6 +46,6 @@ export class ItemListingComponent {
   }
 
   get isLoggedIn(): boolean {
-    return this.userStore.isLoggedIn();
+    return this.userStore.hasUser();
   }
 }

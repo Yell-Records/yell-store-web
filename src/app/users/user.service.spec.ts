@@ -14,7 +14,6 @@ describe('UserService', () => {
     email: 'test@tester.com',
     id: '1',
     role: 'user',
-    balance: 1000.0,
     createdAt: '2026-01-01 00:00:0000',
   };
 

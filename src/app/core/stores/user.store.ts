@@ -2,36 +2,41 @@ import { inject, Injectable, signal } from '@angular/core';
 import { User } from '../../users/user.model';
 import { AuthService } from '../../auth/auth.service';
 import { v4 as uuidv4 } from 'uuid';
+import { firstValueFrom } from 'rxjs';
 
 /**
  * Holds information on the current client session.
  */
 @Injectable({ providedIn: 'root' })
 export class UserStore {
-  private readonly _user = signal<User | null>(null);
-  private readonly _guestId = signal<string | null>(null);
   private readonly auth = inject(AuthService);
 
   private readonly guestSessionKey = 'guestSessionId';
 
+  private readonly _user = signal<User | null>(null);
+  private readonly _guestId = signal<string | null>(null);
+
   /**
    * Initializes the user store.
    *
-   * @returns
+   * @returns Promise from authentication service detailing the current client.
    */
-  init() {
-    this.auth.getCurrentUser().subscribe({
-      next: (user) => this.initUser(user),
-      error: () => this.initGuest(),
-    });
+  async init(): Promise<void> {
+    try {
+      const user = await firstValueFrom(this.auth.getCurrentUser());
+
+      return this.initUser(user);
+    } catch {
+      return this.initGuest();
+    }
   }
 
   /**
-   * Checks if the client is currently logged in.
+   * Checks the user signal to verify if the client is currently a logged-in session.
    *
-   * @returns
+   * @returns true if user is not null.
    */
-  isLoggedIn(): boolean {
+  hasUser(): boolean {
     return this._user() !== null;
   }
 
@@ -49,9 +54,16 @@ export class UserStore {
     return this._guestId();
   }
 
+  /**
+   * Initializes a user session and clears information on the previous guest session.
+   *
+   * @param user User data to set.
+   */
   initUser(user: User) {
     this._user.set(user);
     this._guestId.set(null);
+    this.auth.setLoginStatus(true);
+    localStorage.removeItem(this.guestSessionKey);
   }
 
   /**
@@ -60,15 +72,19 @@ export class UserStore {
   initGuest() {
     this._user.set(null);
 
-    const currentId = localStorage.getItem(this.guestSessionKey) ?? null;
+    const currentGuestId = localStorage.getItem(this.guestSessionKey);
 
-    if (currentId) {
-      this._guestId.set(currentId);
+    if (currentGuestId) {
+      // Reset the value with the ID from storage
+      this._guestId.set(currentGuestId);
     } else {
+      // Generate a new ID
       const newId = uuidv4();
 
       localStorage.setItem(this.guestSessionKey, newId);
       this._guestId.set(newId);
     }
+
+    this.auth.setLoginStatus(false);
   }
 }
