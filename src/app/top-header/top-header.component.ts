@@ -12,6 +12,8 @@ import { ConfirmDialogService } from '../shared/dialogs/confirm-dialog.service';
 import { MessageService } from '../shared/message/message.service';
 import { MatTooltip } from '@angular/material/tooltip';
 import { ArtistPageService } from '../artist-page/service/artist-page.service';
+import { MatBadge } from '@angular/material/badge';
+import { CartItemService } from '../cart/cart-item.service';
 
 @Component({
   selector: 'app-top-header',
@@ -26,6 +28,7 @@ import { ArtistPageService } from '../artist-page/service/artist-page.service';
     MatMenu,
     MatMenuItem,
     MatTooltip,
+    MatBadge,
   ],
   templateUrl: './top-header.component.html',
   styleUrl: './top-header.component.scss',
@@ -36,11 +39,16 @@ export class TopHeaderComponent implements OnInit {
   private readonly confirmDialog = inject(ConfirmDialogService);
   private readonly messageService = inject(MessageService);
   private readonly artistService = inject(ArtistPageService);
+  private readonly cartService = inject(CartItemService);
 
   private readonly _artistsCount = signal(0);
 
   get user(): User | null {
     return this.userStore.user();
+  }
+
+  cartItemCount(): number {
+    return this.cartService.cartCount();
   }
 
   ngOnInit(): void {
@@ -71,6 +79,10 @@ export class TopHeaderComponent implements OnInit {
         this.messageService.info('You have been logged out.');
       }
     });
+  }
+
+  navigateCart() {
+    this.router.navigate(['/cart']);
   }
 
   navigateAdminDash() {

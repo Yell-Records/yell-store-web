@@ -56,3 +56,16 @@
     }
   </div>
 </header>
+
+<!-- Mobile "view cart" button -->
+@if (showViewCart()) {
+  <button
+    matFab
+    [matBadge]="cartItemCount()"
+    [matBadgeHidden]="cartItemCount() === 0"
+    class="mobile-cart-button"
+    (click)="navigateCart()"
+  >
+    <mat-icon>shopping_cart</mat-icon>
+  </button>
+}

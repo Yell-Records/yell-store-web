@@ -132,3 +132,31 @@
     background: rgba(211, 47, 47, 0.08);
   }
 }
+
+@media (max-width: 480px) {
+  .cart-item-card {
+    flex-direction: column;
+    gap: 12px;
+    overflow-x: visible;
+  }
+
+  .btn {
+    position: absolute;
+    top: 12px;
+    right: 40px;
+  }
+
+  .cart-item-image {
+    height: auto;
+    aspect-ratio: 1 / 1;
+  }
+
+  .cart-item-content {
+    width: 100%;
+  }
+
+  .title-row {
+    flex-direction: row;
+    align-items: center;
+  }
+}

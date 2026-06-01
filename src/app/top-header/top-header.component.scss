@@ -110,6 +110,10 @@
   margin-right: 20px;
 }
 
+.mobile-cart-button {
+  display: none;
+}
+
 /* 📱 MOBILE HEADER FIX */
 @media (max-width: 480px) {
   :host {
@@ -128,32 +132,30 @@
     width: 100vw;
   }
 
-  /* LOGO SECTION */
   .left {
     display: flex;
     justify-content: center;
-    width: 100%; /* <-- THIS is the key */
+    width: 100%;
   }
 
   .banner-img {
-    width: 100%; /* <-- ensures full viewport centering */
+    width: 100%;
     display: flex;
     justify-content: center;
   }
 
   .banner-img img {
-    width: 180px;
+    width: 240px;
     max-width: 100%;
     height: auto;
     padding: 0;
   }
 
-  /* NAV TABS */
   .nav-tabs {
     display: flex;
     justify-content: center;
-    width: 100%; /* <-- ensures full viewport centering */
-    gap: 1.5rem;
+    width: 100%;
+    gap: 3rem;
     padding: 0.5rem 0;
   }
 
@@ -161,8 +163,14 @@
     font-size: 0.9rem;
   }
 
-  /* HIDE RIGHT SIDE */
   .right {
     display: none;
+  }
+
+  .mobile-cart-button {
+    display: flex;
+    position: fixed;
+    bottom: 16px;
+    left: 16px;
   }
 }
