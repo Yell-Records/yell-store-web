@@ -8,7 +8,6 @@ import { DescriptionDirective } from '../../shared/directives/description.direct
 import { MatAnchor } from '@angular/material/button';
 import { ItemListingService } from '../item-listing.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from '../../auth/auth.service';
 import { ItemListing } from '../item-listing.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MessageService } from '../../shared/message/message.service';
@@ -23,6 +22,7 @@ import { Category } from '../../categories/category.model';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { finalize } from 'rxjs';
+import { UserStore } from '../../core/stores/user.store';
 
 @Component({
   selector: 'app-edit-item-listing',
@@ -61,7 +61,7 @@ export class EditItemListingComponent implements OnInit {
   private readonly itemListingService = inject(ItemListingService);
   private readonly activeRoute = inject(ActivatedRoute);
   private readonly router = inject(Router);
-  private readonly auth = inject(AuthService);
+  private readonly userStore = inject(UserStore);
   private readonly messageService = inject(MessageService);
   private readonly confirmDialog = inject(ConfirmDialogService);
   private readonly categoryService = inject(CategoryService);
@@ -105,7 +105,7 @@ export class EditItemListingComponent implements OnInit {
   }
 
   saveClicked() {
-    if (this.auth.isLoggedIn && this.editListingForm.valid) {
+    if (this.userStore.hasUser() && this.editListingForm.valid) {
       const listing = this.listing()!;
       const updates = this.getUpdates();
 

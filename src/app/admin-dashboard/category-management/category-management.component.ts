@@ -9,9 +9,9 @@ import { TitleDirective } from '../../shared/directives/title.directive';
 import { CategoryService } from '../../categories/category.service';
 import { MessageService } from '../../shared/message/message.service';
 import { ConfirmDialogService } from '../../shared/dialogs/confirm-dialog.service';
-import { AuthService } from '../../auth/auth.service';
 import { Category } from '../../categories/category.model';
 import { CreateCategoryRequest } from '../../categories/create-category-request.model';
+import { UserStore } from '../../core/stores/user.store';
 
 @Component({
   selector: 'app-category-management',
@@ -31,7 +31,7 @@ export class CategoryManagementComponent implements OnInit {
   private readonly categoryService = inject(CategoryService);
   private readonly messageService = inject(MessageService);
   private readonly confirmDialog = inject(ConfirmDialogService);
-  private readonly auth = inject(AuthService);
+  private readonly userStore = inject(UserStore);
 
   readonly categoryNameControl = new FormControl('', Validators.required);
 
@@ -46,7 +46,7 @@ export class CategoryManagementComponent implements OnInit {
   }
 
   submitCreateForm() {
-    if (this.categoryNameControl.valid && this.auth.isLoggedIn) {
+    if (this.categoryNameControl.valid && this.userStore.hasUser()) {
       this.confirmDialog
         .confirm('Create new category? This action is permanent.')
         .subscribe((confirmed) => {

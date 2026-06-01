@@ -7,8 +7,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ConfirmDialogService } from '../shared/dialogs/confirm-dialog.service';
 import { MessageService } from '../shared/message/message.service';
-import { AuthService } from '../auth/auth.service';
 import { CurrencyPipe } from '@angular/common';
+import { UserStore } from '../core/stores/user.store';
 
 @Component({
   selector: 'app-cart',
@@ -18,20 +18,22 @@ import { CurrencyPipe } from '@angular/common';
 })
 export class CartComponent {
   private readonly cartItemService = inject(CartItemService);
-  private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
   private readonly confirmService = inject(ConfirmDialogService);
   private readonly messageService = inject(MessageService);
+  private readonly userStore = inject(UserStore);
 
   removeCartItem(listing: ItemListing) {
     this.confirmService
       .confirm(`Are you sure you want to remove ${listing.title} from your cart?`)
       .subscribe((confirmed) => {
         if (confirmed) {
-          this.cartItemService.removeItemFromGuestCart(this.auth.guestId!, listing.id!).subscribe({
-            next: () => this.messageService.info(`${listing.title} was removed.`),
-            error: (err: HttpErrorResponse) => this.messageService.error(err.message),
-          });
+          this.cartItemService
+            .removeItemFromGuestCart(this.userStore.guestSessionId!, listing.id!)
+            .subscribe({
+              next: () => this.messageService.info(`${listing.title} was removed.`),
+              error: (err: HttpErrorResponse) => this.messageService.error(err.message),
+            });
         }
       });
   }
@@ -41,7 +43,7 @@ export class CartComponent {
       .confirm('Are you sure you want to clear your cart?')
       .subscribe((confirmed) => {
         if (confirmed) {
-          this.cartItemService.clearGuestCart(this.auth.guestId!).subscribe({
+          this.cartItemService.clearGuestCart(this.userStore.guestSessionId!).subscribe({
             next: () => this.messageService.info('Your cart was cleared.'),
             error: (err: HttpErrorResponse) => this.messageService.error(err.message),
           });

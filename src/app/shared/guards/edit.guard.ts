@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router, ActivatedRouteSnapshot } from '@angular/router';
-import { AuthService } from '../../auth/auth.service';
+import { UserStore } from '../../core/stores/user.store';
 
 /**
  * Redirect a non-user back to the original page from editing.
@@ -9,10 +9,10 @@ import { AuthService } from '../../auth/auth.service';
  * @returns
  */
 export const editGuard: CanActivateFn = (route: ActivatedRouteSnapshot) => {
-  const auth = inject(AuthService);
+  const userStore = inject(UserStore);
   const router = inject(Router);
 
-  if (auth.isLoggedIn) {
+  if (userStore.hasUser()) {
     return true;
   }
 

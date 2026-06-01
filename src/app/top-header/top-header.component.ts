@@ -12,6 +12,7 @@ import { ConfirmDialogService } from '../shared/dialogs/confirm-dialog.service';
 import { MessageService } from '../shared/message/message.service';
 import { MatTooltip } from '@angular/material/tooltip';
 import { ArtistPageService } from '../artist-page/service/artist-page.service';
+import { AuthService } from '../auth/auth.service';
 import { MatBadge } from '@angular/material/badge';
 import { CartItemService } from '../cart/cart-item.service';
 
@@ -39,12 +40,13 @@ export class TopHeaderComponent implements OnInit {
   private readonly confirmDialog = inject(ConfirmDialogService);
   private readonly messageService = inject(MessageService);
   private readonly artistService = inject(ArtistPageService);
+  private readonly auth = inject(AuthService);
   private readonly cartService = inject(CartItemService);
 
   private readonly _artistsCount = signal(0);
 
   get user(): User | null {
-    return this.userStore.user();
+    return this.userStore.user;
   }
 
   cartItemCount(): number {
@@ -75,8 +77,13 @@ export class TopHeaderComponent implements OnInit {
   appLogout() {
     this.confirmDialog.confirm('Logout?').subscribe((confirmed) => {
       if (confirmed) {
-        this.userStore.clear({ navigateLogin: true });
-        this.messageService.info('You have been logged out.');
+        this.auth.logout().subscribe({
+          complete: () => {
+            this.messageService.info('You have been logged out.');
+            this.userStore.initGuest();
+            this.router.navigate(['/login']);
+          },
+        });
       }
     });
   }

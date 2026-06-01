@@ -82,7 +82,7 @@
 
     &:disabled {
       background: lightgray;
-      cursor: default;
+      cursor: not-allowed;
       color: gray;
     }
   }

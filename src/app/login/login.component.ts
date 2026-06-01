@@ -98,9 +98,8 @@ export class LoginComponent {
       .login(username, password)
       .pipe(finalize(() => this.loading.set(false)))
       .subscribe({
-        next: (res) => {
-          this.authService.setToken(res.token);
-          this.userStore.init();
+        next: (user) => {
+          this.userStore.initUser(user);
           this.router.navigate(['/home']);
         },
         error: (err: HttpErrorResponse) => {
@@ -115,7 +114,9 @@ export class LoginComponent {
               }
               break;
             default:
-              this.messageService.error(err.message);
+              this.messageService.error(
+                `There was an issue with your request (status: ${err.status}).`,
+              );
           }
         },
       });

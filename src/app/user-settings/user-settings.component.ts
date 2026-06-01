@@ -1,5 +1,4 @@
 import { Component, effect, inject } from '@angular/core';
-import { AuthService } from '../auth/auth.service';
 import {
   AbstractControl,
   FormControl,
@@ -14,6 +13,7 @@ import { UserStore } from '../core/stores/user.store';
 import { ChangePasswordRequest } from '../auth/change-password-request.model';
 import { MessageService } from '../shared/message/message.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-user-settings',
@@ -45,7 +45,7 @@ export class UserSettingsComponent {
 
   constructor() {
     effect(() => {
-      const user = this.userStore.user();
+      const user = this.userStore.user;
 
       if (!user) return;
 
@@ -61,7 +61,7 @@ export class UserSettingsComponent {
         rawNew2: this.changePasswordForm.get('confirmPassword')!.value!,
       };
 
-      this.auth.changeUserPassword(this.auth.userId!, req).subscribe({
+      this.auth.changeUserPassword(this.userStore.user!.id, req).subscribe({
         next: () => {
           this.messageService.success('Your password was changed.');
           this.changePasswordForm.reset();
@@ -106,6 +106,6 @@ export class UserSettingsComponent {
   }
 
   get username(): string {
-    return this.auth.username!;
+    return this.userStore.user!.username!;
   }
 }
