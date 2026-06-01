@@ -73,6 +73,14 @@
   overflow-y: auto;
 }
 
+.dash-menu-toggle {
+  display: none;
+}
+
+.dash-overlay {
+  display: none;
+}
+
 @media (max-width: 480px) {
   .dash-menu {
     position: fixed;
@@ -109,6 +117,7 @@
   }
 
   .dash-overlay {
+    display: flex;
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, 0.4);
