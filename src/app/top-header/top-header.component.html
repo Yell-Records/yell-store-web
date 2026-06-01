@@ -21,7 +21,7 @@
     </div>
   }
 
-  <div class="right">
+  <div class="right" [class.mobile-admin-actions]="user !== null">
     @if (user === null) {
       <!-- Guest information group -->
       <div class="view-cart-btn">
@@ -58,7 +58,7 @@
 </header>
 
 <!-- Mobile "view cart" button -->
-@if (showViewCart()) {
+@if (showViewCart() && user === null) {
   <button
     matFab
     [matBadge]="cartItemCount()"

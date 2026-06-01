@@ -167,6 +167,12 @@
     display: none;
   }
 
+  .mobile-admin-actions {
+    border-top: 1px solid gray;
+    display: flex;
+    padding-top: 10px;
+  }
+
   .mobile-cart-button {
     display: flex;
     position: fixed;

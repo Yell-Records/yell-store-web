@@ -95,3 +95,44 @@
   font-size: 14px;
   margin-top: 12px;
 }
+
+@media (max-width: 480px) {
+  .category-container {
+    flex-direction: column;
+    gap: 2rem;
+    padding: 1rem 1rem;
+    margin-bottom: 30px;
+  }
+
+  .category-section {
+    width: 100%;
+  }
+
+  .category-list {
+    min-width: 100%;
+    padding: 0.75rem;
+    gap: 0.5rem;
+  }
+
+  .category-item {
+    font-size: 0.9rem;
+    padding: 8px 10px;
+  }
+
+  /* Make drag preview smaller on phones */
+  .category-item.cdk-drag-preview {
+    transform: scale(0.95);
+  }
+
+  /* Prevent horizontal scroll from long category names */
+  .category-item {
+    word-break: break-word;
+  }
+
+  /* Bottom hint spacing */
+  .bottom-text-hint {
+    margin-top: 4px;
+    font-size: 13px;
+    text-align: center;
+  }
+}
