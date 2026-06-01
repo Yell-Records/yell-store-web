@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { AuthService } from '../auth/auth.service';
+import { UserStore } from '../core/stores/user.store';
 
 /**
  * Accepts only clients that have an authorization role of admin or superadmin.
@@ -9,14 +9,14 @@ import { AuthService } from '../auth/auth.service';
  * @returns
  */
 export const adminGuard: CanActivateFn = () => {
-  const auth = inject(AuthService);
+  const userStore = inject(UserStore);
   const router = inject(Router);
 
-  if (!auth.isLoggedIn) {
+  if (!userStore.hasUser()) {
     return router.createUrlTree(['/404']);
   }
 
-  const role = auth.userRole;
+  const role = userStore.user!.role;
   if (role === null || role !== 'ADMIN') {
     return router.createUrlTree(['/404']);
   }

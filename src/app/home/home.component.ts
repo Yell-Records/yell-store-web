@@ -2,12 +2,11 @@ import { Component, effect, inject, OnInit, signal } from '@angular/core';
 import { ItemListingService } from '../item-listings/item-listing.service';
 import { ItemListing } from '../item-listings/item-listing.model';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { AuthService } from '../auth/auth.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Paginator } from '../shared/utils/paginator';
 import { MatPaginator } from '@angular/material/paginator';
@@ -17,6 +16,7 @@ import { CategoryListComponent } from '../categories/category-list/category-list
 import { Category } from '../categories/category.model';
 import { CategoryService } from '../categories/category.service';
 import { ShippingAlertComponent } from '../shared/display/shipping-alert/shipping-alert.component';
+import { UserStore } from '../core/stores/user.store';
 
 @Component({
   selector: 'app-home',
@@ -43,8 +43,7 @@ export class HomeComponent implements OnInit {
 
   showUserListings = true;
 
-  private readonly router = inject(Router);
-  private readonly authService = inject(AuthService);
+  private readonly userStore = inject(UserStore);
   private readonly itemListingService = inject(ItemListingService);
   private readonly categoryService = inject(CategoryService);
   private readonly route = inject(ActivatedRoute);
@@ -120,6 +119,6 @@ export class HomeComponent implements OnInit {
   }
 
   get loggedIn(): boolean {
-    return this.authService.isLoggedIn;
+    return this.userStore.hasUser();
   }
 }

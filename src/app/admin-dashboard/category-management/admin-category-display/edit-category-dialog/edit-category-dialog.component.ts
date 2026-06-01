@@ -9,8 +9,8 @@ import { CategorySlugDirective } from '../../../../shared/directives/category-sl
 import { CategoryService } from '../../../../categories/category.service';
 import { Category } from '../../../../categories/category.model';
 import { MessageService } from '../../../../shared/message/message.service';
-import { AuthService } from '../../../../auth/auth.service';
 import { PatchCategoryRequest } from '../../../../categories/patch-category-request.model';
+import { UserStore } from '../../../../core/stores/user.store';
 
 @Component({
   selector: 'app-edit-category-dialog',
@@ -32,7 +32,7 @@ export class EditCategoryDialogComponent {
   private readonly dialogRef = inject(MatDialogRef<EditCategoryDialogComponent>);
   private readonly existingCategory = inject(MAT_DIALOG_DATA) as Category;
   private readonly messageService = inject(MessageService);
-  private readonly auth = inject(AuthService);
+  private readonly userStore = inject(UserStore);
 
   readonly categoryTitle = signal<string>('');
 
@@ -62,7 +62,7 @@ export class EditCategoryDialogComponent {
     const valuesAreDifferent =
       formName !== this.existingCategory.name && formSlug !== this.existingCategory.slug;
 
-    return valuesAreDifferent && this.auth.isLoggedIn && this.editCategoryForm.valid;
+    return valuesAreDifferent && this.userStore.hasUser() && this.editCategoryForm.valid;
   }
 
   submitForm() {

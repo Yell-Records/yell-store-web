@@ -3,8 +3,8 @@ import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { CartItem } from './cart-item.model';
 import { environment } from '../../environments/environment';
-import { AuthService } from '../auth/auth.service';
 import { AddCartItemRequest } from './add-cart-item-request.model';
+import { UserStore } from '../core/stores/user.store';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +13,7 @@ export class CartItemService {
   readonly baseUrl = `${environment.apiUrl}/cart-items`;
 
   private readonly http = inject(HttpClient);
-  private readonly auth = inject(AuthService);
+  private readonly userStore = inject(UserStore);
 
   private readonly _cartItems = signal<CartItem[]>([]);
 
@@ -35,24 +35,15 @@ export class CartItemService {
 
   constructor() {
     effect(() => {
-      // Trigger this effect
-      this.auth.authChanged();
+      const guestSessionId = this.userStore.guestSessionId;
 
-      const userId = this.auth.userId;
-
-      if (!userId) {
-        const guestId = this.auth.guestId;
-
-        if (guestId != null) {
-          this.getCartItemsByGuestSession(guestId).subscribe((items) => {
-            this._cartItems.set(items);
-            this.cartLoadedSubject.next(true);
-          });
-        } else {
-          this._cartItems.set([]);
-        }
-
-        return;
+      if (guestSessionId) {
+        this.getCartItemsByGuestSession(guestSessionId).subscribe((items) => {
+          this._cartItems.set(items);
+          this.cartLoadedSubject.next(true);
+        });
+      } else {
+        this._cartItems.set([]);
       }
     });
   }

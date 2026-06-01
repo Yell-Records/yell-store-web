@@ -17,11 +17,11 @@ import { TitleDirective } from '../../shared/directives/title.directive';
 import { DescriptionDirective } from '../../shared/directives/description.directive';
 import { ImageInputComponent } from '../../shared/inputs/image-input/image-input.component';
 import { ItemListingService } from '../../item-listings/item-listing.service';
-import { AuthService } from '../../auth/auth.service';
 import { MessageService } from '../../shared/message/message.service';
 import { CategoryService } from '../../categories/category.service';
 import { Category } from '../../categories/category.model';
 import { CreateItemListingRequest } from '../../item-listings/create-item-listing-request.model';
+import { UserStore } from '../../core/stores/user.store';
 
 @Component({
   selector: 'app-create-item-listing',
@@ -52,7 +52,7 @@ export class CreateItemListingComponent implements OnInit {
   });
 
   private readonly itemListingService = inject(ItemListingService);
-  private readonly authService = inject(AuthService);
+  private readonly userStore = inject(UserStore);
   private readonly router = inject(Router);
   private readonly messageService = inject(MessageService);
   private readonly categoryService = inject(CategoryService);
@@ -70,7 +70,7 @@ export class CreateItemListingComponent implements OnInit {
   }
 
   createListing() {
-    if (this.createListingForm.valid && this.authService.isLoggedIn) {
+    if (this.createListingForm.valid && this.userStore.hasUser()) {
       const values = this.createListingForm.value!;
       const price = Number(values.price!.replace(',', ''));
 

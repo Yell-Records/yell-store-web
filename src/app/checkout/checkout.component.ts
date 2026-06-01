@@ -1,6 +1,5 @@
 import { Component, HostListener, inject, signal } from '@angular/core';
 import { CartItemService } from '../cart/cart-item.service';
-import { AuthService } from '../auth/auth.service';
 import { CartItemCardListComponent } from '../cart/cart-item-card-list/cart-item-card-list.component';
 import { CurrencyPipe } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -25,6 +24,7 @@ import { Order } from '../order/order.model';
 import { UpdateOrderRequest } from '../order/update-order-request.model';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { CheckoutNavigationService } from './checkout-navigation-service/checkout-navigation.service';
+import { UserStore } from '../core/stores/user.store';
 
 @Component({
   selector: 'app-checkout',
@@ -53,7 +53,7 @@ export class CheckoutComponent {
   private readonly cartService = inject(CartItemService);
   private readonly orderService = inject(OrderService);
   private readonly messageService = inject(MessageService);
-  private readonly auth = inject(AuthService);
+  private readonly userStore = inject(UserStore);
   private readonly checkoutNavService = inject(CheckoutNavigationService);
 
   readonly checkoutForm = new FormGroup({
@@ -175,7 +175,7 @@ export class CheckoutComponent {
 
   private getFormUpdates(): UpdateOrderRequest {
     const req: UpdateOrderRequest = {
-      guestSessionId: this.auth.guestId!,
+      guestSessionId: this.userStore.guestSessionId!,
       buyerEmail: this.checkoutForm.get('buyerEmail')!.value!,
       shippingFirstName: this.checkoutForm.get('firstName')!.value!,
       shippingLastName: this.checkoutForm.get('lastName')!.value!,
@@ -192,7 +192,7 @@ export class CheckoutComponent {
 
   private extractFormValues(): CreateOrderRequest {
     const req: CreateOrderRequest = {
-      guestSessionId: this.auth.guestId!,
+      guestSessionId: this.userStore.guestSessionId!,
       buyerEmail: this.checkoutForm.get('buyerEmail')!.value!,
       shippingFirstName: this.checkoutForm.get('firstName')!.value!,
       shippingLastName: this.checkoutForm.get('lastName')!.value!,

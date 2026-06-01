@@ -3,7 +3,6 @@ import { ItemListing } from '../item-listing.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ItemListingService } from '../item-listing.service';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { AuthService } from '../../auth/auth.service';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { DecimalPipe } from '@angular/common';
 import { Title } from '@angular/platform-browser';
@@ -19,6 +18,7 @@ import { yrTitle } from '../../title/qm-title';
 import { DateUtil } from '../../shared/utils/date-util';
 import { finalize } from 'rxjs';
 import { ShippingAlertComponent } from '../../shared/display/shipping-alert/shipping-alert.component';
+import { UserStore } from '../../core/stores/user.store';
 
 @Component({
   imports: [
@@ -37,7 +37,7 @@ import { ShippingAlertComponent } from '../../shared/display/shipping-alert/ship
 export class ItemListingPageComponent implements OnInit {
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly itemListingService = inject(ItemListingService);
-  private readonly auth = inject(AuthService);
+  private readonly userStore = inject(UserStore);
   private readonly title = inject(Title);
   private readonly cartService = inject(CartItemService);
   private readonly messageService = inject(MessageService);
@@ -57,7 +57,7 @@ export class ItemListingPageComponent implements OnInit {
   }
 
   get isLoggedIn(): boolean {
-    return this.auth.isLoggedIn;
+    return this.userStore.hasUser();
   }
 
   navigateEdit() {
@@ -65,10 +65,10 @@ export class ItemListingPageComponent implements OnInit {
   }
 
   addToCart() {
-    if (this.auth.isLoggedIn) return;
+    if (this.userStore.hasUser()) return;
 
     const addItemRequest: AddCartItemRequest = {
-      guestSessionId: this.auth.guestId!,
+      guestSessionId: this.userStore.guestSessionId!,
       listingInfo: this.listing!,
       itemQuantity: 1,
     };
