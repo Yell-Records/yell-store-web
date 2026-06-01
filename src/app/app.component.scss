@@ -8,3 +8,13 @@
   display: grid;
   grid-auto-rows: auto 1fr auto;
 }
+
+@media (max-width: 480px) {
+  .page-padding {
+    padding: 0px 0px; /* reduce horizontal padding */
+  }
+
+  .screen-layout {
+    overflow-x: hidden; /* prevent horizontal scroll */
+  }
+}

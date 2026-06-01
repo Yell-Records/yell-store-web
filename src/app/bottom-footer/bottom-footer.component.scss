@@ -6,4 +6,9 @@
   align-items: left;
   padding: 40px 80px 80px;
   gap: 20px;
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+    height: auto;
+  }
 }

@@ -109,3 +109,60 @@
   font-weight: bold;
   margin-right: 20px;
 }
+
+/* 📱 MOBILE HEADER FIX */
+@media (max-width: 480px) {
+  :host {
+    position: static;
+    width: 100%;
+  }
+
+  .top-header {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 0;
+    gap: 10px;
+    width: 100vw;
+  }
+
+  /* LOGO SECTION */
+  .left {
+    display: flex;
+    justify-content: center;
+    width: 100%; /* <-- THIS is the key */
+  }
+
+  .banner-img {
+    width: 100%; /* <-- ensures full viewport centering */
+    display: flex;
+    justify-content: center;
+  }
+
+  .banner-img img {
+    width: 180px;
+    max-width: 100%;
+    height: auto;
+    padding: 0;
+  }
+
+  /* NAV TABS */
+  .nav-tabs {
+    display: flex;
+    justify-content: center;
+    width: 100%; /* <-- ensures full viewport centering */
+    gap: 1.5rem;
+    padding: 0.5rem 0;
+  }
+
+  .nav-tabs a {
+    font-size: 0.9rem;
+  }
+
+  /* HIDE RIGHT SIDE */
+  .right {
+    display: none;
+  }
+}
