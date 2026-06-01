@@ -1,23 +1,11 @@
-.floating-btn-container {
-  position: fixed;
-  bottom: 20px;
-  left: 20px;
-  display: flex;
-  gap: 12px; // spacing between buttons
-  z-index: 2000;
-}
-
-.create-listing-btn {
-  background-color: lightcyan;
-}
-
 .listings-container {
   padding: 2%;
 }
 
-.item-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 50px;
-  padding: 16px;
+@media (max-width: 480px) {
+  .listings-container {
+    padding: 12px;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
 }

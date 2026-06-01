@@ -143,3 +143,46 @@ app-paypal-button {
   margin-top: 16px;
   display: block;
 }
+
+@media (max-width: 480px) {
+  .checkout-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    padding: 12px;
+    gap: 16px;
+  }
+
+  .form-box {
+    grid-column: 1;
+    grid-row: 1;
+    width: 90vw;
+    padding: 8px;
+  }
+
+  .checkout-form {
+    max-width: 100%;
+  }
+
+  .sub-inputs {
+    flex-direction: column;
+    gap: 0px !important; // Important is needed here for some reason
+  }
+
+  .summary-box {
+    grid-column: 1;
+    grid-row: 2;
+    position: static;
+    width: 100%;
+  }
+
+  button {
+    margin-top: 40px;
+  }
+
+  .cart-contents-box {
+    grid-column: 1;
+    grid-row: 3;
+    max-height: none;
+    overflow-y: visible;
+  }
+}

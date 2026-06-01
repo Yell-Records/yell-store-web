@@ -1,5 +1,9 @@
+<button class="dash-menu-toggle" (click)="toggleMenu()">&#9776;</button>
+
+<button class="dash-overlay" [class.visible]="menuOpened()" (click)="closeMenu()">&nbsp;</button>
+
 <div class="dash-container">
-  <aside class="dash-menu">
+  <aside class="dash-menu" [class.open]="menuOpened()">
     <h2>Admin Dashboard</h2>
 
     <div class="nav-group">

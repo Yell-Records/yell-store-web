@@ -40,6 +40,14 @@ body {
   height: 100%;
 }
 
+@media (max-width: 480px) {
+  h1,
+  h2,
+  h3 {
+    line-height: 1.2;
+  }
+}
+
 .center-align {
   display: grid;
   justify-content: center;

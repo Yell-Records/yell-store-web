@@ -13,6 +13,8 @@ import { MessageService } from '../shared/message/message.service';
 import { MatTooltip } from '@angular/material/tooltip';
 import { ArtistPageService } from '../artist-page/service/artist-page.service';
 import { AuthService } from '../auth/auth.service';
+import { MatBadge } from '@angular/material/badge';
+import { CartItemService } from '../cart/cart-item.service';
 
 @Component({
   selector: 'app-top-header',
@@ -27,6 +29,7 @@ import { AuthService } from '../auth/auth.service';
     MatMenu,
     MatMenuItem,
     MatTooltip,
+    MatBadge,
   ],
   templateUrl: './top-header.component.html',
   styleUrl: './top-header.component.scss',
@@ -38,11 +41,16 @@ export class TopHeaderComponent implements OnInit {
   private readonly messageService = inject(MessageService);
   private readonly artistService = inject(ArtistPageService);
   private readonly auth = inject(AuthService);
+  private readonly cartService = inject(CartItemService);
 
   private readonly _artistsCount = signal(0);
 
   get user(): User | null {
     return this.userStore.user;
+  }
+
+  cartItemCount(): number {
+    return this.cartService.cartCount();
   }
 
   ngOnInit(): void {
@@ -78,6 +86,10 @@ export class TopHeaderComponent implements OnInit {
         });
       }
     });
+  }
+
+  navigateCart() {
+    this.router.navigate(['/cart']);
   }
 
   navigateAdminDash() {
