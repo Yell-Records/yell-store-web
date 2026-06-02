@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, signal } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { ItemListing } from '../item-listing.model';
@@ -11,6 +11,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatTooltip } from '@angular/material/tooltip';
 import { AddCartItemRequest } from '../../cart/add-cart-item-request.model';
 import { UserStore } from '../../core/stores/user.store';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-item-listing',
@@ -27,6 +28,8 @@ export class ItemListingComponent {
   private readonly messageService = inject(MessageService);
   private readonly router = inject(Router);
 
+  readonly isAdding = signal(false);
+
   navigateToItem() {
     this.router.navigate([`/listing/${this.listing.id}`]);
   }
@@ -38,11 +41,17 @@ export class ItemListingComponent {
       itemQuantity: 1,
     };
 
-    this.cartService.addItemToCart(addItemRequest).subscribe({
-      next: (item) => this.messageService.info(`${item.itemListing.title} was added to your cart.`),
-      error: (err: HttpErrorResponse) =>
-        this.messageService.error(`Couldn't add item: ${err.message}`),
-    });
+    this.isAdding.set(true);
+
+    this.cartService
+      .addItemToCart(addItemRequest)
+      .pipe(finalize(() => this.isAdding.set(false)))
+      .subscribe({
+        next: (item) =>
+          this.messageService.info(`${item.itemListing.title} was added to your cart.`),
+        error: (err: HttpErrorResponse) =>
+          this.messageService.error(`Couldn't add item: ${err.message}`),
+      });
   }
 
   get isLoggedIn(): boolean {
