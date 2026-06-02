@@ -14,7 +14,13 @@
   </div>
 
   @if (!isLoggedIn) {
-    <button class="cart-button" matTooltip="Add to Cart" mat-fab (click)="addToCart()">
+    <button
+      class="cart-button"
+      [disabled]="isAdding()"
+      matTooltip="Add to Cart"
+      mat-fab
+      (click)="addToCart()"
+    >
       <mat-icon>add_shopping_cart</mat-icon>
     </button>
   }
