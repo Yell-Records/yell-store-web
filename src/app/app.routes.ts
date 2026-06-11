@@ -65,7 +65,7 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./policy-viewer/policy-viewer.component').then((c) => c.PolicyViewerComponent),
         resolve: {
-          file: () => `${environment.apiUrl}/api/policies/privacy-policy`,
+          file: () => `${environment.apiUrl}/policies/privacy-policy`,
         },
         title: yrTitle('Privacy Policy'),
       },
@@ -74,7 +74,7 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./policy-viewer/policy-viewer.component').then((c) => c.PolicyViewerComponent),
         resolve: {
-          file: () => `${environment.apiUrl}/api/policies/terms-of-service`,
+          file: () => `${environment.apiUrl}/policies/terms-of-service`,
         },
         title: yrTitle('Terms of Service'),
       },
