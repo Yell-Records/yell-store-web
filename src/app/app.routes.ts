@@ -32,6 +32,7 @@ import { addArtistDeactivateGuard } from './admin-dashboard/add-artist-page/add-
 import { EditArtistPageComponent } from './artist-page/edit-artist-page/edit-artist-page.component';
 import { editArtistDeactivateGuard } from './artist-page/edit-artist-page/edit-artist-deactivate.guard';
 import { editGuard } from './shared/guards/edit.guard';
+import { environment } from '../environments/environment';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -64,7 +65,7 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./policy-viewer/policy-viewer.component').then((c) => c.PolicyViewerComponent),
         resolve: {
-          file: () => '/api/policies/privacy-policy',
+          file: () => `${environment.apiUrl}/api/policies/privacy-policy`,
         },
         title: yrTitle('Privacy Policy'),
       },
@@ -73,7 +74,7 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./policy-viewer/policy-viewer.component').then((c) => c.PolicyViewerComponent),
         resolve: {
-          file: () => '/api/policies/terms-of-service',
+          file: () => `${environment.apiUrl}/api/policies/terms-of-service`,
         },
         title: yrTitle('Terms of Service'),
       },
