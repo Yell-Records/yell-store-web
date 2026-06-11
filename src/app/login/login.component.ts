@@ -100,7 +100,7 @@ export class LoginComponent {
       .subscribe({
         next: (user) => {
           this.userStore.initUser(user);
-          this.router.navigate(['/home']);
+          this.router.navigate(['/']);
         },
         error: (err: HttpErrorResponse) => {
           switch (err.status) {

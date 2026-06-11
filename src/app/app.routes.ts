@@ -35,8 +35,8 @@ import { editGuard } from './shared/guards/edit.guard';
 import { environment } from '../environments/environment';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'home', component: HomeComponent, title: 'Yell Records' },
+  { path: '', component: HomeComponent, title: 'Yell Records' },
+  { path: 'home', redirectTo: '', pathMatch: 'full' },
   { path: 'about-us', component: AboutUsComponent, title: yrTitle('About Us') },
   {
     path: 'login',

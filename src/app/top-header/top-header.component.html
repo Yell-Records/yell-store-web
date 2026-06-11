@@ -2,7 +2,7 @@
   <div class="banner-img left">
     <img
       src="assets/yell-records-banner.png"
-      [routerLink]="['/home']"
+      [routerLink]="['/']"
       alt="Yell Records Logo"
       draggable="false"
     />
@@ -11,7 +11,9 @@
   @if (showNavTabs()) {
     <div>
       <nav class="nav-tabs center">
-        <a routerLink="/home" routerLinkActive="active">Home</a>
+        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          Home
+        </a>
         <a routerLink="/about-us" routerLinkActive="active">About Us</a>
 
         @if (showArtistsTab()) {
